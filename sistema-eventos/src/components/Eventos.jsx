@@ -1,444 +1,189 @@
 // =====================================================
 // IMPORTAÇÕES
 // =====================================================
-
-// Importa o useState do React
-// Ele permite guardar informações que podem mudar na tela
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react'
 
 // =====================================================
 // COMPONENTE EVENTOS
 // =====================================================
-
 function Eventos() {
 
   // =====================================================
-  // CONTROLE DO FORMULÁRIO
+  // CONTROLE DO FORMULÁRIO E ESTADOS
   // =====================================================
-
-  // Controla se o formulário aparece ou não
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
-
-
-  // =====================================================
-  // CAMPOS DO FORMULÁRIO
-  // =====================================================
-
   const [nomeEvento, setNomeEvento] = useState('')
   const [localEvento, setLocalEvento] = useState('')
   const [dataEvento, setDataEvento] = useState('')
   const [dataMontagem, setDataMontagem] = useState('')
   const [dataDesmontagem, setDataDesmontagem] = useState('')
-
-
-  // =====================================================
-  // LISTA DE EVENTOS
-  // =====================================================
-
-  // Guarda todos os eventos cadastrados
   const [eventos, setEventos] = useState([])
-
-
-  // =====================================================
-  // CONTROLE DE EDIÇÃO
-  // =====================================================
-
-  // Guarda o ID do evento que está sendo editado
-  //
-  // null significa:
-  // nenhum evento está sendo editado
   const [eventoEditandoId, setEventoEditandoId] = useState(null)
+
+
+  // =====================================================
+  // BUSCA INICIAL (GET) - LÊ DO BANCO DE DADOS
+  // =====================================================
+  useEffect(() => {
+    fetch('http://localhost:8080/api/eventos')
+      .then(resposta => resposta.json())
+      .then(dados => setEventos(dados))
+      .catch(erro => console.error("Erro ao buscar eventos da API:", erro));
+  }, []);
 
 
   // =====================================================
   // FUNÇÃO PARA CADASTRAR OU SALVAR UMA EDIÇÃO
   // =====================================================
-
   function salvarEvento() {
-
-    // Verifica se os campos obrigatórios foram preenchidos
-    if (
-      nomeEvento === '' ||
-      localEvento === '' ||
-      dataEvento === ''
-    ) {
+    if (nomeEvento === '' || localEvento === '' || dataEvento === '') {
       alert('Preencha nome, local e data do evento.')
       return
     }
 
-
-    // =====================================================
-    // SE ESTIVER EDITANDO
-    // =====================================================
-
-    if (eventoEditandoId !== null) {
-
-      // map percorre todos os eventos
-      //
-      // Quando encontrar o evento que possui
-      // o mesmo ID que eventoEditandoId,
-      // substitui seus dados pelos novos valores
-      const eventosAtualizados = eventos.map((evento) => {
-
-        if (evento.id === eventoEditandoId) {
-
-          return {
-            ...evento,
-            nome: nomeEvento,
-            local: localEvento,
-            data: dataEvento,
-            montagem: dataMontagem,
-            desmontagem: dataDesmontagem
-          }
-
-        }
-
-        // Se não for o evento que estamos editando,
-        // mantém ele exatamente como estava
-        return evento
-      })
-
-
-      // Atualiza a lista
-      setEventos(eventosAtualizados)
-
-
-      // Sai do modo de edição
-      setEventoEditandoId(null)
-
-    } else {
-
-      // =====================================================
-      // SE FOR UM NOVO EVENTO
-      // =====================================================
-
-      const novoEvento = {
-        id: Date.now(),
-        nome: nomeEvento,
-        local: localEvento,
-        data: dataEvento,
-        montagem: dataMontagem,
-        desmontagem: dataDesmontagem
-      }
-
-
-      // Adiciona o novo evento na lista
-      setEventos([
-        ...eventos,
-        novoEvento
-      ])
+    const payload = {
+      nome: nomeEvento,
+      local: localEvento,
+      dataEvento: dataEvento,
+      dataMontagem: dataMontagem || null,
+      dataDesmontagem: dataDesmontagem || null,
+      status: "SOLICITADO" 
     }
 
-
     // =====================================================
-    // LIMPA OS CAMPOS
+    // SE ESTIVER EDITANDO (MANTIDO OFFLINE POR ENQUANTO)
     // =====================================================
+    if (eventoEditandoId !== null) {
+      const eventosAtualizados = eventos.map((evento) => {
+        if (evento.id === eventoEditandoId) {
+          return { ...evento, ...payload }
+        }
+        return evento
+      })
+      setEventos(eventosAtualizados)
+      limparCampos()
 
+    } else {
+      // =====================================================
+      // SE FOR UM NOVO EVENTO (POST) - SALVA NO BANCO
+      // =====================================================
+      fetch('http://localhost:8080/api/eventos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(resposta => {
+        if (!resposta.ok) throw new Error("Erro ao salvar no banco de dados");
+        return resposta.json();
+      })
+      .then(dadoSalvoNoBanco => {
+        // Adiciona o evento retornado pela API (com o ID real) na tela
+        setEventos([...eventos, dadoSalvoNoBanco])
+        limparCampos()
+      })
+      .catch(erro => alert(erro.message));
+    }
+  }
+
+  // =====================================================
+  // FUNÇÕES AUXILIARES E DE AÇÕES
+  // =====================================================
+  function limparCampos() {
     setNomeEvento('')
     setLocalEvento('')
     setDataEvento('')
     setDataMontagem('')
     setDataDesmontagem('')
-
-
-    // Fecha o formulário
+    setEventoEditandoId(null)
     setMostrarFormulario(false)
   }
 
-
-  // =====================================================
-  // FUNÇÃO PARA EXCLUIR
-  // =====================================================
-
   function excluirEvento(id) {
-
-    // Cria uma nova lista sem o evento selecionado
-    const novaLista = eventos.filter(
-      (evento) => evento.id !== id
-    )
-
+    // ATENÇÃO: Ainda está offline. Precisa criar a rota DELETE no Java depois.
+    const novaLista = eventos.filter((evento) => evento.id !== id)
     setEventos(novaLista)
   }
 
-
-  // =====================================================
-  // FUNÇÃO PARA EDITAR
-  // =====================================================
-
   function editarEvento(evento) {
-
-    // Coloca os dados atuais do evento
-    // dentro dos campos do formulário
     setNomeEvento(evento.nome)
     setLocalEvento(evento.local)
-    setDataEvento(evento.data)
-    setDataMontagem(evento.montagem)
-    setDataDesmontagem(evento.desmontagem)
-
-
-    // Guarda qual evento está sendo editado
+    setDataEvento(evento.dataEvento)
+    setDataMontagem(evento.dataMontagem || '')
+    setDataDesmontagem(evento.dataDesmontagem || '')
     setEventoEditandoId(evento.id)
-
-
-    // Abre o formulário
     setMostrarFormulario(true)
   }
 
-
   // =====================================================
-  // INTERFACE
+  // INTERFACE (HTML/JSX)
   // =====================================================
-
   return (
     <main className="conteudo">
-
-      {/* Título */}
       <h1>Eventos</h1>
-
-      {/* Descrição */}
-      <p>
-        Gerencie os eventos cadastrados no sistema.
-      </p>
-
-
-      {/* =================================================
-          BOTÃO NOVO EVENTO
-          ================================================= */}
+      <p>Gerencie os eventos cadastrados no sistema.</p>
 
       <button
         className="botao-novo-evento"
         onClick={() => {
-
-          // Limpa os campos para garantir
-          // que estamos criando um evento novo
-          setNomeEvento('')
-          setLocalEvento('')
-          setDataEvento('')
-          setDataMontagem('')
-          setDataDesmontagem('')
-
-          // Remove qualquer edição anterior
-          setEventoEditandoId(null)
-
-          // Abre ou fecha o formulário
+          limparCampos()
           setMostrarFormulario(!mostrarFormulario)
         }}
       >
         + Novo Evento
       </button>
 
-
-      {/* =================================================
-          FORMULÁRIO
-          ================================================= */}
-
       {mostrarFormulario && (
-
         <div className="formulario-evento">
+          <h2>{eventoEditandoId !== null ? 'Editar Evento' : 'Novo Evento'}</h2>
 
-          {/* 
-            O título muda dependendo
-            se estamos criando ou editando
-          */}
-          <h2>
-            {eventoEditandoId !== null
-              ? 'Editar Evento'
-              : 'Novo Evento'}
-          </h2>
+          <label htmlFor="nomeEvento">Nome do evento</label>
+          <input type="text" id="nomeEvento" placeholder="Ex: Formatura Couni" value={nomeEvento} onChange={(e) => setNomeEvento(e.target.value)} />
 
+          <label htmlFor="localEvento">Local do evento</label>
+          <input type="text" id="localEvento" placeholder="Ex: Centro de Eventos" value={localEvento} onChange={(e) => setLocalEvento(e.target.value)} />
 
-          {/* Nome */}
-          <label htmlFor="nomeEvento">
-            Nome do evento
-          </label>
+          <label htmlFor="dataEvento">Data do evento</label>
+          <input type="date" id="dataEvento" value={dataEvento} onChange={(e) => setDataEvento(e.target.value)} />
 
-          <input
-            type="text"
-            id="nomeEvento"
-            placeholder="Ex: Formatura Couni"
-            value={nomeEvento}
-            onChange={(evento) =>
-              setNomeEvento(evento.target.value)
-            }
-          />
+          <label htmlFor="dataMontagem">Data de montagem</label>
+          <input type="date" id="dataMontagem" value={dataMontagem} onChange={(e) => setDataMontagem(e.target.value)} />
 
+          <label htmlFor="dataDesmontagem">Data de desmontagem</label>
+          <input type="date" id="dataDesmontagem" value={dataDesmontagem} onChange={(e) => setDataDesmontagem(e.target.value)} />
 
-          {/* Local */}
-          <label htmlFor="localEvento">
-            Local do evento
-          </label>
-
-          <input
-            type="text"
-            id="localEvento"
-            placeholder="Ex: Centro de Eventos"
-            value={localEvento}
-            onChange={(evento) =>
-              setLocalEvento(evento.target.value)
-            }
-          />
-
-
-          {/* Data */}
-          <label htmlFor="dataEvento">
-            Data do evento
-          </label>
-
-          <input
-            type="date"
-            id="dataEvento"
-            value={dataEvento}
-            onChange={(evento) =>
-              setDataEvento(evento.target.value)
-            }
-          />
-
-
-          {/* Montagem */}
-          <label htmlFor="dataMontagem">
-            Data de montagem
-          </label>
-
-          <input
-            type="date"
-            id="dataMontagem"
-            value={dataMontagem}
-            onChange={(evento) =>
-              setDataMontagem(evento.target.value)
-            }
-          />
-
-
-          {/* Desmontagem */}
-          <label htmlFor="dataDesmontagem">
-            Data de desmontagem
-          </label>
-
-          <input
-            type="date"
-            id="dataDesmontagem"
-            value={dataDesmontagem}
-            onChange={(evento) =>
-              setDataDesmontagem(evento.target.value)
-            }
-          />
-
-
-          {/* =================================================
-              BOTÃO SALVAR
-              ================================================= */}
-
-          <button
-            className="botao-cadastrar-evento"
-            onClick={salvarEvento}
-          >
-            {/* 
-              O texto também muda dependendo
-              se estamos cadastrando ou editando
-            */}
-            {eventoEditandoId !== null
-              ? 'Salvar Alterações'
-              : 'Cadastrar Evento'}
+          <button className="botao-cadastrar-evento" onClick={salvarEvento}>
+            {eventoEditandoId !== null ? 'Salvar Alterações' : 'Cadastrar Evento'}
           </button>
-
         </div>
       )}
 
-
-      {/* =================================================
-          LISTA DE EVENTOS
-          ================================================= */}
-
       <div className="lista-eventos">
-
         <h2>Eventos cadastrados</h2>
 
-
-        {/* Caso não existam eventos */}
         {eventos.length === 0 && (
-          <p>Nenhum evento cadastrado.</p>
+          <p>Nenhum evento cadastrado ou carregando do banco...</p>
         )}
 
-
-        {/* Percorre todos os eventos */}
         {eventos.map((evento) => (
-
-          <div
-            className="evento-item"
-            key={evento.id}
-          >
-
-            {/* Nome */}
+          <div className="evento-item" key={evento.id}>
             <h3>{evento.nome}</h3>
-
-
-            {/* Local */}
-            <p>
-              <strong>Local:</strong>{' '}
-              {evento.local}
-            </p>
-
-
-            {/* Data */}
-            <p>
-              <strong>Data:</strong>{' '}
-              {evento.data}
-            </p>
-
-
-            {/* Montagem */}
-            <p>
-              <strong>Montagem:</strong>{' '}
-              {evento.montagem || 'Não informada'}
-            </p>
-
-
-            {/* Desmontagem */}
-            <p>
-              <strong>Desmontagem:</strong>{' '}
-              {evento.desmontagem || 'Não informada'}
-            </p>
-
-
-            {/* =================================================
-                AÇÕES
-                ================================================= */}
+            
+            <p><strong>Local:</strong> {evento.local}</p>
+            <p><strong>Data:</strong> {evento.dataEvento}</p>
+            <p><strong>Montagem:</strong> {evento.dataMontagem || 'Não informada'}</p>
+            <p><strong>Desmontagem:</strong> {evento.dataDesmontagem || 'Não informada'}</p>
 
             <div className="acoes-evento">
-
-              {/* Botão editar */}
-              <button
-                className="botao-editar"
-                onClick={() => editarEvento(evento)}
-              >
-                Editar
-              </button>
-
-
-              {/* Botão excluir */}
-              <button
-                className="botao-excluir"
-                onClick={() => excluirEvento(evento.id)}
-              >
-                Excluir
-              </button>
-
+              <button className="botao-editar" onClick={() => editarEvento(evento)}>Editar</button>
+              <button className="botao-excluir" onClick={() => excluirEvento(evento.id)}>Excluir</button>
             </div>
-
           </div>
-
         ))}
-
       </div>
-
     </main>
   )
 }
-
-
-// =====================================================
-// EXPORTAÇÃO
-// =====================================================
 
 export default Eventos
