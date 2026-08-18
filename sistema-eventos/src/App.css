@@ -22,20 +22,25 @@
   /* Fundo escuro da barra lateral */
   background-color: #1f2937;
 
+  /* Cor do texto */
   color: white;
+
+  /* Espaçamento interno */
   padding: 30px 20px;
 }
 
 
-/* Título "Eventos" da Sidebar */
+/* Título da Sidebar */
 .sidebar h2 {
   margin-bottom: 30px;
 }
 
 
-/* Organiza os botões um abaixo do outro */
+/* Organiza os botões do menu em coluna */
 .sidebar nav {
   display: flex;
+
+  /* Coloca os botões um abaixo do outro */
   flex-direction: column;
 
   /* Espaço entre os botões */
@@ -47,27 +52,27 @@
    BOTÕES DA SIDEBAR
    ================================================== */
 
-/* Estilo dos botões:
-   Dashboard
-   Eventos
-   Fornecedores
-   Agenda
-*/
+/* Estilo dos botões do menu lateral */
 .sidebar button {
-  /* Remove o estilo padrão do botão */
+  /* Remove o fundo padrão */
   background: transparent;
+
+  /* Remove a borda padrão */
   border: none;
 
+  /* Texto branco */
   color: white;
 
   /* Alinha o texto à esquerda */
   text-align: left;
 
+  /* Tamanho da fonte */
   font-size: 16px;
 
-  /* Mostra a mãozinha quando passa o mouse */
+  /* Mostra a mãozinha ao passar o mouse */
   cursor: pointer;
 
+  /* Espaçamento interno */
   padding: 8px 10px;
 
   /* Arredonda os cantos */
@@ -75,7 +80,7 @@
 }
 
 
-/* Efeito quando passamos o mouse sobre um botão */
+/* Efeito ao passar o mouse */
 .sidebar button:hover {
   background-color: #374151;
 }
@@ -85,11 +90,12 @@
    CONTEÚDO PRINCIPAL
    ================================================== */
 
-/* Área onde aparecem as páginas do sistema */
+/* Área onde aparecem Dashboard, Eventos etc. */
 .conteudo {
   /* Ocupa todo o espaço restante da tela */
   flex: 1;
 
+  /* Espaçamento interno */
   padding: 40px;
 
   /* Fundo cinza claro */
@@ -107,30 +113,31 @@
    CARDS DO DASHBOARD
    ================================================== */
 
-/* Área que organiza os cards */
+/* Área que organiza todos os cards */
 .cards {
   /* Coloca os cards lado a lado */
   display: flex;
 
-  /* Espaço entre cada card */
+  /* Espaço entre eles */
   gap: 20px;
 
-  /* Espaço entre os cards e o conteúdo acima */
+  /* Distância do conteúdo acima */
   margin-top: 30px;
 }
 
 
 /* Estilo individual de cada card */
 .card {
+  /* Fundo branco */
   background-color: white;
 
-  /* Espaçamento dentro do card */
+  /* Espaçamento interno */
   padding: 20px;
 
-  /* Arredonda os cantos */
+  /* Cantos arredondados */
   border-radius: 10px;
 
-  /* Impede que o card fique pequeno demais */
+  /* Evita que o card fique pequeno demais */
   min-width: 180px;
 
   /* Sombra leve */
@@ -138,7 +145,7 @@
 }
 
 
-/* Título de cada card */
+/* Título do card */
 .card h3 {
   margin-bottom: 10px;
   font-size: 16px;
@@ -156,17 +163,21 @@
    BOTÃO NOVO EVENTO
    ================================================== */
 
-/* Botão utilizado para abrir o formulário */
+/* Botão que abre o formulário */
 .botao-novo-evento {
   /* Espaço entre o botão e o texto acima */
   margin-top: 25px;
 
+  /* Fundo azul */
   background-color: #2563eb;
+
+  /* Texto branco */
   color: white;
 
   /* Remove a borda padrão */
   border: none;
 
+  /* Espaçamento interno */
   padding: 10px 18px;
 
   /* Arredonda os cantos */
@@ -186,14 +197,15 @@
 
 
 /* ==================================================
-   FORMULÁRIO DE NOVO EVENTO
+   FORMULÁRIO DE EVENTO
    ================================================== */
 
-/* Caixa branca que envolve todo o formulário */
+/* Caixa que envolve todo o formulário */
 .formulario-evento {
   /* Espaço entre o botão e o formulário */
   margin-top: 25px;
 
+  /* Fundo branco */
   background-color: white;
 
   /* Espaçamento interno */
@@ -202,15 +214,15 @@
   /* Arredonda os cantos */
   border-radius: 14px;
 
-  /* Largura do formulário */
+  /* Define a largura do formulário */
   width: 480px;
 
-  /* Sombra para destacar o formulário do fundo */
+  /* Sombra leve */
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
 
-/* Título "Novo Evento" */
+/* Título do formulário */
 .formulario-evento h2 {
   margin-bottom: 25px;
   font-size: 22px;
@@ -218,18 +230,18 @@
 
 
 /* ==================================================
-   NOMES DOS CAMPOS
+   LABELS DO FORMULÁRIO
    ================================================== */
 
-/* Estilo dos textos que ficam acima dos inputs */
+/* Estilo dos textos acima dos campos */
 .formulario-evento label {
-  /* Faz cada label ocupar uma linha */
+  /* Faz cada label ocupar sua própria linha */
   display: block;
 
   /* Espaço entre um campo e o anterior */
   margin-top: 16px;
 
-  /* Espaço entre o nome e o input */
+  /* Espaço entre o label e o input */
   margin-bottom: 7px;
 
   font-weight: 600;
@@ -244,12 +256,12 @@
 
 
 /* ==================================================
-   CAMPOS DO FORMULÁRIO
+   INPUTS DO FORMULÁRIO
    ================================================== */
 
-/* Estilo dos inputs de texto e data */
+/* Estilo dos campos de texto e data */
 .formulario-evento input {
-  /* Faz o campo ocupar toda a largura */
+  /* Ocupa toda a largura disponível */
   width: 100%;
 
   /* Espaçamento interno */
@@ -258,39 +270,41 @@
   /* Borda cinza clara */
   border: 1px solid #d1d5db;
 
-  /* Arredonda os campos */
+  /* Arredonda os cantos */
   border-radius: 8px;
 
+  /* Tamanho da fonte */
   font-size: 15px;
 
+  /* Fundo branco */
   background-color: white;
 
-  /* Remove o contorno padrão do navegador */
+  /* Remove contorno padrão */
   outline: none;
 
-  /* Impede o padding de aumentar a largura do campo */
+  /* Impede o padding de aumentar a largura total */
   box-sizing: border-box;
 
-  /* Deixa as mudanças visuais mais suaves */
+  /* Suaviza a mudança visual */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 
-/* Quando o usuário clica dentro de um campo */
+/* Quando o usuário clica dentro do campo */
 .formulario-evento input:focus {
-  /* Deixa a borda azul */
+  /* Borda azul */
   border-color: #2563eb;
 
-  /* Cria um pequeno destaque azul */
+  /* Brilho azul suave */
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 
 /* ==================================================
-   BOTÃO CADASTRAR EVENTO
+   BOTÃO CADASTRAR / SALVAR
    ================================================== */
 
-/* Botão que confirma o cadastro */
+/* Botão usado para cadastrar ou salvar alterações */
 .botao-cadastrar-evento {
   /* Ocupa toda a largura do formulário */
   width: 100%;
@@ -298,15 +312,19 @@
   /* Espaço entre o último campo e o botão */
   margin-top: 25px;
 
+  /* Espaçamento interno */
   padding: 12px;
 
+  /* Fundo azul */
   background-color: #2563eb;
+
+  /* Texto branco */
   color: white;
 
   /* Remove a borda padrão */
   border: none;
 
-  /* Arredonda o botão */
+  /* Arredonda os cantos */
   border-radius: 8px;
 
   font-size: 15px;
@@ -326,9 +344,9 @@
    LISTA DE EVENTOS
    ================================================== */
 
-/* Área onde serão mostrados os eventos cadastrados */
+/* Área onde aparecem os eventos cadastrados */
 .lista-eventos {
-  /* Separa a lista do conteúdo acima */
+  /* Espaço acima da lista */
   margin-top: 35px;
 }
 
@@ -343,8 +361,9 @@
    EVENTO CADASTRADO
    ================================================== */
 
-/* Cada evento cadastrado terá sua própria caixa */
+/* Caixa individual de cada evento */
 .evento-item {
+  /* Fundo branco */
   background-color: white;
 
   /* Espaçamento interno */
@@ -361,13 +380,98 @@
 }
 
 
-/* Nome do evento cadastrado */
+/* Nome do evento */
 .evento-item h3 {
   margin-bottom: 12px;
 }
 
 
-/* Informações como Local, Data, Montagem etc. */
+/* Informações do evento */
 .evento-item p {
   margin-bottom: 6px;
+}
+
+
+/* ==================================================
+   AÇÕES DO EVENTO
+   ================================================== */
+
+/* Organiza os botões Editar e Excluir */
+.acoes-evento {
+  /* Coloca os botões lado a lado */
+  display: flex;
+
+  /* Espaço entre os botões */
+  gap: 10px;
+
+  /* Espaço entre as informações e os botões */
+  margin-top: 15px;
+}
+
+
+/* ==================================================
+   BOTÃO EDITAR
+   ================================================== */
+
+/* Botão utilizado para editar um evento */
+.botao-editar {
+  /* Espaçamento interno */
+  padding: 8px 14px;
+
+  /* Azul para ação normal */
+  background-color: #2563eb;
+
+  /* Texto branco */
+  color: white;
+
+  /* Remove a borda padrão */
+  border: none;
+
+  /* Arredonda os cantos */
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* Efeito ao passar o mouse */
+.botao-editar:hover {
+  opacity: 0.9;
+}
+
+
+/* ==================================================
+   BOTÃO EXCLUIR
+   ================================================== */
+
+/* Botão utilizado para excluir um evento */
+.botao-excluir {
+  /* Espaçamento interno */
+  padding: 8px 14px;
+
+  /* Vermelho para indicar exclusão */
+  background-color: #dc2626;
+
+  /* Texto branco */
+  color: white;
+
+  /* Remove a borda padrão */
+  border: none;
+
+  /* Arredonda os cantos */
+  border-radius: 6px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* Efeito ao passar o mouse */
+.botao-excluir:hover {
+  opacity: 0.9;
 }
