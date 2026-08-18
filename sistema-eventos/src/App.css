@@ -1,119 +1,289 @@
-/* ========== ESTRUTURA PRINCIPAL ========== */
+/* ==================================================
+   ESTRUTURA PRINCIPAL DA APLICAÇÃO
+   ================================================== */
 
-/* Organiza a estrutura principal da aplicação */
+/* Organiza a Sidebar e o conteúdo lado a lado */
 .app {
   display: flex;
+
+  /* Faz a aplicação ocupar no mínimo toda a altura da tela */
   min-height: 100vh;
 }
 
 
-/* ========== SIDEBAR ========== */
+/* ==================================================
+   SIDEBAR
+   ================================================== */
 
-/* Barra lateral */
+/* Barra lateral do sistema */
 .sidebar {
   width: 220px;
+
+  /* Cor escura da barra lateral */
   background-color: #1f2937;
+
   color: white;
   padding: 30px 20px;
 }
 
-/* Título da barra lateral */
+
+/* Título "Eventos" da Sidebar */
 .sidebar h2 {
   margin-bottom: 30px;
 }
 
-/* Organiza os itens do menu */
+
+/* Organiza os botões do menu um abaixo do outro */
 .sidebar nav {
   display: flex;
   flex-direction: column;
+
+  /* Espaço entre cada botão */
   gap: 15px;
 }
 
 
-/* ========== CONTEÚDO PRINCIPAL ========== */
+/* ==================================================
+   BOTÕES DA SIDEBAR
+   ================================================== */
 
-/* Área principal da página */
-.conteudo {
-  flex: 1;
-  padding: 40px;
-  background-color: #f4f6f8;
-}
-
-/* Título da área principal */
-.conteudo h1 {
-  margin-bottom: 10px;
-}
-
-
-/* ========== BOTÕES DA SIDEBAR ========== */
-
-/* Estilo dos botões do menu lateral */
+/* Estilo dos botões Dashboard, Eventos, Fornecedores e Agenda */
 .sidebar button {
-  background: transparent; /* Remove o fundo padrão */
-  border: none; /* Remove a borda padrão */
-  color: white; /* Texto branco */
-  text-align: left; /* Alinha o texto à esquerda */
-  font-size: 16px; /* Tamanho do texto */
-  cursor: pointer; /* Mostra a mão ao passar o mouse */
-  padding: 8px 10px; /* Espaçamento interno */
-  border-radius: 6px; /* Arredonda os cantos */
+  /* Remove o estilo padrão dos botões */
+  background: transparent;
+  border: none;
+
+  color: white;
+
+  /* Alinha os nomes do menu à esquerda */
+  text-align: left;
+
+  font-size: 16px;
+
+  /* Mostra a mãozinha quando passa o mouse */
+  cursor: pointer;
+
+  padding: 8px 10px;
+  border-radius: 6px;
 }
 
-/* Efeito ao passar o mouse nos botões */
+
+/* Quando o mouse passa sobre algum botão da Sidebar */
 .sidebar button:hover {
   background-color: #374151;
 }
 
 
-/* ========== CARDS DO DASHBOARD ========== */
+/* ==================================================
+   CONTEÚDO PRINCIPAL
+   ================================================== */
 
-/* Área que organiza os cards */
-.cards {
-  display: flex; /* Coloca os cards lado a lado */
-  gap: 20px; /* Espaço entre os cards */
-  margin-top: 30px; /* Distância do conteúdo acima */
+/* Área onde aparecem Dashboard, Eventos etc. */
+.conteudo {
+  /* Faz o conteúdo ocupar todo o espaço restante */
+  flex: 1;
+
+  padding: 40px;
+
+  /* Fundo cinza bem claro */
+  background-color: #f4f6f8;
 }
 
-/* Estilo de cada card */
-.card {
-  background-color: white; /* Fundo do card */
-  padding: 20px; /* Espaçamento interno */
-  border-radius: 10px; /* Cantos arredondados */
-  min-width: 180px; /* Largura mínima */
 
-  /* Sombra leve */
+/* Títulos principais das páginas */
+.conteudo h1 {
+  margin-bottom: 10px;
+}
+
+
+/* ==================================================
+   CARDS DO DASHBOARD
+   ================================================== */
+
+/* Área que organiza todos os cards */
+.cards {
+  /* Coloca os cards lado a lado */
+  display: flex;
+
+  /* Espaço entre os cards */
+  gap: 20px;
+
+  /* Espaço entre os cards e o conteúdo acima */
+  margin-top: 30px;
+}
+
+
+/* Estilo individual de cada card */
+.card {
+  background-color: white;
+
+  /* Espaçamento dentro do card */
+  padding: 20px;
+
+  /* Arredonda as pontas */
+  border-radius: 10px;
+
+  /* Evita que o card fique pequeno demais */
+  min-width: 180px;
+
+  /* Cria uma sombra leve */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Título do card */
+
+/* Título de cada card */
 .card h3 {
   margin-bottom: 10px;
   font-size: 16px;
 }
 
-/* Número exibido no card */
+
+/* Número exibido dentro do card */
 .card span {
   font-size: 28px;
   font-weight: bold;
 }
 
 
-/* ========== BOTÃO NOVO EVENTO ========== */
+/* ==================================================
+   BOTÃO NOVO EVENTO
+   ================================================== */
 
-/* Estilo do botão para cadastrar um novo evento */
+/* Botão azul "+ Novo Evento" */
 .botao-novo-evento {
-  margin-top: 25px; /* Cria espaço acima do botão */
-  background-color: #2563eb; /* Cor azul do botão */
-  color: white; /* Cor do texto */
-  border: none; /* Remove a borda padrão */
-  padding: 10px 18px; /* Espaçamento interno */
-  border-radius: 8px; /* Arredonda os cantos */
-  font-size: 15px; /* Tamanho do texto */
-  font-weight: 600; /* Deixa o texto um pouco mais forte */
-  cursor: pointer; /* Mostra a mão ao passar o mouse */
+  /* Cria espaço entre o botão e o texto acima */
+  margin-top: 25px;
+
+  background-color: #2563eb;
+  color: white;
+
+  /* Remove a borda padrão do navegador */
+  border: none;
+
+  padding: 10px 18px;
+
+  /* Arredonda o botão */
+  border-radius: 8px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
 }
 
-/* Efeito quando passamos o mouse sobre o botão */
+
+/* Efeito quando o mouse passa sobre o botão */
 .botao-novo-evento:hover {
-  opacity: 0.9; /* Deixa o botão levemente transparente */
+  opacity: 0.9;
+}
+
+
+/* ==================================================
+   FORMULÁRIO DE NOVO EVENTO
+   ================================================== */
+
+/* Caixa branca onde ficam os campos do formulário */
+.formulario-evento {
+  /* Espaço entre o botão e o formulário */
+  margin-top: 25px;
+
+  background-color: white;
+
+  /* Espaço entre os campos e as bordas da caixa */
+  padding: 30px;
+
+  /* Arredonda as pontas da caixa */
+  border-radius: 14px;
+
+  /* Define a largura do formulário */
+  width: 480px;
+
+  /* Cria uma sombra leve */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Título "Novo Evento" */
+.formulario-evento h2 {
+  margin-bottom: 25px;
+  font-size: 22px;
+}
+
+
+/* ==================================================
+   NOMES DOS CAMPOS
+   ================================================== */
+
+/* Estiliza:
+   Nome do evento
+   Local do evento
+   Data do evento
+   Data de montagem
+   Data de desmontagem
+*/
+.formulario-evento label {
+  /* Faz cada label ocupar sua própria linha */
+  display: block;
+
+  /* Espaço entre um campo e o anterior */
+  margin-top: 16px;
+
+  /* Espaço entre o nome e a caixa de digitação */
+  margin-bottom: 7px;
+
+  font-weight: 600;
+  font-size: 14px;
+}
+
+
+/* O primeiro campo não precisa de espaço extra em cima */
+.formulario-evento h2 + label {
+  margin-top: 0;
+}
+
+
+/* ==================================================
+   CAMPOS DO FORMULÁRIO
+   ================================================== */
+
+/* Estilo dos inputs de texto e de data */
+.formulario-evento input {
+  /* Faz o campo ocupar toda a largura disponível */
+  width: 100%;
+
+  /* Espaçamento dentro do campo */
+  padding: 11px 12px;
+
+  /* Borda cinza clara */
+  border: 1px solid #d1d5db;
+
+  /* Arredonda os campos */
+  border-radius: 8px;
+
+  font-size: 15px;
+
+  background-color: white;
+
+  /* Remove o contorno padrão do navegador */
+  outline: none;
+
+  /* Impede o padding de aumentar a largura do input */
+  box-sizing: border-box;
+
+  /* Suaviza o efeito quando clicamos no campo */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+
+/* ==================================================
+   CAMPO SELECIONADO
+   ================================================== */
+
+/* :focus acontece quando o usuário clica dentro do input */
+.formulario-evento input:focus {
+  /* Deixa a borda azul */
+  border-color: #2563eb;
+
+  /* Cria um pequeno brilho azul em volta */
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }

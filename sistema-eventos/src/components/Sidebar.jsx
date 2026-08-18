@@ -1,5 +1,5 @@
 // Cria o componente Sidebar
-// Recebe a função setPagina através das props
+// Recebe setPagina através das props
 function Sidebar({ setPagina }) {
 
   // Retorna a estrutura da barra lateral
@@ -12,19 +12,25 @@ function Sidebar({ setPagina }) {
       {/* Menu de navegação */}
       <nav>
 
-        {/* Ao clicar, troca a página para o Dashboard */}
+        {/* Abre a tela do Dashboard */}
         <button onClick={() => setPagina('dashboard')}>
           Dashboard
         </button>
 
-        {/* Ao clicar, troca a página para Eventos */}
+        {/* Abre a tela de Eventos */}
         <button onClick={() => setPagina('eventos')}>
           Eventos
         </button>
 
-        {/* Ainda não vamos programar esses dois */}
-        <button>Fornecedores</button>
-        <button>Agenda</button>
+        {/* Ainda vamos programar essa tela */}
+        <button>
+          Fornecedores
+        </button>
+
+        {/* Ainda vamos programar essa tela */}
+        <button>
+          Agenda
+        </button>
 
       </nav>
 
@@ -32,5 +38,5 @@ function Sidebar({ setPagina }) {
   )
 }
 
-// Exporta o componente Sidebar
+// Exporta a Sidebar para ser utilizada no App.jsx
 export default Sidebar
