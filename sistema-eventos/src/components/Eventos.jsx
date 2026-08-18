@@ -1,80 +1,118 @@
-// Importa o useState da biblioteca React
-// useState serve para guardar informações que podem mudar durante o uso da página
+// Importa o useState do React
+// Ele permite guardar informações que mudam durante o uso da página
 import { useState } from 'react'
 
 
-// Cria o componente Eventos
-// Esse componente representa toda a tela de gerenciamento de eventos
+// Componente responsável pela página de Eventos
 function Eventos() {
 
   // =====================================================
-  // ESTADOS DA PÁGINA
+  // CONTROLE DO FORMULÁRIO
   // =====================================================
 
-  // Controla se o formulário de "Novo Evento" aparece ou não
-  //
-  // mostrarFormulario = guarda o valor atual
-  // setMostrarFormulario = função usada para alterar esse valor
-  //
-  // false = formulário fechado
-  // true = formulário aberto
+  // Controla se o formulário está aberto ou fechado
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
 
 
-  // Guarda o nome digitado pelo usuário
-  // Começa com '' porque inicialmente o campo está vazio
+  // =====================================================
+  // DADOS DIGITADOS NO FORMULÁRIO
+  // =====================================================
+
+  // Guarda o nome do evento
   const [nomeEvento, setNomeEvento] = useState('')
 
-
-  // Guarda o local digitado pelo usuário
+  // Guarda o local do evento
   const [localEvento, setLocalEvento] = useState('')
 
-
-  // Guarda a data em que o evento acontecerá
+  // Guarda a data principal do evento
   const [dataEvento, setDataEvento] = useState('')
 
-
-  // Guarda a data em que será feita a montagem do evento
+  // Guarda a data de montagem
   const [dataMontagem, setDataMontagem] = useState('')
 
-
-  // Guarda a data em que será feita a desmontagem do evento
+  // Guarda a data de desmontagem
   const [dataDesmontagem, setDataDesmontagem] = useState('')
 
 
   // =====================================================
-  // CONTEÚDO QUE APARECE NA TELA
+  // LISTA DE EVENTOS
+  // =====================================================
+
+  // Guarda todos os eventos cadastrados
+  //
+  // Começa como um array vazio []
+  // porque ainda não existe nenhum evento cadastrado
+  const [eventos, setEventos] = useState([])
+
+
+  // =====================================================
+  // FUNÇÃO PARA CADASTRAR EVENTO
+  // =====================================================
+
+  function cadastrarEvento() {
+
+    // Verifica se os campos principais foram preenchidos
+    if (nomeEvento === '' || localEvento === '' || dataEvento === '') {
+      alert('Preencha nome, local e data do evento.')
+      return
+    }
+
+
+    // Cria um objeto com todas as informações do novo evento
+    const novoEvento = {
+
+      // Date.now() gera um número único que usaremos como ID
+      id: Date.now(),
+
+      nome: nomeEvento,
+      local: localEvento,
+      data: dataEvento,
+      montagem: dataMontagem,
+      desmontagem: dataDesmontagem
+    }
+
+
+    // Adiciona o novo evento à lista de eventos
+    //
+    // ...eventos mantém tudo que já existia
+    // novoEvento adiciona o novo item
+    setEventos([...eventos, novoEvento])
+
+
+    // =====================================================
+    // LIMPA OS CAMPOS DEPOIS DO CADASTRO
+    // =====================================================
+
+    setNomeEvento('')
+    setLocalEvento('')
+    setDataEvento('')
+    setDataMontagem('')
+    setDataDesmontagem('')
+
+
+    // Fecha o formulário depois de cadastrar
+    setMostrarFormulario(false)
+  }
+
+
+  // =====================================================
+  // INTERFACE DA PÁGINA
   // =====================================================
 
   return (
     <main className="conteudo">
 
-      {/* Título principal da página */}
+      {/* Título principal */}
       <h1>Eventos</h1>
 
-
-      {/* Pequena descrição da função dessa página */}
+      {/* Descrição da página */}
       <p>Gerencie os eventos cadastrados no sistema.</p>
 
 
-      {/* =====================================================
+      {/* =================================================
           BOTÃO NOVO EVENTO
-          ===================================================== */}
+          ================================================= */}
 
-      {/* 
-        Quando o usuário clicar nesse botão,
-        setMostrarFormulario altera o estado.
-
-        O sinal ! significa "inverter".
-
-        Se mostrarFormulario for false:
-        !false = true
-
-        Se mostrarFormulario for true:
-        !true = false
-
-        Portanto, o mesmo botão abre e fecha o formulário.
-      */}
       <button
         className="botao-novo-evento"
         onClick={() => setMostrarFormulario(!mostrarFormulario)}
@@ -83,49 +121,22 @@ function Eventos() {
       </button>
 
 
-      {/* =====================================================
-          FORMULÁRIO DE NOVO EVENTO
-          ===================================================== */}
+      {/* =================================================
+          FORMULÁRIO
+          ================================================= */}
 
-      {/* 
-        O && significa que o formulário abaixo
-        só será exibido quando mostrarFormulario for true.
-
-        Se for false, o React não mostra essa parte.
-      */}
       {mostrarFormulario && (
 
         <div className="formulario-evento">
 
-          {/* Título da área de cadastro */}
           <h2>Novo Evento</h2>
 
 
-          {/* =================================================
-              CAMPO: NOME DO EVENTO
-              ================================================= */}
-
-          {/* 
-            O label informa ao usuário o que deve ser
-            preenchido no campo abaixo.
-          */}
+          {/* Nome do evento */}
           <label htmlFor="nomeEvento">
             Nome do evento
           </label>
 
-          {/* 
-            Input de texto para digitar o nome.
-
-            value={nomeEvento}
-            mostra o valor que está guardado no estado.
-
-            onChange
-            é executado sempre que o usuário digita algo.
-
-            evento.target.value
-            representa exatamente o texto que está
-            dentro do input naquele momento.
-          */}
           <input
             type="text"
             id="nomeEvento"
@@ -135,15 +146,11 @@ function Eventos() {
           />
 
 
-          {/* =================================================
-              CAMPO: LOCAL DO EVENTO
-              ================================================= */}
-
+          {/* Local */}
           <label htmlFor="localEvento">
             Local do evento
           </label>
 
-          {/* Campo para informar onde o evento acontecerá */}
           <input
             type="text"
             id="localEvento"
@@ -153,18 +160,11 @@ function Eventos() {
           />
 
 
-          {/* =================================================
-              CAMPO: DATA DO EVENTO
-              ================================================= */}
-
+          {/* Data do evento */}
           <label htmlFor="dataEvento">
             Data do evento
           </label>
 
-          {/* 
-            type="date" faz o navegador mostrar
-            um campo próprio para selecionar datas.
-          */}
           <input
             type="date"
             id="dataEvento"
@@ -173,18 +173,11 @@ function Eventos() {
           />
 
 
-          {/* =================================================
-              CAMPO: DATA DE MONTAGEM
-              ================================================= */}
-
+          {/* Data de montagem */}
           <label htmlFor="dataMontagem">
             Data de montagem
           </label>
 
-          {/* 
-            Guarda a data em que a equipe começará
-            a montagem da estrutura do evento.
-          */}
           <input
             type="date"
             id="dataMontagem"
@@ -193,18 +186,11 @@ function Eventos() {
           />
 
 
-          {/* =================================================
-              CAMPO: DATA DE DESMONTAGEM
-              ================================================= */}
-
+          {/* Data de desmontagem */}
           <label htmlFor="dataDesmontagem">
             Data de desmontagem
           </label>
 
-          {/* 
-            Guarda a data prevista para desmontar
-            a estrutura depois do evento.
-          */}
           <input
             type="date"
             id="dataDesmontagem"
@@ -212,14 +198,83 @@ function Eventos() {
             onChange={(evento) => setDataDesmontagem(evento.target.value)}
           />
 
+
+          {/* Ao clicar, executa a função cadastrarEvento */}
+          <button
+            className="botao-cadastrar-evento"
+            onClick={cadastrarEvento}
+          >
+            Cadastrar Evento
+          </button>
+
         </div>
       )}
+
+
+      {/* =================================================
+          LISTA DE EVENTOS CADASTRADOS
+          ================================================= */}
+
+      <div className="lista-eventos">
+
+        <h2>Eventos cadastrados</h2>
+
+
+        {/* 
+          Se não existir nenhum evento,
+          mostramos uma mensagem.
+        */}
+        {eventos.length === 0 && (
+          <p>Nenhum evento cadastrado.</p>
+        )}
+
+
+        {/* 
+          map percorre todos os eventos cadastrados.
+
+          Para cada evento existente,
+          ele cria um card na tela.
+        */}
+        {eventos.map((evento) => (
+
+          <div
+            className="evento-item"
+            key={evento.id}
+          >
+
+            {/* Nome do evento */}
+            <h3>{evento.nome}</h3>
+
+            {/* Local */}
+            <p>
+              <strong>Local:</strong> {evento.local}
+            </p>
+
+            {/* Data */}
+            <p>
+              <strong>Data:</strong> {evento.data}
+            </p>
+
+            {/* Montagem */}
+            <p>
+              <strong>Montagem:</strong> {evento.montagem || 'Não informada'}
+            </p>
+
+            {/* Desmontagem */}
+            <p>
+              <strong>Desmontagem:</strong> {evento.desmontagem || 'Não informada'}
+            </p>
+
+          </div>
+
+        ))}
+
+      </div>
 
     </main>
   )
 }
 
 
-// Exporta o componente Eventos
-// Isso permite importar esse componente no App.jsx
+// Exporta o componente
 export default Eventos

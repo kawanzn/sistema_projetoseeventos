@@ -6,7 +6,7 @@
 .app {
   display: flex;
 
-  /* Faz a aplicação ocupar no mínimo toda a altura da tela */
+  /* Faz a aplicação ocupar toda a altura da tela */
   min-height: 100vh;
 }
 
@@ -19,7 +19,7 @@
 .sidebar {
   width: 220px;
 
-  /* Cor escura da barra lateral */
+  /* Fundo escuro da barra lateral */
   background-color: #1f2937;
 
   color: white;
@@ -33,12 +33,12 @@
 }
 
 
-/* Organiza os botões do menu um abaixo do outro */
+/* Organiza os botões um abaixo do outro */
 .sidebar nav {
   display: flex;
   flex-direction: column;
 
-  /* Espaço entre cada botão */
+  /* Espaço entre os botões */
   gap: 15px;
 }
 
@@ -47,15 +47,20 @@
    BOTÕES DA SIDEBAR
    ================================================== */
 
-/* Estilo dos botões Dashboard, Eventos, Fornecedores e Agenda */
+/* Estilo dos botões:
+   Dashboard
+   Eventos
+   Fornecedores
+   Agenda
+*/
 .sidebar button {
-  /* Remove o estilo padrão dos botões */
+  /* Remove o estilo padrão do botão */
   background: transparent;
   border: none;
 
   color: white;
 
-  /* Alinha os nomes do menu à esquerda */
+  /* Alinha o texto à esquerda */
   text-align: left;
 
   font-size: 16px;
@@ -64,11 +69,13 @@
   cursor: pointer;
 
   padding: 8px 10px;
+
+  /* Arredonda os cantos */
   border-radius: 6px;
 }
 
 
-/* Quando o mouse passa sobre algum botão da Sidebar */
+/* Efeito quando passamos o mouse sobre um botão */
 .sidebar button:hover {
   background-color: #374151;
 }
@@ -78,19 +85,19 @@
    CONTEÚDO PRINCIPAL
    ================================================== */
 
-/* Área onde aparecem Dashboard, Eventos etc. */
+/* Área onde aparecem as páginas do sistema */
 .conteudo {
-  /* Faz o conteúdo ocupar todo o espaço restante */
+  /* Ocupa todo o espaço restante da tela */
   flex: 1;
 
   padding: 40px;
 
-  /* Fundo cinza bem claro */
+  /* Fundo cinza claro */
   background-color: #f4f6f8;
 }
 
 
-/* Títulos principais das páginas */
+/* Título principal das páginas */
 .conteudo h1 {
   margin-bottom: 10px;
 }
@@ -100,12 +107,12 @@
    CARDS DO DASHBOARD
    ================================================== */
 
-/* Área que organiza todos os cards */
+/* Área que organiza os cards */
 .cards {
   /* Coloca os cards lado a lado */
   display: flex;
 
-  /* Espaço entre os cards */
+  /* Espaço entre cada card */
   gap: 20px;
 
   /* Espaço entre os cards e o conteúdo acima */
@@ -120,13 +127,13 @@
   /* Espaçamento dentro do card */
   padding: 20px;
 
-  /* Arredonda as pontas */
+  /* Arredonda os cantos */
   border-radius: 10px;
 
-  /* Evita que o card fique pequeno demais */
+  /* Impede que o card fique pequeno demais */
   min-width: 180px;
 
-  /* Cria uma sombra leve */
+  /* Sombra leve */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
@@ -138,7 +145,7 @@
 }
 
 
-/* Número exibido dentro do card */
+/* Número principal do card */
 .card span {
   font-size: 28px;
   font-weight: bold;
@@ -149,20 +156,20 @@
    BOTÃO NOVO EVENTO
    ================================================== */
 
-/* Botão azul "+ Novo Evento" */
+/* Botão utilizado para abrir o formulário */
 .botao-novo-evento {
-  /* Cria espaço entre o botão e o texto acima */
+  /* Espaço entre o botão e o texto acima */
   margin-top: 25px;
 
   background-color: #2563eb;
   color: white;
 
-  /* Remove a borda padrão do navegador */
+  /* Remove a borda padrão */
   border: none;
 
   padding: 10px 18px;
 
-  /* Arredonda o botão */
+  /* Arredonda os cantos */
   border-radius: 8px;
 
   font-size: 15px;
@@ -172,7 +179,7 @@
 }
 
 
-/* Efeito quando o mouse passa sobre o botão */
+/* Efeito ao passar o mouse */
 .botao-novo-evento:hover {
   opacity: 0.9;
 }
@@ -182,23 +189,23 @@
    FORMULÁRIO DE NOVO EVENTO
    ================================================== */
 
-/* Caixa branca onde ficam os campos do formulário */
+/* Caixa branca que envolve todo o formulário */
 .formulario-evento {
   /* Espaço entre o botão e o formulário */
   margin-top: 25px;
 
   background-color: white;
 
-  /* Espaço entre os campos e as bordas da caixa */
+  /* Espaçamento interno */
   padding: 30px;
 
-  /* Arredonda as pontas da caixa */
+  /* Arredonda os cantos */
   border-radius: 14px;
 
-  /* Define a largura do formulário */
+  /* Largura do formulário */
   width: 480px;
 
-  /* Cria uma sombra leve */
+  /* Sombra para destacar o formulário do fundo */
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
@@ -214,21 +221,15 @@
    NOMES DOS CAMPOS
    ================================================== */
 
-/* Estiliza:
-   Nome do evento
-   Local do evento
-   Data do evento
-   Data de montagem
-   Data de desmontagem
-*/
+/* Estilo dos textos que ficam acima dos inputs */
 .formulario-evento label {
-  /* Faz cada label ocupar sua própria linha */
+  /* Faz cada label ocupar uma linha */
   display: block;
 
   /* Espaço entre um campo e o anterior */
   margin-top: 16px;
 
-  /* Espaço entre o nome e a caixa de digitação */
+  /* Espaço entre o nome e o input */
   margin-bottom: 7px;
 
   font-weight: 600;
@@ -236,7 +237,7 @@
 }
 
 
-/* O primeiro campo não precisa de espaço extra em cima */
+/* Remove o espaço extra do primeiro campo */
 .formulario-evento h2 + label {
   margin-top: 0;
 }
@@ -246,12 +247,12 @@
    CAMPOS DO FORMULÁRIO
    ================================================== */
 
-/* Estilo dos inputs de texto e de data */
+/* Estilo dos inputs de texto e data */
 .formulario-evento input {
-  /* Faz o campo ocupar toda a largura disponível */
+  /* Faz o campo ocupar toda a largura */
   width: 100%;
 
-  /* Espaçamento dentro do campo */
+  /* Espaçamento interno */
   padding: 11px 12px;
 
   /* Borda cinza clara */
@@ -267,23 +268,106 @@
   /* Remove o contorno padrão do navegador */
   outline: none;
 
-  /* Impede o padding de aumentar a largura do input */
+  /* Impede o padding de aumentar a largura do campo */
   box-sizing: border-box;
 
-  /* Suaviza o efeito quando clicamos no campo */
+  /* Deixa as mudanças visuais mais suaves */
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 
-/* ==================================================
-   CAMPO SELECIONADO
-   ================================================== */
-
-/* :focus acontece quando o usuário clica dentro do input */
+/* Quando o usuário clica dentro de um campo */
 .formulario-evento input:focus {
   /* Deixa a borda azul */
   border-color: #2563eb;
 
-  /* Cria um pequeno brilho azul em volta */
+  /* Cria um pequeno destaque azul */
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+
+/* ==================================================
+   BOTÃO CADASTRAR EVENTO
+   ================================================== */
+
+/* Botão que confirma o cadastro */
+.botao-cadastrar-evento {
+  /* Ocupa toda a largura do formulário */
+  width: 100%;
+
+  /* Espaço entre o último campo e o botão */
+  margin-top: 25px;
+
+  padding: 12px;
+
+  background-color: #2563eb;
+  color: white;
+
+  /* Remove a borda padrão */
+  border: none;
+
+  /* Arredonda o botão */
+  border-radius: 8px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* Efeito ao passar o mouse */
+.botao-cadastrar-evento:hover {
+  opacity: 0.9;
+}
+
+
+/* ==================================================
+   LISTA DE EVENTOS
+   ================================================== */
+
+/* Área onde serão mostrados os eventos cadastrados */
+.lista-eventos {
+  /* Separa a lista do conteúdo acima */
+  margin-top: 35px;
+}
+
+
+/* Título "Eventos cadastrados" */
+.lista-eventos h2 {
+  margin-bottom: 20px;
+}
+
+
+/* ==================================================
+   EVENTO CADASTRADO
+   ================================================== */
+
+/* Cada evento cadastrado terá sua própria caixa */
+.evento-item {
+  background-color: white;
+
+  /* Espaçamento interno */
+  padding: 20px;
+
+  /* Espaço entre um evento e outro */
+  margin-bottom: 15px;
+
+  /* Arredonda os cantos */
+  border-radius: 10px;
+
+  /* Sombra leve */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Nome do evento cadastrado */
+.evento-item h3 {
+  margin-bottom: 12px;
+}
+
+
+/* Informações como Local, Data, Montagem etc. */
+.evento-item p {
+  margin-bottom: 6px;
 }
