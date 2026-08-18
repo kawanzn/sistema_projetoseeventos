@@ -1,42 +1,120 @@
-// Cria o componente Sidebar
-// Recebe setPagina através das props
-function Sidebar({ setPagina }) {
+// =====================================================
+// COMPONENTE SIDEBAR
+// =====================================================
 
-  // Retorna a estrutura da barra lateral
+// Recebe:
+//
+// pagina = página atualmente selecionada
+// setPagina = função usada para trocar de página
+function Sidebar({ pagina, setPagina }) {
+
   return (
     <aside className="sidebar">
 
-      {/* Título da barra lateral */}
-      <h2>Eventos</h2>
+      {/* =================================================
+          IDENTIDADE DO SISTEMA
+          ================================================= */}
 
-      {/* Menu de navegação */}
+      <div className="sidebar-logo">
+
+        {/* Ícone simples feito sem biblioteca externa */}
+        <div className="logo-icone">
+          PE
+        </div>
+
+        <div>
+          <h2>Projetos</h2>
+          <span>Eventos</span>
+        </div>
+
+      </div>
+
+
+      {/* Texto pequeno antes do menu */}
+      <p className="menu-titulo">
+        MENU PRINCIPAL
+      </p>
+
+
+      {/* =================================================
+          NAVEGAÇÃO
+          ================================================= */}
+
       <nav>
 
-        {/* Abre a tela do Dashboard */}
-        <button onClick={() => setPagina('dashboard')}>
+        {/* DASHBOARD */}
+        <button
+          className={
+            pagina === 'dashboard'
+              ? 'menu-item ativo'
+              : 'menu-item'
+          }
+          onClick={() => setPagina('dashboard')}
+        >
+          <span className="menu-icone">▦</span>
+
           Dashboard
         </button>
 
-        {/* Abre a tela de Eventos */}
-        <button onClick={() => setPagina('eventos')}>
+
+        {/* EVENTOS */}
+        <button
+          className={
+            pagina === 'eventos'
+              ? 'menu-item ativo'
+              : 'menu-item'
+          }
+          onClick={() => setPagina('eventos')}
+        >
+          <span className="menu-icone">◆</span>
+
           Eventos
         </button>
 
-        {/* Ainda vamos programar essa tela */}
-        <button>
+
+        {/* FORNECEDORES */}
+        <button
+          className={
+            pagina === 'fornecedores'
+              ? 'menu-item ativo'
+              : 'menu-item'
+          }
+          onClick={() => setPagina('fornecedores')}
+        >
+          <span className="menu-icone">▣</span>
+
           Fornecedores
         </button>
 
-        {/* Ainda vamos programar essa tela */}
-        <button>
+
+        {/* AGENDA */}
+
+        {/* 
+          Ainda não possui página,
+          então por enquanto não recebe setPagina
+        */}
+        <button className="menu-item">
+          <span className="menu-icone">▤</span>
+
           Agenda
         </button>
 
       </nav>
 
+
+      {/* =================================================
+          RODAPÉ DA SIDEBAR
+          ================================================= */}
+
+      <div className="sidebar-rodape">
+        <span>Sistema interno</span>
+        <small>Projetos & Eventos</small>
+      </div>
+
     </aside>
   )
 }
 
-// Exporta a Sidebar para ser utilizada no App.jsx
+
+// Exporta o componente
 export default Sidebar

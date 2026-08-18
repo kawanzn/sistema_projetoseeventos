@@ -1,33 +1,128 @@
-// Importa o componente Card para utilizarmos dentro do Dashboard
+// =====================================================
+// IMPORTAÇÕES
+// =====================================================
+
 import Card from './Card.jsx'
 
-// Cria o componente Dashboard
+
+// =====================================================
+// COMPONENTE DASHBOARD
+// =====================================================
+
 function Dashboard() {
 
-  // Retorna o conteúdo que será exibido no Dashboard
   return (
     <main className="conteudo">
 
-      {/* Título da página */}
-      <h1>Dashboard</h1>
+      {/* =================================================
+          CABEÇALHO DA PÁGINA
+          ================================================= */}
 
-      {/* Pequena descrição da página */}
-      <p>Visão geral dos projetos e eventos do setor.</p>
+      <div className="cabecalho-pagina">
 
-      {/* Área que vai armazenar os cards do Dashboard */}
+        <div>
+          <span className="pagina-tag">
+            VISÃO GERAL
+          </span>
+
+          <h1>Dashboard</h1>
+
+          <p>
+            Acompanhe rapidamente as principais
+            informações do setor.
+          </p>
+        </div>
+
+      </div>
+
+
+      {/* =================================================
+          CARDS
+          ================================================= */}
+
       <div className="cards">
 
-        {/* Mostra a quantidade de eventos ativos */}
-        <Card titulo="Eventos Ativos" valor="4" />
+        {/* Eventos atualmente ativos */}
+        <Card
+          titulo="Eventos Ativos"
+          valor="4"
+          cor="#2563eb"
+          icone="◆"
+        />
 
-        {/* Mostra a quantidade de próximos eventos */}
-        <Card titulo="Próximos Eventos" valor="3" />
 
-        {/* Mostra a quantidade de pendências */}
-        <Card titulo="Pendências" valor="2" />
+        {/* Eventos que acontecerão em breve */}
+        <Card
+          titulo="Próximos Eventos"
+          valor="3"
+          cor="#7c3aed"
+          icone="◷"
+        />
 
-        {/* Mostra a quantidade de fornecedores cadastrados */}
-        <Card titulo="Fornecedores" valor="8" />
+
+        {/* Pendências do setor */}
+        <Card
+          titulo="Pendências"
+          valor="2"
+          cor="#ea580c"
+          icone="!"
+        />
+
+
+        {/* Quantidade de fornecedores */}
+        <Card
+          titulo="Fornecedores"
+          valor="2"
+          cor="#16a34a"
+          icone="▣"
+        />
+
+      </div>
+
+
+      {/* =================================================
+          ÁREA INFORMATIVA
+          ================================================= */}
+
+      <div className="painel-informativo">
+
+        <div className="painel-titulo">
+
+          <div>
+            <span className="pagina-tag">
+              ACOMPANHAMENTO
+            </span>
+
+            <h2>Resumo do setor</h2>
+          </div>
+
+        </div>
+
+
+        {/* Pequenas informações de acompanhamento */}
+        <div className="resumo-grid">
+
+          <div className="resumo-item">
+            <span>Próxima montagem</span>
+            <strong>24/08/2026</strong>
+          </div>
+
+
+          <div className="resumo-item">
+            <span>Eventos neste mês</span>
+            <strong>4 eventos</strong>
+          </div>
+
+
+          <div className="resumo-item">
+            <span>Situação geral</span>
+
+            <strong className="status-ok">
+              Tudo em andamento
+            </strong>
+          </div>
+
+        </div>
 
       </div>
 
@@ -35,5 +130,6 @@ function Dashboard() {
   )
 }
 
-// Exporta o componente para poder utilizá-lo em outros arquivos
+
+// Exporta o Dashboard
 export default Dashboard

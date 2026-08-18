@@ -1,9 +1,38 @@
+/* ==================================================
+   CONFIGURAÇÕES GERAIS
+   ================================================== */
+
+/* Remove margens e espaçamentos padrões do navegador */
 * {
   margin: 0;
   padding: 0;
+
+  /* Faz padding e borda entrarem no cálculo do tamanho */
   box-sizing: border-box;
 }
 
+
+/* Configuração geral do corpo da aplicação */
 body {
-  font-family: Arial, sans-serif;
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background-color: #f1f5f9;
+
+  color: #1e293b;
+
+  /* Melhora a aparência das fontes */
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* Faz botões e campos utilizarem a mesma fonte */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }

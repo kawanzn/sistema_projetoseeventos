@@ -1,38 +1,102 @@
+// =====================================================
+// IMPORTAÇÕES
+// =====================================================
+
 // Importa o CSS principal da aplicação
 import './App.css'
 
-// Importa o useState do React
-// Ele vai permitir guardar qual tela está ativa
+// Importa o useState para controlar qual página está aberta
 import { useState } from 'react'
 
-// Importa os componentes da aplicação
+// Importa os componentes do sistema
 import Sidebar from './components/Sidebar.jsx'
 import Dashboard from './components/Dashboard.jsx'
 import Eventos from './components/Eventos.jsx'
+import Fornecedores from './components/Fornecedores.jsx'
 
-// Componente principal da aplicação
+
+// =====================================================
+// COMPONENTE PRINCIPAL
+// =====================================================
+
 function App() {
 
-  // Cria uma variável chamada "pagina"
-  // O valor inicial dela será "dashboard"
+  // Guarda qual página está aberta atualmente
+  //
+  // Começamos pelo Dashboard
   const [pagina, setPagina] = useState('dashboard')
 
-  // Retorna a estrutura principal da aplicação
+
   return (
     <div className="app">
 
-      {/* Envia para a Sidebar a função que troca de página */}
-      <Sidebar setPagina={setPagina} />
+      {/* =================================================
+          SIDEBAR
+          ================================================= */}
 
-      {/* Se a página for dashboard, mostra o Dashboard */}
-      {pagina === 'dashboard' && <Dashboard />}
+      {/* 
+        Enviamos duas informações para a Sidebar:
 
-      {/* Se a página for eventos, mostra a tela de Eventos */}
-      {pagina === 'eventos' && <Eventos />}
+        pagina = página atual
+        setPagina = função responsável por trocar a página
+      */}
+      <Sidebar
+        pagina={pagina}
+        setPagina={setPagina}
+      />
+
+
+      {/* =================================================
+          ÁREA DIREITA DO SISTEMA
+          ================================================= */}
+
+      <div className="app-principal">
+
+        {/* =================================================
+            BARRA SUPERIOR
+            ================================================= */}
+
+        <header className="topbar">
+
+          {/* Nome do sistema */}
+          <div>
+            <h2>Sistema de Projetos e Eventos</h2>
+
+            <p>
+              Organização, controle e acompanhamento
+            </p>
+          </div>
+
+
+          {/* Pequeno identificador do setor */}
+          <div className="topbar-setor">
+            Setor de Projetos e Eventos
+          </div>
+
+        </header>
+
+
+        {/* =================================================
+            PÁGINAS
+            ================================================= */}
+
+        {/* Exibe o Dashboard */}
+        {pagina === 'dashboard' && <Dashboard />}
+
+
+        {/* Exibe Eventos */}
+        {pagina === 'eventos' && <Eventos />}
+
+
+        {/* Exibe Fornecedores */}
+        {pagina === 'fornecedores' && <Fornecedores />}
+
+      </div>
 
     </div>
   )
 }
+
 
 // Exporta o App
 export default App

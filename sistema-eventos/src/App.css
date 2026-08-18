@@ -1,13 +1,52 @@
 /* ==================================================
-   ESTRUTURA PRINCIPAL DA APLICAÇÃO
+   VARIÁVEIS VISUAIS
    ================================================== */
 
-/* Organiza a Sidebar e o conteúdo lado a lado */
+/*
+  Variáveis facilitam a manutenção.
+
+  Em vez de repetir uma cor várias vezes,
+  podemos guardar ela aqui.
+*/
+:root {
+  --azul-principal: #2563eb;
+  --azul-escuro: #172554;
+  --azul-sidebar: #0f172a;
+
+  --fundo: #f1f5f9;
+  --branco: #ffffff;
+
+  --texto: #1e293b;
+  --texto-secundario: #64748b;
+
+  --borda: #e2e8f0;
+
+  --vermelho: #dc2626;
+  --verde: #16a34a;
+}
+
+
+/* ==================================================
+   APLICAÇÃO
+   ================================================== */
+
 .app {
   display: flex;
 
-  /* Faz a aplicação ocupar toda a altura da tela */
   min-height: 100vh;
+
+  background-color: var(--fundo);
+}
+
+
+/* ==================================================
+   ÁREA PRINCIPAL
+   ================================================== */
+
+.app-principal {
+  flex: 1;
+
+  min-width: 0;
 }
 
 
@@ -15,97 +54,353 @@
    SIDEBAR
    ================================================== */
 
-/* Barra lateral do sistema */
 .sidebar {
-  width: 220px;
+  width: 250px;
+  min-height: 100vh;
 
-  /* Fundo escuro da barra lateral */
-  background-color: #1f2937;
+  /* Degradê dá mais profundidade à Sidebar */
+  background:
+    linear-gradient(
+      180deg,
+      #0f172a 0%,
+      #172554 100%
+    );
 
-  /* Cor do texto */
   color: white;
 
-  /* Espaçamento interno */
-  padding: 30px 20px;
+  padding: 28px 18px;
+
+  display: flex;
+  flex-direction: column;
+
+  /* Mantém a Sidebar parada enquanto a página rola */
+  position: sticky;
+
+  top: 0;
+
+  height: 100vh;
 }
 
 
-/* Título da Sidebar */
-.sidebar h2 {
-  margin-bottom: 30px;
+/* ==================================================
+   LOGO / IDENTIDADE
+   ================================================== */
+
+.sidebar-logo {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 8px;
+
+  margin-bottom: 40px;
 }
 
 
-/* Organiza os botões do menu em coluna */
+/* Quadrado azul com as letras PE */
+.logo-icone {
+  width: 44px;
+  height: 44px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3b82f6,
+      #2563eb
+    );
+
+  border-radius: 12px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 8px 18px rgba(37, 99, 235, 0.35);
+}
+
+
+.sidebar-logo h2 {
+  font-size: 18px;
+
+  margin: 0;
+}
+
+
+.sidebar-logo span {
+  font-size: 13px;
+
+  color: #94a3b8;
+}
+
+
+/* ==================================================
+   TÍTULO DO MENU
+   ================================================== */
+
+.menu-titulo {
+  font-size: 10px;
+
+  letter-spacing: 1.4px;
+
+  font-weight: 700;
+
+  color: #64748b;
+
+  margin:
+
+    0
+    10px
+    12px;
+}
+
+
+/* ==================================================
+   MENU
+   ================================================== */
+
 .sidebar nav {
   display: flex;
 
-  /* Coloca os botões um abaixo do outro */
   flex-direction: column;
 
-  /* Espaço entre os botões */
-  gap: 15px;
+  gap: 6px;
 }
 
 
-/* ==================================================
-   BOTÕES DA SIDEBAR
-   ================================================== */
+/* Botões da Sidebar */
+.sidebar .menu-item {
+  width: 100%;
 
-/* Estilo dos botões do menu lateral */
-.sidebar button {
-  /* Remove o fundo padrão */
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
   background: transparent;
 
-  /* Remove a borda padrão */
   border: none;
 
-  /* Texto branco */
-  color: white;
+  color: #cbd5e1;
 
-  /* Alinha o texto à esquerda */
   text-align: left;
 
-  /* Tamanho da fonte */
-  font-size: 16px;
+  font-size: 15px;
 
-  /* Mostra a mãozinha ao passar o mouse */
+  padding: 12px 14px;
+
+  border-radius: 9px;
+
   cursor: pointer;
 
-  /* Espaçamento interno */
-  padding: 8px 10px;
-
-  /* Arredonda os cantos */
-  border-radius: 6px;
+  transition:
+    background-color 0.2s,
+    color 0.2s,
+    transform 0.2s;
 }
 
 
-/* Efeito ao passar o mouse */
-.sidebar button:hover {
-  background-color: #374151;
+/* Passando o mouse */
+.sidebar .menu-item:hover {
+  background-color:
+    rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  transform: translateX(2px);
+}
+
+
+/* Página atualmente selecionada */
+.sidebar .menu-item.ativo {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37, 99, 235, 0.95),
+      rgba(59, 130, 246, 0.75)
+    );
+
+  color: white;
+
+  box-shadow:
+    0 5px 14px rgba(37, 99, 235, 0.25);
+}
+
+
+/* Ícone ao lado do texto */
+.menu-icone {
+  width: 20px;
+
+  text-align: center;
+
+  font-size: 16px;
 }
 
 
 /* ==================================================
-   CONTEÚDO PRINCIPAL
+   RODAPÉ DA SIDEBAR
    ================================================== */
 
-/* Área onde aparecem Dashboard, Eventos etc. */
-.conteudo {
-  /* Ocupa todo o espaço restante da tela */
-  flex: 1;
+.sidebar-rodape {
+  margin-top: auto;
 
-  /* Espaçamento interno */
-  padding: 40px;
+  padding: 18px 10px 5px;
 
-  /* Fundo cinza claro */
-  background-color: #f4f6f8;
+  border-top:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  color: #94a3b8;
 }
 
 
-/* Título principal das páginas */
+.sidebar-rodape span {
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+
+.sidebar-rodape small {
+  font-size: 11px;
+
+  color: #64748b;
+}
+
+
+/* ==================================================
+   BARRA SUPERIOR
+   ================================================== */
+
+.topbar {
+  height: 82px;
+
+  background-color: white;
+
+  border-bottom:
+    1px solid var(--borda);
+
+  padding: 0 38px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 10;
+}
+
+
+.topbar h2 {
+  font-size: 17px;
+
+  color: var(--texto);
+}
+
+
+.topbar p {
+  margin-top: 3px;
+
+  font-size: 12px;
+
+  color: var(--texto-secundario);
+}
+
+
+/* Identificador à direita */
+.topbar-setor {
+  background-color: #eff6ff;
+
+  color: var(--azul-principal);
+
+  border: 1px solid #dbeafe;
+
+  padding: 8px 12px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+}
+
+
+/* ==================================================
+   CONTEÚDO
+   ================================================== */
+
+.conteudo {
+  padding: 36px 40px 50px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f8fafc,
+      #f1f5f9
+    );
+
+  min-height:
+    calc(100vh - 82px);
+}
+
+
+/* ==================================================
+   CABEÇALHO DAS PÁGINAS
+   ================================================== */
+
+.cabecalho-pagina {
+  margin-bottom: 28px;
+}
+
+
 .conteudo h1 {
-  margin-bottom: 10px;
+  margin-bottom: 7px;
+
+  font-size: 30px;
+
+  color: #0f172a;
+
+  letter-spacing: -0.5px;
+}
+
+
+.conteudo > p,
+.cabecalho-pagina p {
+  color: var(--texto-secundario);
+
+  font-size: 14px;
+}
+
+
+/* Pequeno texto azul acima dos títulos */
+.pagina-tag {
+  display: inline-block;
+
+  margin-bottom: 6px;
+
+  color: var(--azul-principal);
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.4px;
 }
 
 
@@ -113,299 +408,505 @@
    CARDS DO DASHBOARD
    ================================================== */
 
-/* Área que organiza todos os cards */
 .cards {
-  /* Coloca os cards lado a lado */
-  display: flex;
+  display: grid;
 
-  /* Espaço entre eles */
+  grid-template-columns:
+    repeat(4, minmax(170px, 1fr));
+
   gap: 20px;
 
-  /* Distância do conteúdo acima */
-  margin-top: 30px;
+  margin-top: 28px;
 }
 
 
-/* Estilo individual de cada card */
-.card {
-  /* Fundo branco */
+/* Card principal */
+.card-dashboard {
+  /* Usa a cor enviada através da prop */
+  --cor-card: #2563eb;
+
+  position: relative;
+
+  overflow: hidden;
+
   background-color: white;
 
-  /* Espaçamento interno */
-  padding: 20px;
+  padding: 22px;
 
-  /* Cantos arredondados */
+  border-radius: 14px;
+
+  border: 1px solid #e8edf5;
+
+  box-shadow:
+    0 5px 18px rgba(15, 23, 42, 0.06);
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+
+/* Barrinha colorida no topo */
+.card-dashboard::before {
+  content: '';
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background-color: var(--cor-card);
+}
+
+
+/* Card sobe um pouco quando passa o mouse */
+.card-dashboard:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.09);
+}
+
+
+/* Parte superior */
+.card-topo {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+
+/* Nome do card */
+.card-titulo {
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: var(--texto-secundario);
+}
+
+
+/* Ícone do card */
+.card-icone {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
   border-radius: 10px;
 
-  /* Evita que o card fique pequeno demais */
-  min-width: 180px;
+  color: var(--cor-card);
 
-  /* Sombra leve */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background-color:
+    color-mix(
+      in srgb,
+      var(--cor-card) 10%,
+      white
+    );
+
+  font-weight: 800;
 }
 
 
-/* Título do card */
-.card h3 {
-  margin-bottom: 10px;
-  font-size: 16px;
+/* Número principal */
+.card-valor {
+  display: block;
+
+  margin-top: 18px;
+
+  font-size: 31px;
+
+  color: #0f172a;
 }
 
 
-/* Número principal do card */
-.card span {
-  font-size: 28px;
-  font-weight: bold;
+/* Texto pequeno abaixo do número */
+.card-legenda {
+  display: block;
+
+  margin-top: 4px;
+
+  font-size: 11px;
+
+  color: #94a3b8;
 }
 
 
 /* ==================================================
-   BOTÃO NOVO EVENTO
+   PAINEL INFORMATIVO
    ================================================== */
 
-/* Botão que abre o formulário */
-.botao-novo-evento {
-  /* Espaço entre o botão e o texto acima */
+.painel-informativo {
+  margin-top: 28px;
+
+  background-color: white;
+
+  padding: 25px;
+
+  border-radius: 14px;
+
+  border: 1px solid #e8edf5;
+
+  box-shadow:
+    0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+
+.painel-titulo h2 {
+  font-size: 19px;
+
+  color: #0f172a;
+}
+
+
+/* Informações em três colunas */
+.resumo-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 15px;
+
+  margin-top: 22px;
+}
+
+
+.resumo-item {
+  background-color: #f8fafc;
+
+  padding: 18px;
+
+  border-radius: 10px;
+
+  border: 1px solid #eef2f7;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.resumo-item span {
+  font-size: 12px;
+
+  color: var(--texto-secundario);
+}
+
+
+.resumo-item strong {
+  font-size: 15px;
+
+  color: var(--texto);
+}
+
+
+/* Status verde */
+.resumo-item .status-ok {
+  color: var(--verde);
+}
+
+
+/* ==================================================
+   BOTÕES PRINCIPAIS
+   ================================================== */
+
+.botao-novo-evento,
+.botao-novo-fornecedor {
   margin-top: 25px;
 
-  /* Fundo azul */
-  background-color: #2563eb;
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
 
-  /* Texto branco */
   color: white;
 
-  /* Remove a borda padrão */
   border: none;
 
-  /* Espaçamento interno */
-  padding: 10px 18px;
+  padding: 11px 18px;
 
-  /* Arredonda os cantos */
-  border-radius: 8px;
+  border-radius: 9px;
 
-  font-size: 15px;
+  font-size: 14px;
+
   font-weight: 600;
 
   cursor: pointer;
+
+  box-shadow:
+    0 5px 12px rgba(37, 99, 235, 0.22);
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 
-/* Efeito ao passar o mouse */
-.botao-novo-evento:hover {
-  opacity: 0.9;
+/* Hover */
+.botao-novo-evento:hover,
+.botao-novo-fornecedor:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 18px rgba(37, 99, 235, 0.28);
 }
 
 
 /* ==================================================
-   FORMULÁRIO DE EVENTO
+   FORMULÁRIOS
    ================================================== */
 
-/* Caixa que envolve todo o formulário */
-.formulario-evento {
-  /* Espaço entre o botão e o formulário */
+.formulario-evento,
+.formulario-fornecedor {
   margin-top: 25px;
 
-  /* Fundo branco */
   background-color: white;
 
-  /* Espaçamento interno */
   padding: 30px;
 
-  /* Arredonda os cantos */
   border-radius: 14px;
 
-  /* Define a largura do formulário */
-  width: 480px;
+  width: 500px;
 
-  /* Sombra leve */
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--borda);
+
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.07);
 }
 
 
-/* Título do formulário */
-.formulario-evento h2 {
+/* Títulos */
+.formulario-evento h2,
+.formulario-fornecedor h2 {
   margin-bottom: 25px;
-  font-size: 22px;
+
+  color: #0f172a;
+
+  font-size: 21px;
 }
 
 
-/* ==================================================
-   LABELS DO FORMULÁRIO
-   ================================================== */
-
-/* Estilo dos textos acima dos campos */
-.formulario-evento label {
-  /* Faz cada label ocupar sua própria linha */
+/* Labels */
+.formulario-evento label,
+.formulario-fornecedor label {
   display: block;
 
-  /* Espaço entre um campo e o anterior */
-  margin-top: 16px;
+  margin-top: 17px;
 
-  /* Espaço entre o label e o input */
   margin-bottom: 7px;
 
+  color: #334155;
+
+  font-size: 13px;
+
   font-weight: 600;
-  font-size: 14px;
 }
 
 
-/* Remove o espaço extra do primeiro campo */
-.formulario-evento h2 + label {
+/* Primeiro label */
+.formulario-evento h2 + label,
+.formulario-fornecedor h2 + label {
   margin-top: 0;
 }
 
 
-/* ==================================================
-   INPUTS DO FORMULÁRIO
-   ================================================== */
-
-/* Estilo dos campos de texto e data */
-.formulario-evento input {
-  /* Ocupa toda a largura disponível */
+/* Inputs */
+.formulario-evento input,
+.formulario-fornecedor input {
   width: 100%;
 
-  /* Espaçamento interno */
   padding: 11px 12px;
 
-  /* Borda cinza clara */
-  border: 1px solid #d1d5db;
+  border:
+    1px solid #cbd5e1;
 
-  /* Arredonda os cantos */
   border-radius: 8px;
 
-  /* Tamanho da fonte */
-  font-size: 15px;
+  font-size: 14px;
 
-  /* Fundo branco */
-  background-color: white;
+  background-color: #f8fafc;
 
-  /* Remove contorno padrão */
+  color: var(--texto);
+
   outline: none;
 
-  /* Impede o padding de aumentar a largura total */
-  box-sizing: border-box;
-
-  /* Suaviza a mudança visual */
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s;
 }
 
 
-/* Quando o usuário clica dentro do campo */
-.formulario-evento input:focus {
-  /* Borda azul */
-  border-color: #2563eb;
+/* Campo selecionado */
+.formulario-evento input:focus,
+.formulario-fornecedor input:focus {
+  background-color: white;
 
-  /* Brilho azul suave */
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: var(--azul-principal);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.10);
 }
 
 
 /* ==================================================
-   BOTÃO CADASTRAR / SALVAR
+   BOTÕES DE CADASTRO
    ================================================== */
 
-/* Botão usado para cadastrar ou salvar alterações */
-.botao-cadastrar-evento {
-  /* Ocupa toda a largura do formulário */
+.botao-cadastrar-evento,
+.botao-cadastrar-fornecedor {
   width: 100%;
 
-  /* Espaço entre o último campo e o botão */
-  margin-top: 25px;
+  margin-top: 26px;
 
-  /* Espaçamento interno */
   padding: 12px;
 
-  /* Fundo azul */
-  background-color: #2563eb;
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
 
-  /* Texto branco */
   color: white;
 
-  /* Remove a borda padrão */
   border: none;
 
-  /* Arredonda os cantos */
   border-radius: 8px;
 
-  font-size: 15px;
+  font-size: 14px;
+
   font-weight: 600;
 
   cursor: pointer;
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 
-/* Efeito ao passar o mouse */
-.botao-cadastrar-evento:hover {
-  opacity: 0.9;
-}
+.botao-cadastrar-evento:hover,
+.botao-cadastrar-fornecedor:hover {
+  transform: translateY(-1px);
 
-
-/* ==================================================
-   LISTA DE EVENTOS
-   ================================================== */
-
-/* Área onde aparecem os eventos cadastrados */
-.lista-eventos {
-  /* Espaço acima da lista */
-  margin-top: 35px;
-}
-
-
-/* Título "Eventos cadastrados" */
-.lista-eventos h2 {
-  margin-bottom: 20px;
+  box-shadow:
+    0 7px 17px rgba(37, 99, 235, 0.25);
 }
 
 
 /* ==================================================
-   EVENTO CADASTRADO
+   LISTAS
    ================================================== */
 
-/* Caixa individual de cada evento */
-.evento-item {
-  /* Fundo branco */
+.lista-eventos,
+.lista-fornecedores {
+  margin-top: 38px;
+}
+
+
+.lista-eventos h2,
+.lista-fornecedores h2 {
+  margin-bottom: 18px;
+
+  font-size: 19px;
+
+  color: #0f172a;
+}
+
+
+/* ==================================================
+   CARDS DE EVENTOS E FORNECEDORES
+   ================================================== */
+
+.evento-item,
+.fornecedor-item {
+  position: relative;
+
   background-color: white;
 
-  /* Espaçamento interno */
-  padding: 20px;
+  padding: 22px;
 
-  /* Espaço entre um evento e outro */
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 
-  /* Arredonda os cantos */
-  border-radius: 10px;
+  border-radius: 12px;
 
-  /* Sombra leve */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border:
+    1px solid #e7ecf2;
+
+  border-left:
+    4px solid var(--azul-principal);
+
+  box-shadow:
+    0 4px 15px rgba(15, 23, 42, 0.05);
+
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 
-/* Nome do evento */
-.evento-item h3 {
+/* Efeito visual */
+.evento-item:hover,
+.fornecedor-item:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+
+/* Nome */
+.evento-item h3,
+.fornecedor-item h3 {
   margin-bottom: 12px;
+
+  color: #0f172a;
+
+  font-size: 17px;
 }
 
 
-/* Informações do evento */
-.evento-item p {
+/* Informações */
+.evento-item p,
+.fornecedor-item p {
   margin-bottom: 6px;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+
+.evento-item strong,
+.fornecedor-item strong {
+  color: #334155;
 }
 
 
 /* ==================================================
-   AÇÕES DO EVENTO
+   AÇÕES
    ================================================== */
 
-/* Organiza os botões Editar e Excluir */
 .acoes-evento {
-  /* Coloca os botões lado a lado */
   display: flex;
 
-  /* Espaço entre os botões */
-  gap: 10px;
+  gap: 8px;
 
-  /* Espaço entre as informações e os botões */
-  margin-top: 15px;
+  margin-top: 16px;
 }
 
 
@@ -413,65 +914,128 @@
    BOTÃO EDITAR
    ================================================== */
 
-/* Botão utilizado para editar um evento */
 .botao-editar {
-  /* Espaçamento interno */
   padding: 8px 14px;
 
-  /* Azul para ação normal */
-  background-color: #2563eb;
+  background-color: #eff6ff;
 
-  /* Texto branco */
-  color: white;
+  color: var(--azul-principal);
 
-  /* Remove a borda padrão */
-  border: none;
+  border:
+    1px solid #bfdbfe;
 
-  /* Arredonda os cantos */
-  border-radius: 6px;
+  border-radius: 7px;
 
-  font-size: 14px;
+  font-size: 13px;
+
   font-weight: 600;
 
   cursor: pointer;
 }
 
 
-/* Efeito ao passar o mouse */
 .botao-editar:hover {
-  opacity: 0.9;
+  background-color: #dbeafe;
 }
 
 
 /* ==================================================
-   BOTÃO EXCLUIR
+   BOTÕES EXCLUIR
    ================================================== */
 
-/* Botão utilizado para excluir um evento */
-.botao-excluir {
-  /* Espaçamento interno */
+.botao-excluir,
+.botao-excluir-fornecedor {
+  margin-top: 0;
+
   padding: 8px 14px;
 
-  /* Vermelho para indicar exclusão */
-  background-color: #dc2626;
+  background-color: #fef2f2;
 
-  /* Texto branco */
-  color: white;
+  color: var(--vermelho);
 
-  /* Remove a borda padrão */
-  border: none;
+  border:
+    1px solid #fecaca;
 
-  /* Arredonda os cantos */
-  border-radius: 6px;
+  border-radius: 7px;
 
-  font-size: 14px;
+  font-size: 13px;
+
   font-weight: 600;
 
   cursor: pointer;
 }
 
 
-/* Efeito ao passar o mouse */
-.botao-excluir:hover {
-  opacity: 0.9;
+.botao-excluir:hover,
+.botao-excluir-fornecedor:hover {
+  background-color: #fee2e2;
+}
+
+
+/* O fornecedor não possui a div acoes-evento ainda */
+.fornecedor-item .botao-excluir-fornecedor {
+  margin-top: 15px;
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE
+   ================================================== */
+
+/*
+  Isso já começa a preparar seu sistema
+  para telas menores e futuramente celular.
+*/
+@media (max-width: 1000px) {
+
+  .cards {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+
+  .resumo-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  /* Sidebar fica menor */
+  .sidebar {
+    width: 200px;
+  }
+
+
+  /* Barra superior */
+  .topbar {
+    padding: 0 20px;
+  }
+
+
+  .topbar-setor {
+    display: none;
+  }
+
+
+  /* Conteúdo */
+  .conteudo {
+    padding: 28px 20px;
+  }
+
+
+  /* Cards ficam um embaixo do outro */
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* Formulários passam a acompanhar a tela */
+  .formulario-evento,
+  .formulario-fornecedor {
+    width: 100%;
+  }
+
 }
