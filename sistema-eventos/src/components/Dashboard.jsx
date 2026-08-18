@@ -1,3 +1,6 @@
+// Importa o componente Card para utilizarmos dentro do Dashboard
+import Card from './Card.jsx'
+
 // Cria o componente Dashboard
 function Dashboard() {
 
@@ -11,20 +14,20 @@ function Dashboard() {
       {/* Pequena descrição da página */}
       <p>Visão geral dos projetos e eventos do setor.</p>
 
-
       {/* Área que vai armazenar os cards do Dashboard */}
       <div className="cards">
 
-        {/* Primeiro card: mostra a quantidade de eventos ativos */}
-        <div className="card">
+        {/* Mostra a quantidade de eventos ativos */}
+        <Card titulo="Eventos Ativos" valor="4" />
 
-          {/* Nome da informação */}
-          <h3>Eventos Ativos</h3>
+        {/* Mostra a quantidade de próximos eventos */}
+        <Card titulo="Próximos Eventos" valor="3" />
 
-          {/* Quantidade de eventos - valor temporário */}
-          <span>4</span>
+        {/* Mostra a quantidade de pendências */}
+        <Card titulo="Pendências" valor="2" />
 
-        </div>
+        {/* Mostra a quantidade de fornecedores cadastrados */}
+        <Card titulo="Fornecedores" valor="8" />
 
       </div>
 
