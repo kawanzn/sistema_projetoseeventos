@@ -1,118 +1,421 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://maven.apache.org/POM/4.0.0
+		https://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+
+	<!-- Versão do modelo utilizado pelo Maven -->
 	<modelVersion>4.0.0</modelVersion>
+
+
+	<!-- ==================================================
+	     CONFIGURAÇÃO DO SPRING BOOT
+	     ================================================== -->
+
 	<parent>
+
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
+
+		<artifactId>
+			spring-boot-starter-parent
+		</artifactId>
+
 		<version>4.1.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+
+		<relativePath/>
+
 	</parent>
+
+
+	<!-- ==================================================
+	     INFORMAÇÕES DO PROJETO
+	     ================================================== -->
+
 	<groupId>com.sistemaeventos</groupId>
+
 	<artifactId>eventos</artifactId>
+
 	<version>0.0.1-SNAPSHOT</version>
+
 	<name/>
+
 	<description/>
+
 	<url/>
+
+
+	<!-- ==================================================
+	     LICENÇAS
+	     ================================================== -->
+
 	<licenses>
+
 		<license/>
+
 	</licenses>
+
+
+	<!-- ==================================================
+	     DESENVOLVEDORES
+	     ================================================== -->
+
 	<developers>
+
 		<developer/>
+
 	</developers>
+
+
+	<!-- ==================================================
+	     CONTROLE DE VERSÃO
+	     ================================================== -->
+
 	<scm>
+
 		<connection/>
+
 		<developerConnection/>
+
 		<tag/>
+
 		<url/>
+
 	</scm>
+
+
+	<!-- ==================================================
+	     CONFIGURAÇÕES DO JAVA
+	     ================================================== -->
+
 	<properties>
-		<java.version>26</java.version>
+
+		<!--
+			Define qual versão do Java será utilizada
+			para compilar o backend.
+
+			Antes estava Java 26.
+
+			Como o seu computador está utilizando
+			Java 17, alteramos para 17.
+		-->
+		<java.version>17</java.version>
+
 	</properties>
+
+
+	<!-- ==================================================
+	     DEPENDÊNCIAS
+	     ================================================== -->
+
 	<dependencies>
+
+
+		<!-- ==================================================
+		     JPA / BANCO DE DADOS
+		     ================================================== -->
+
+		<!--
+			Spring Data JPA facilita a comunicação
+			entre Java e banco de dados.
+		-->
 		<dependency>
+
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc</artifactId>
+
+			<artifactId>
+				spring-boot-starter-data-jpa
+			</artifactId>
+
 		</dependency>
 
+
+		<!-- ==================================================
+		     VALIDAÇÃO
+		     ================================================== -->
+
+		<!--
+			Permite validar dados recebidos pela API.
+
+			Exemplo:
+			campo obrigatório,
+			tamanho mínimo,
+			formato de e-mail etc.
+		-->
 		<dependency>
+
+			<groupId>org.springframework.boot</groupId>
+
+			<artifactId>
+				spring-boot-starter-validation
+			</artifactId>
+
+		</dependency>
+
+
+		<!-- ==================================================
+		     API WEB
+		     ================================================== -->
+
+		<!--
+			Permite criar Controllers e endpoints HTTP.
+
+			Exemplo:
+
+			GET /eventos
+			POST /eventos
+			PUT /eventos
+			DELETE /eventos
+		-->
+		<dependency>
+
+			<groupId>org.springframework.boot</groupId>
+
+			<artifactId>
+				spring-boot-starter-webmvc
+			</artifactId>
+
+		</dependency>
+
+
+		<!-- ==================================================
+		     POSTGRESQL
+		     ================================================== -->
+
+		<!--
+			Driver utilizado para conectar
+			o Spring Boot ao PostgreSQL.
+		-->
+		<dependency>
+
 			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
+
+			<artifactId>
+				postgresql
+			</artifactId>
+
 			<scope>runtime</scope>
+
 		</dependency>
+
+
+		<!-- ==================================================
+		     LOMBOK
+		     ================================================== -->
+
+		<!--
+			Lombok reduz código repetitivo no Java.
+
+			Exemplo:
+			getters,
+			setters,
+			construtores etc.
+		-->
 		<dependency>
+
 			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
+
+			<artifactId>
+				lombok
+			</artifactId>
+
 			<optional>true</optional>
+
 		</dependency>
+
+
+		<!-- ==================================================
+		     DEPENDÊNCIAS DE TESTE
+		     ================================================== -->
+
 		<dependency>
+
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
+
+			<artifactId>
+				spring-boot-starter-data-jpa-test
+			</artifactId>
+
 			<scope>test</scope>
+
 		</dependency>
+
+
 		<dependency>
+
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation-test</artifactId>
+
+			<artifactId>
+				spring-boot-starter-validation-test
+			</artifactId>
+
 			<scope>test</scope>
+
 		</dependency>
+
+
 		<dependency>
+
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+
+			<artifactId>
+				spring-boot-starter-webmvc-test
+			</artifactId>
+
 			<scope>test</scope>
+
 		</dependency>
+
 	</dependencies>
 
+
+	<!-- ==================================================
+	     CONFIGURAÇÃO DE BUILD
+	     ================================================== -->
+
 	<build>
+
 		<plugins>
+
+
+			<!-- ==================================================
+			     PLUGIN DO SPRING BOOT
+			     ================================================== -->
+
+			<!--
+				Permite executar a aplicação com:
+
+				./mvnw spring-boot:run
+			-->
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+
+				<groupId>
+					org.springframework.boot
+				</groupId>
+
+				<artifactId>
+					spring-boot-maven-plugin
+				</artifactId>
+
 			</plugin>
+
+
+			<!-- ==================================================
+			     COMPILADOR JAVA
+			     ================================================== -->
+
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
+
+				<groupId>
+					org.apache.maven.plugins
+				</groupId>
+
+				<artifactId>
+					maven-compiler-plugin
+				</artifactId>
+
+
 				<executions>
+
+
+					<!-- Compilação normal da aplicação -->
 					<execution>
-						<id>default-compile</id>
-						<phase>compile</phase>
+
+						<id>
+							default-compile
+						</id>
+
+						<phase>
+							compile
+						</phase>
+
 						<goals>
-							<goal>compile</goal>
+
+							<goal>
+								compile
+							</goal>
+
 						</goals>
+
+
 						<configuration>
+
+							<!--
+								Configura o Lombok durante
+								a compilação do projeto.
+							-->
 							<annotationProcessorPaths>
+
 								<path>
-									<groupId>org.projectlombok</groupId>
-									<artifactId>lombok</artifactId>
+
+									<groupId>
+										org.projectlombok
+									</groupId>
+
+									<artifactId>
+										lombok
+									</artifactId>
+
 								</path>
+
 							</annotationProcessorPaths>
+
 						</configuration>
+
 					</execution>
+
+
+					<!-- Compilação dos testes -->
 					<execution>
-						<id>default-testCompile</id>
-						<phase>test-compile</phase>
+
+						<id>
+							default-testCompile
+						</id>
+
+						<phase>
+							test-compile
+						</phase>
+
 						<goals>
-							<goal>testCompile</goal>
+
+							<goal>
+								testCompile
+							</goal>
+
 						</goals>
+
+
 						<configuration>
+
 							<annotationProcessorPaths>
+
 								<path>
-									<groupId>org.projectlombok</groupId>
-									<artifactId>lombok</artifactId>
+
+									<groupId>
+										org.projectlombok
+									</groupId>
+
+									<artifactId>
+										lombok
+									</artifactId>
+
 								</path>
+
 							</annotationProcessorPaths>
+
 						</configuration>
+
 					</execution>
+
 				</executions>
+
 			</plugin>
+
 		</plugins>
+
 	</build>
 
 </project>
