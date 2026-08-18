@@ -43,4 +43,6 @@ public class Evento {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusEvento status = StatusEvento.SOLICITADO;
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<Estrutura> estruturas = new java.util.ArrayList<>();
 }
