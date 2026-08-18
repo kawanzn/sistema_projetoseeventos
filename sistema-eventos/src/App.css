@@ -1,8 +1,13 @@
+/* ========== ESTRUTURA PRINCIPAL ========== */
+
 /* Organiza a estrutura principal da aplicação */
 .app {
   display: flex;
   min-height: 100vh;
 }
+
+
+/* ========== SIDEBAR ========== */
 
 /* Barra lateral */
 .sidebar {
@@ -17,18 +22,15 @@
   margin-bottom: 30px;
 }
 
-/* Organiza os links do menu */
+/* Organiza os itens do menu */
 .sidebar nav {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-/* Estilo dos links da barra lateral */
-.sidebar a {
-  color: white;
-  text-decoration: none;
-}
+
+/* ========== CONTEÚDO PRINCIPAL ========== */
 
 /* Área principal da página */
 .conteudo {
@@ -40,6 +42,26 @@
 /* Título da área principal */
 .conteudo h1 {
   margin-bottom: 10px;
+}
+
+
+/* ========== BOTÕES DA SIDEBAR ========== */
+
+/* Estilo dos botões do menu lateral */
+.sidebar button {
+  background: transparent; /* Remove o fundo padrão */
+  border: none; /* Remove a borda padrão */
+  color: white; /* Texto branco */
+  text-align: left; /* Alinha o texto à esquerda */
+  font-size: 16px; /* Tamanho do texto */
+  cursor: pointer; /* Mostra a mão ao passar o mouse */
+  padding: 8px 10px; /* Espaçamento interno */
+  border-radius: 6px; /* Arredonda os cantos */
+}
+
+/* Efeito ao passar o mouse nos botões */
+.sidebar button:hover {
+  background-color: #374151;
 }
 
 
@@ -73,4 +95,25 @@
 .card span {
   font-size: 28px;
   font-weight: bold;
+}
+
+
+/* ========== BOTÃO NOVO EVENTO ========== */
+
+/* Estilo do botão para cadastrar um novo evento */
+.botao-novo-evento {
+  margin-top: 25px; /* Cria espaço acima do botão */
+  background-color: #2563eb; /* Cor azul do botão */
+  color: white; /* Cor do texto */
+  border: none; /* Remove a borda padrão */
+  padding: 10px 18px; /* Espaçamento interno */
+  border-radius: 8px; /* Arredonda os cantos */
+  font-size: 15px; /* Tamanho do texto */
+  font-weight: 600; /* Deixa o texto um pouco mais forte */
+  cursor: pointer; /* Mostra a mão ao passar o mouse */
+}
+
+/* Efeito quando passamos o mouse sobre o botão */
+.botao-novo-evento:hover {
+  opacity: 0.9; /* Deixa o botão levemente transparente */
 }
