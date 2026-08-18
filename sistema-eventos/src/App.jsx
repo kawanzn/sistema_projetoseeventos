@@ -1,32 +1,29 @@
-// Importa o CSS da aplicação
+// Importa o arquivo CSS responsável pelos estilos
 import './App.css'
 
-// Importa o componente Sidebar
+// Importa o componente da barra lateral
 import Sidebar from './components/Sidebar.jsx'
 
-// Cria o componente principal da aplicação
+// Importa o componente da tela Dashboard
+import Dashboard from './components/Dashboard.jsx'
+
+
+// Componente principal da aplicação
 function App() {
 
-  // Retorna o conteúdo que será exibido na tela
+  // Retorna os elementos que aparecerão na tela
   return (
     <div className="app">
 
-      {/* Exibe o componente Sidebar */}
+      {/* Exibe nossa barra lateral */}
       <Sidebar />
 
-      {/* Área principal da página */}
-      <main className="conteudo">
+      {/* Exibe o conteúdo do Dashboard */}
+      <Dashboard />
 
-        {/* Título principal */}
-        <h1>Sistema de Projetos e Eventos</h1>
-
-        {/* Parágrafo de apresentação */}
-        <p>Controle e organização dos eventos do setor.</p>
-
-      </main>
     </div>
   )
 }
 
-// Exporta o App para poder ser utilizado em outro arquivo
+// Exporta o componente App para ser utilizado pelo React
 export default App
