@@ -25,7 +25,7 @@ function Eventos() {
   // BUSCA INICIAL (GET) - LÊ DO BANCO DE DADOS
   // =====================================================
   useEffect(() => {
-    fetch('http://localhost:8080/api/eventos')
+    fetch('https://api-eventos-95z8.onrender.com')
       .then(resposta => resposta.json())
       .then(dados => setEventos(dados))
       .catch(erro => console.error("Erro ao buscar eventos da API:", erro));
@@ -67,7 +67,7 @@ function Eventos() {
       // =====================================================
       // SE FOR UM NOVO EVENTO (POST) - SALVA NO BANCO
       // =====================================================
-      fetch('http://localhost:8080/api/eventos', {
+      fetch('https://api-eventos-95z8.onrender.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
