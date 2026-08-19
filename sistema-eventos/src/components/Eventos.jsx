@@ -290,7 +290,7 @@ function Eventos() {
     // Se não estamos editando, fazemos um POST.
     try {
 
-      const resposta = await fetch(API_URL, {
+      const resposta = await fetch('https://api-eventos-95z8.onrender.com/api/eventos', {
 
         // POST significa cadastrar/criar.
         method: 'POST',
