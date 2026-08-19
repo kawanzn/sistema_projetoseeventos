@@ -1,0 +1,40 @@
+/* Área principal da página Agenda */
+.conteudo {
+  padding: 30px;
+}
+
+
+/* Espaçamento abaixo do texto de introdução */
+.conteudo > p {
+  margin-bottom: 25px;
+}
+
+
+/* Card de cada evento */
+.evento-card {
+  background-color: #ffffff;
+
+  border: 1px solid #e5e5e5;
+
+  border-radius: 10px;
+
+  padding: 20px;
+
+  margin-bottom: 15px;
+
+  /* Sombra leve para destacar o card */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Nome do evento */
+.evento-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+
+/* Informações do evento */
+.evento-card p {
+  margin: 7px 0;
+}
