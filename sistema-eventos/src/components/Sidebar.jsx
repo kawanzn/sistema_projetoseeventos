@@ -52,7 +52,6 @@ function Sidebar({ pagina, setPagina }) {
           onClick={() => setPagina('dashboard')}
         >
           <span className="menu-icone">▦</span>
-
           Dashboard
         </button>
 
@@ -67,7 +66,6 @@ function Sidebar({ pagina, setPagina }) {
           onClick={() => setPagina('eventos')}
         >
           <span className="menu-icone">◆</span>
-
           Eventos
         </button>
 
@@ -82,20 +80,20 @@ function Sidebar({ pagina, setPagina }) {
           onClick={() => setPagina('fornecedores')}
         >
           <span className="menu-icone">▣</span>
-
           Fornecedores
         </button>
 
 
         {/* AGENDA */}
-
-        {/* 
-          Ainda não possui página,
-          então por enquanto não recebe setPagina
-        */}
-        <button className="menu-item">
+        <button
+          className={
+            pagina === 'agenda'
+              ? 'menu-item ativo'
+              : 'menu-item'
+          }
+          onClick={() => setPagina('agenda')}
+        >
           <span className="menu-icone">▤</span>
-
           Agenda
         </button>
 

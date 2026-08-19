@@ -13,6 +13,7 @@ import Sidebar from './components/Sidebar.jsx'
 import Dashboard from './components/Dashboard.jsx'
 import Eventos from './components/Eventos.jsx'
 import Fornecedores from './components/Fornecedores.jsx'
+import Agenda from './components/Agenda.jsx'
 
 
 // =====================================================
@@ -22,7 +23,6 @@ import Fornecedores from './components/Fornecedores.jsx'
 function App() {
 
   // Guarda qual página está aberta atualmente
-  //
   // Começamos pelo Dashboard
   const [pagina, setPagina] = useState('dashboard')
 
@@ -83,13 +83,14 @@ function App() {
         {/* Exibe o Dashboard */}
         {pagina === 'dashboard' && <Dashboard />}
 
-
         {/* Exibe Eventos */}
         {pagina === 'eventos' && <Eventos />}
 
-
         {/* Exibe Fornecedores */}
         {pagina === 'fornecedores' && <Fornecedores />}
+
+        {/* Exibe Agenda */}
+        {pagina === 'agenda' && <Agenda />}
 
       </div>
 
