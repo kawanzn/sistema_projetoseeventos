@@ -1,3 +1,4 @@
+// Essa classe permite as requisições do React
 package com.sistemaeventos.eventos.config;
 
 import org.springframework.context.annotation.Bean;
@@ -15,8 +16,8 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 // Habilita o CORS para todos os endpoints da API
                 registry.addMapping("/**") 
-                        // Libera as portas mais comuns usadas pelo React
-                        .allowedOrigins("http://localhost:3000", "http://localhost:5173") 
+                        // Libera as portas locais usadas pelo React e a porta usada no Vercel
+                        .allowedOrigins("http://localhost:3000", "http://localhost:5173", "https://sistema-eventos-six.vercel.app") 
                         // Permite os métodos HTTP
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")

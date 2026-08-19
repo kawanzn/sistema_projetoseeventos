@@ -1,3 +1,4 @@
+// classe que guarda as estruturas do evento
 package com.sistemaeventos.eventos.model;
 
 import jakarta.persistence.*;

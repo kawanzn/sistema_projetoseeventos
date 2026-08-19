@@ -1,3 +1,4 @@
+// Tabela principal que guarda as informações do evento (nome, local, data etc...)
 package com.sistemaeventos.eventos.model;
 
 import com.sistemaeventos.eventos.model.enums.StatusEvento;
