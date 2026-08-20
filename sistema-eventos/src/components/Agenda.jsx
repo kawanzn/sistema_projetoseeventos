@@ -1,19 +1,21 @@
-// Importamos recursos do React.
+// ===========================================================
+// IMPORTAÇÕES DO REACT
+// ===========================================================
 //
 // useState:
 // Guarda informações que podem mudar durante o uso da página.
 //
 // useEffect:
-// Permite executar uma ação quando a página é carregada.
+// Permite executar uma ação quando o componente é carregado.
 import { useEffect, useState } from 'react'
 
-
-// Importamos o CSS específico da página Agenda.
+// ===========================================================
+// CSS DA PÁGINA
+// ===========================================================
 //
-// Esse arquivo será responsável pela aparência
-// dos cards dos eventos.
-// import './Agenda.css'
-
+// Esse arquivo vai cuidar da aparência da Agenda,
+// principalmente dos cards dos eventos.
+import './Agenda.css'
 
 function Agenda() {
 
@@ -21,13 +23,11 @@ function Agenda() {
   // LISTA DE EVENTOS
   // =========================================================
   //
-  // Aqui vamos guardar todos os eventos que forem
-  // recebidos do nosso back-end.
+  // Aqui vamos guardar os eventos recebidos do back-end.
   //
-  // Começa como [] porque inicialmente não temos
-  // nenhum evento carregado.
+  // Começa como um array vazio porque, no início,
+  // ainda não carregamos nenhum evento.
   const [eventos, setEventos] = useState([])
-
 
   // =========================================================
   // CARREGAMENTO
@@ -36,69 +36,62 @@ function Agenda() {
   // Essa variável informa se ainda estamos esperando
   // uma resposta do back-end.
   //
-  // Começa como true porque, quando a Agenda abrir,
-  // vamos imediatamente buscar os eventos.
+  // Começa como true porque a página já vai tentar
+  // buscar os eventos assim que abrir.
   const [carregando, setCarregando] = useState(true)
-
 
   // =========================================================
   // ERRO
   // =========================================================
   //
   // Aqui guardamos uma mensagem caso aconteça algum
-  // problema durante a comunicação com o back-end.
+  // problema ao buscar os eventos.
   const [erro, setErro] = useState('')
-
 
   // =========================================================
   // FUNÇÃO PARA BUSCAR OS EVENTOS
   // =========================================================
   //
-  // Essa função será responsável por conversar com
-  // nossa API feita em Spring Boot.
+  // Essa função conversa com nossa API feita em Spring Boot.
   //
-  // O "async" permite utilizar "await" dentro da função.
+  // O "async" permite usar "await" dentro da função.
   const buscarEventos = async () => {
 
     try {
 
-      // Informamos que uma busca está acontecendo.
+      // Informamos que uma busca começou.
       setCarregando(true)
 
-      // Limpamos qualquer erro que possa ter acontecido
-      // anteriormente.
+      // Limpamos qualquer erro anterior.
       setErro('')
-
 
       // =====================================================
       // REQUISIÇÃO PARA O BACK-END
       // =====================================================
       //
-      // O fetch faz uma requisição HTTP para nossa API.
+      // O fetch faz uma requisição HTTP.
       //
-      // Estamos acessando:
-      //
-      // GET http://localhost:8080/api/eventos
+      // Estamos acessando nosso Spring Boot na porta 8080.
       //
       // Essa rota deve retornar todos os eventos cadastrados.
       const resposta = await fetch(
         'http://localhost:8080/api/eventos'
       )
 
-
       // =====================================================
       // VERIFICA SE A REQUISIÇÃO DEU CERTO
       // =====================================================
       //
-      // resposta.ok será true quando o servidor responder
-      // corretamente.
+      // resposta.ok será true quando a resposta HTTP
+      // estiver dentro da faixa de sucesso.
       //
-      // Caso aconteça algum erro, interrompemos a execução
-      // e enviamos para o catch.
+      // Exemplo:
+      // 200 = deu certo.
+      //
+      // Se não der certo, lançamos um erro.
       if (!resposta.ok) {
         throw new Error('Erro ao buscar eventos')
       }
-
 
       // =====================================================
       // CONVERTE A RESPOSTA PARA JSON
@@ -106,19 +99,18 @@ function Agenda() {
       //
       // O Spring Boot envia os dados em JSON.
       //
-      // Aqui transformamos a resposta em dados que o
+      // Aqui transformamos esse JSON em dados que o
       // JavaScript consegue utilizar.
       const dados = await resposta.json()
-
 
       // =====================================================
       // SALVA OS EVENTOS
       // =====================================================
       //
-      // Colocamos os dados recebidos dentro de "eventos".
+      // Colocamos os eventos recebidos dentro do estado.
       //
       // Quando setEventos é executado, o React atualiza
-      // automaticamente a tela.
+      // automaticamente a página.
       setEventos(dados)
 
     } catch (erroDaRequisicao) {
@@ -127,15 +119,14 @@ function Agenda() {
       // TRATAMENTO DE ERRO
       // =====================================================
       //
-      // Caso o back-end esteja desligado, a rota esteja
-      // errada ou aconteça outro problema, chegamos aqui.
+      // Se o back-end estiver desligado, a rota estiver
+      // errada ou acontecer outro problema, caímos aqui.
       console.error(
         'Erro ao buscar eventos:',
         erroDaRequisicao
       )
 
-
-      // Mensagem que será mostrada na página.
+      // Mensagem que será mostrada na tela.
       setErro(
         'Não foi possível carregar os eventos.'
       )
@@ -149,36 +140,27 @@ function Agenda() {
       // O finally acontece tanto quando dá certo
       // quanto quando dá errado.
       //
-      // Portanto, aqui informamos que a busca terminou.
+      // Aqui informamos que a busca terminou.
       setCarregando(false)
     }
   }
-
 
   // =========================================================
   // CARREGAMENTO INICIAL DA PÁGINA
   // =========================================================
   //
-  // Quando o componente Agenda aparecer na tela,
-  // executamos buscarEventos().
+  // O useEffect é executado quando a Agenda aparece.
   //
-  // O [] significa que esse efeito deve acontecer
-  // somente uma vez quando a página abrir.
+  // O [] significa que essa ação deve acontecer
+  // somente uma vez ao carregar o componente.
   useEffect(() => {
-
     buscarEventos()
-
   }, [])
 
-
   // =========================================================
-  // PARTE VISUAL
+  // PARTE VISUAL DA PÁGINA
   // =========================================================
-
   return (
-
-    // Mantemos a classe "conteudo" que já existia
-    // anteriormente no projeto.
     <main className="conteudo">
 
       {/* Título da página */}
@@ -186,12 +168,10 @@ function Agenda() {
         Agenda
       </h1>
 
-
       {/* Descrição da página */}
       <p>
         Acompanhe os eventos cadastrados no sistema.
       </p>
-
 
       {/* ===================================================
           CARREGANDO
@@ -201,48 +181,39 @@ function Agenda() {
           esperando o back-end responder.
       */}
       {carregando && (
-
         <p>
           Carregando eventos...
         </p>
-
       )}
-
 
       {/* ===================================================
           ERRO
           ===================================================
 
           Caso exista algum erro, mostramos a mensagem
-          guardada na variável "erro".
+          guardada dentro da variável "erro".
       */}
-      {erro && (
-
+      {!carregando && erro && (
         <p>
           {erro}
         </p>
-
       )}
-
 
       {/* ===================================================
           NENHUM EVENTO
           ===================================================
 
-          Essa mensagem só aparece quando:
+          Essa mensagem aparece somente quando:
 
           - terminou de carregar;
-          - não aconteceu nenhum erro;
+          - não aconteceu erro;
           - não existem eventos cadastrados.
       */}
       {!carregando && !erro && eventos.length === 0 && (
-
         <p>
           Nenhum evento encontrado.
         </p>
-
       )}
-
 
       {/* ===================================================
           LISTA DOS EVENTOS
@@ -255,10 +226,6 @@ function Agenda() {
       */}
       {!carregando && !erro && eventos.map((evento) => (
 
-        // Cada evento recebe a classe "evento-card".
-        //
-        // A aparência dessa classe está definida
-        // dentro do arquivo Agenda.css.
         <div
           key={evento.id}
           className="evento-card"
@@ -269,13 +236,11 @@ function Agenda() {
             {evento.nome}
           </h3>
 
-
           {/* Data do evento */}
           <p>
             <strong>Data:</strong>{' '}
             {evento.dataEvento}
           </p>
-
 
           {/* Local do evento */}
           <p>
@@ -284,13 +249,11 @@ function Agenda() {
           </p>
 
         </div>
-
       ))}
 
     </main>
   )
 }
-
 
 // ===========================================================
 // EXPORTAÇÃO
