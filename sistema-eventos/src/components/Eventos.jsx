@@ -54,6 +54,10 @@ function Eventos() {
   // Data de desmontagem.
   const [dataDesmontagem, setDataDesmontagem] = useState('')
 
+  const [responsavel, setResponsavel] = useState('')
+
+  const [observacoes, setObservacoes] = useState('')
+
 
   // =====================================================
   // LISTA DE EVENTOS
@@ -243,7 +247,11 @@ function Eventos() {
       dataDesmontagem: dataDesmontagem || null,
 
       // Todo novo evento começa como solicitado.
-      status: 'SOLICITADO'
+      status: 'SOLICITADO',
+
+      responsavel: responsavel,
+
+      observacoes: observacoes
     }
 
 
@@ -366,6 +374,10 @@ function Eventos() {
     setDataMontagem('')
 
     setDataDesmontagem('')
+
+    setResponsavel('')
+
+    setObservacoes('')
 
     setEventoEditandoId(null)
 
@@ -544,6 +556,33 @@ function Eventos() {
             }
           />
 
+          {/* RESPONSÁVEL PELO EVENTO (DUDU OU VIP) */}
+          <label htmlFor="responsavel">
+            Responsável
+          </label>
+
+          <input
+            type="text"
+            id="responsavel"
+            value={responsavel}
+            onChange={(e) =>
+              setResponsavel(e.target.value)
+            }
+          />
+
+          {/* OBSERVAÇÕES */}
+          <label htmlFor="observacoes">
+            Observações
+          </label>
+
+          <input
+            type="text"
+            id="observacoes"
+            value={observacoes}
+            onChange={(e) =>
+              setObservacoes(e.target.value)
+            }
+          />
 
           {/* BOTÃO CADASTRAR / SALVAR */}
           <button
