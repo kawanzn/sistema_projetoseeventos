@@ -7,258 +7,634 @@
 //
 // useEffect:
 // Permite executar uma ação quando o componente é carregado.
+
 import { useEffect, useState } from 'react'
+
 
 // ===========================================================
 // CSS DA PÁGINA
 // ===========================================================
-//
-// Esse arquivo vai cuidar da aparência da Agenda,
-// principalmente dos cards dos eventos.
+
 import './Agenda.css'
 
+
+// ===========================================================
+// COMPONENTE AGENDA
+// ===========================================================
+
 function Agenda() {
+
 
   // =========================================================
   // LISTA DE EVENTOS
   // =========================================================
   //
-  // Aqui vamos guardar os eventos recebidos do back-end.
-  //
-  // Começa como um array vazio porque, no início,
-  // ainda não carregamos nenhum evento.
+  // Aqui armazenamos todos os eventos recebidos
+  // do back-end.
+
   const [eventos, setEventos] = useState([])
+
 
   // =========================================================
   // CARREGAMENTO
   // =========================================================
   //
-  // Essa variável informa se ainda estamos esperando
-  // uma resposta do back-end.
-  //
-  // Começa como true porque a página já vai tentar
-  // buscar os eventos assim que abrir.
+  // Enquanto estivermos buscando os dados no back-end,
+  // carregando ficará como true.
+
   const [carregando, setCarregando] = useState(true)
+
 
   // =========================================================
   // ERRO
   // =========================================================
   //
-  // Aqui guardamos uma mensagem caso aconteça algum
-  // problema ao buscar os eventos.
+  // Caso aconteça algum erro na comunicação com a API,
+  // guardamos a mensagem aqui.
+
   const [erro, setErro] = useState('')
+
 
   // =========================================================
   // FUNÇÃO PARA BUSCAR OS EVENTOS
   // =========================================================
-  //
-  // Essa função conversa com nossa API feita em Spring Boot.
-  //
-  // O "async" permite usar "await" dentro da função.
+
   const buscarEventos = async () => {
 
     try {
 
-      // Informamos que uma busca começou.
+      // Começamos uma nova busca.
       setCarregando(true)
 
-      // Limpamos qualquer erro anterior.
+      // Limpamos possíveis erros anteriores.
       setErro('')
+
 
       // =====================================================
       // REQUISIÇÃO PARA O BACK-END
       // =====================================================
       //
-      // O fetch faz uma requisição HTTP.
-      //
-      // Estamos acessando nosso Spring Boot na porta 8080.
-      //
-      // Essa rota deve retornar todos os eventos cadastrados.
+      // Fazemos uma requisição GET para nossa API
+      // feita com Spring Boot.
+
       const resposta = await fetch(
         'http://localhost:8080/api/eventos'
       )
 
-      // =====================================================
-      // VERIFICA SE A REQUISIÇÃO DEU CERTO
-      // =====================================================
-      //
-      // resposta.ok será true quando a resposta HTTP
-      // estiver dentro da faixa de sucesso.
-      //
-      // Exemplo:
-      // 200 = deu certo.
-      //
-      // Se não der certo, lançamos um erro.
-      if (!resposta.ok) {
-        throw new Error('Erro ao buscar eventos')
-      }
 
       // =====================================================
-      // CONVERTE A RESPOSTA PARA JSON
+      // VERIFICAÇÃO DA RESPOSTA
       // =====================================================
-      //
-      // O Spring Boot envia os dados em JSON.
-      //
-      // Aqui transformamos esse JSON em dados que o
-      // JavaScript consegue utilizar.
+
+      if (!resposta.ok) {
+
+        throw new Error('Erro ao buscar eventos')
+
+      }
+
+
+      // =====================================================
+      // CONVERSÃO PARA JSON
+      // =====================================================
+
       const dados = await resposta.json()
+
 
       // =====================================================
       // SALVA OS EVENTOS
       // =====================================================
-      //
-      // Colocamos os eventos recebidos dentro do estado.
-      //
-      // Quando setEventos é executado, o React atualiza
-      // automaticamente a página.
+
       setEventos(dados)
 
     } catch (erroDaRequisicao) {
 
-      // =====================================================
-      // TRATAMENTO DE ERRO
-      // =====================================================
-      //
-      // Se o back-end estiver desligado, a rota estiver
-      // errada ou acontecer outro problema, caímos aqui.
+
+      // Mostra o erro no console para facilitar
+      // durante o desenvolvimento.
+
       console.error(
         'Erro ao buscar eventos:',
         erroDaRequisicao
       )
 
-      // Mensagem que será mostrada na tela.
+
+      // Mensagem que aparecerá para o usuário.
+
       setErro(
         'Não foi possível carregar os eventos.'
       )
 
     } finally {
 
-      // =====================================================
-      // FINAL DA BUSCA
-      // =====================================================
-      //
-      // O finally acontece tanto quando dá certo
-      // quanto quando dá errado.
-      //
-      // Aqui informamos que a busca terminou.
+
+      // A busca terminou, independentemente
+      // de ter dado certo ou errado.
+
       setCarregando(false)
+
     }
+
   }
 
+
   // =========================================================
-  // CARREGAMENTO INICIAL DA PÁGINA
+  // CARREGAMENTO INICIAL
   // =========================================================
   //
-  // O useEffect é executado quando a Agenda aparece.
-  //
-  // O [] significa que essa ação deve acontecer
-  // somente uma vez ao carregar o componente.
+  // Quando a página Agenda for aberta,
+  // buscamos automaticamente os eventos.
+
   useEffect(() => {
+
     buscarEventos()
+
   }, [])
 
+
   // =========================================================
-  // PARTE VISUAL DA PÁGINA
+  // CONVERTER DATA
   // =========================================================
+  //
+  // O banco normalmente envia:
+  //
+  // 2026-09-12
+  //
+  // Transformamos isso em um objeto Date do JavaScript.
+
+  const converterData = (dataEvento) => {
+
+    return new Date(`${dataEvento}T00:00:00`)
+
+  }
+
+
+  // =========================================================
+  // FORMATAR DATA COMPLETA
+  // =========================================================
+  //
+  // Exemplo:
+  //
+  // 2026-09-12
+  //
+  // vira:
+  //
+  // 12 de setembro de 2026
+
+  const formatarDataCompleta = (dataEvento) => {
+
+    const data = converterData(dataEvento)
+
+    return data.toLocaleDateString(
+      'pt-BR',
+      {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      }
+    )
+
+  }
+
+
+  // =========================================================
+  // PEGAR APENAS O DIA
+  // =========================================================
+  //
+  // Exemplo:
+  //
+  // 12/09/2026
+  //
+  // retorna:
+  //
+  // 12
+
+  const pegarDia = (dataEvento) => {
+
+    const data = converterData(dataEvento)
+
+    return String(data.getDate()).padStart(2, '0')
+
+  }
+
+
+  // =========================================================
+  // PEGAR O MÊS
+  // =========================================================
+  //
+  // Retorna o mês abreviado.
+  //
+  // Exemplo:
+  //
+  // setembro -> SET
+
+  const pegarMes = (dataEvento) => {
+
+    const data = converterData(dataEvento)
+
+    return data
+      .toLocaleDateString(
+        'pt-BR',
+        {
+          month: 'short'
+        }
+      )
+      .replace('.', '')
+      .toUpperCase()
+
+  }
+
+
+  // =========================================================
+  // DATA DE HOJE
+  // =========================================================
+  //
+  // Zeramos horas, minutos e segundos porque queremos
+  // comparar somente os dias.
+
+  const hoje = new Date()
+
+  hoje.setHours(0, 0, 0, 0)
+
+
+  // =========================================================
+  // DESCOBRIR SITUAÇÃO DO EVENTO
+  // =========================================================
+  //
+  // Essa função informa se o evento:
+  //
+  // - acontece hoje;
+  // - ainda vai acontecer;
+  // - já aconteceu.
+
+  const descobrirSituacao = (dataEvento) => {
+
+    const data = converterData(dataEvento)
+
+
+    // Evento acontecendo hoje.
+
+    if (data.getTime() === hoje.getTime()) {
+
+      return {
+        texto: 'Hoje',
+        classe: 'status-hoje'
+      }
+
+    }
+
+
+    // Evento futuro.
+
+    if (data > hoje) {
+
+      return {
+        texto: 'Próximo',
+        classe: 'status-proximo'
+      }
+
+    }
+
+
+    // Evento passado.
+
+    return {
+      texto: 'Finalizado',
+      classe: 'status-finalizado'
+    }
+
+  }
+
+
+  // =========================================================
+  // ORDENAR EVENTOS
+  // =========================================================
+  //
+  // Criamos uma cópia da lista usando [...]
+  // para não modificar diretamente o estado do React.
+  //
+  // Os eventos mais próximos aparecem primeiro.
+
+  const eventosOrdenados = [...eventos].sort(
+    (eventoA, eventoB) => {
+
+      const dataA = converterData(eventoA.dataEvento)
+
+      const dataB = converterData(eventoB.dataEvento)
+
+
+      return dataA - dataB
+
+    }
+  )
+
+
+  // =========================================================
+  // CONTAR PRÓXIMOS EVENTOS
+  // =========================================================
+
+  const proximosEventos = eventos.filter((evento) => {
+
+    const data = converterData(evento.dataEvento)
+
+    return data >= hoje
+
+  })
+
+
+  // =========================================================
+  // PARTE VISUAL
+  // =========================================================
+
   return (
-    <main className="conteudo">
 
-      {/* Título da página */}
-      <h1>
-        Agenda
-      </h1>
+    <main className="conteudo agenda-page">
 
-      {/* Descrição da página */}
-      <p>
-        Acompanhe os eventos cadastrados no sistema.
-      </p>
 
       {/* ===================================================
-          CARREGANDO
-          ===================================================
+          CABEÇALHO
+          =================================================== */}
 
-          Essa mensagem aparece enquanto estamos
-          esperando o back-end responder.
-      */}
-      {carregando && (
-        <p>
-          Carregando eventos...
-        </p>
-      )}
+      <div className="agenda-cabecalho">
 
-      {/* ===================================================
-          ERRO
-          ===================================================
+        <div>
 
-          Caso exista algum erro, mostramos a mensagem
-          guardada dentro da variável "erro".
-      */}
-      {!carregando && erro && (
-        <p>
-          {erro}
-        </p>
-      )}
+          <span className="pagina-tag">
+            CALENDÁRIO
+          </span>
 
-      {/* ===================================================
-          NENHUM EVENTO
-          ===================================================
+          <h1>
+            Agenda
+          </h1>
 
-          Essa mensagem aparece somente quando:
-
-          - terminou de carregar;
-          - não aconteceu erro;
-          - não existem eventos cadastrados.
-      */}
-      {!carregando && !erro && eventos.length === 0 && (
-        <p>
-          Nenhum evento encontrado.
-        </p>
-      )}
-
-      {/* ===================================================
-          LISTA DOS EVENTOS
-          ===================================================
-
-          O map percorre todos os eventos recebidos
-          do back-end.
-
-          Para cada evento, criamos um card.
-      */}
-      {!carregando && !erro && eventos.map((evento) => (
-
-        <div
-          key={evento.id}
-          className="evento-card"
-        >
-
-          {/* Nome do evento */}
-          <h3>
-            {evento.nome}
-          </h3>
-
-          {/* Data do evento */}
           <p>
-            <strong>Data:</strong>{' '}
-            {evento.dataEvento}
-          </p>
-
-          {/* Local do evento */}
-          <p>
-            <strong>Local:</strong>{' '}
-            {evento.local}
+            Acompanhe os próximos eventos cadastrados
+            no sistema.
           </p>
 
         </div>
-      ))}
+
+
+        {/* =================================================
+            CONTADOR DE EVENTOS
+            ================================================= */}
+
+        {!carregando && !erro && (
+
+          <div className="agenda-resumo">
+
+            <span>
+              Próximos eventos
+            </span>
+
+            <strong>
+              {proximosEventos.length}
+            </strong>
+
+          </div>
+
+        )}
+
+      </div>
+
+
+      {/* ===================================================
+          CARREGAMENTO
+          =================================================== */}
+
+      {carregando && (
+
+        <div className="agenda-mensagem">
+
+          <div className="agenda-loading" />
+
+          <div>
+
+            <strong>
+              Carregando agenda
+            </strong>
+
+            <p>
+              Buscando os eventos cadastrados...
+            </p>
+
+          </div>
+
+        </div>
+
+      )}
+
+
+      {/* ===================================================
+          ERRO
+          =================================================== */}
+
+      {!carregando && erro && (
+
+        <div className="agenda-mensagem agenda-erro">
+
+          <div className="agenda-mensagem-icone">
+            !
+          </div>
+
+          <div>
+
+            <strong>
+              Não foi possível carregar a agenda
+            </strong>
+
+            <p>
+              {erro}
+            </p>
+
+          </div>
+
+        </div>
+
+      )}
+
+
+      {/* ===================================================
+          NENHUM EVENTO
+          =================================================== */}
+
+      {!carregando && !erro && eventos.length === 0 && (
+
+        <div className="agenda-vazia">
+
+          <div className="agenda-vazia-icone">
+            ◷
+          </div>
+
+          <h2>
+            Nenhum evento por aqui
+          </h2>
+
+          <p>
+            Quando um evento for cadastrado,
+            ele aparecerá automaticamente na agenda.
+          </p>
+
+        </div>
+
+      )}
+
+
+      {/* ===================================================
+          LISTA DE EVENTOS
+          =================================================== */}
+
+      {!carregando && !erro && eventos.length > 0 && (
+
+        <div className="agenda-grid">
+
+          {eventosOrdenados.map((evento) => {
+
+
+            // Descobrimos a situação deste evento.
+            const situacao = descobrirSituacao(
+              evento.dataEvento
+            )
+
+
+            return (
+
+              <article
+                key={evento.id}
+                className="evento-card"
+              >
+
+
+                {/* =========================================
+                    PARTE SUPERIOR DO CARD
+                    ========================================= */}
+
+                <div className="evento-card-topo">
+
+
+                  {/* =======================================
+                      BLOCO COM DIA E MÊS
+                      ======================================= */}
+
+                  <div className="evento-data">
+
+                    <span className="evento-dia">
+                      {pegarDia(evento.dataEvento)}
+                    </span>
+
+                    <span className="evento-mes">
+                      {pegarMes(evento.dataEvento)}
+                    </span>
+
+                  </div>
+
+
+                  {/* =======================================
+                      STATUS
+                      ======================================= */}
+
+                  <span
+                    className={`evento-status ${situacao.classe}`}
+                  >
+
+                    {situacao.texto}
+
+                  </span>
+
+                </div>
+
+
+                {/* =========================================
+                    NOME DO EVENTO
+                    ========================================= */}
+
+                <div className="evento-conteudo">
+
+                  <span className="evento-label">
+                    EVENTO
+                  </span>
+
+                  <h3>
+                    {evento.nome}
+                  </h3>
+
+
+                  {/* =======================================
+                      INFORMAÇÕES
+                      ======================================= */}
+
+                  <div className="evento-informacoes">
+
+
+                    {/* DATA */}
+
+                    <div className="evento-info">
+
+                      <div className="evento-info-icone">
+                        ◷
+                      </div>
+
+                      <div>
+
+                        <span>
+                          Data
+                        </span>
+
+                        <strong>
+                          {formatarDataCompleta(
+                            evento.dataEvento
+                          )}
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+
+                    {/* LOCAL */}
+
+                    <div className="evento-info">
+
+                      <div className="evento-info-icone">
+                        ◇
+                      </div>
+
+                      <div>
+
+                        <span>
+                          Local
+                        </span>
+
+                        <strong>
+                          {evento.local}
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            )
+
+          })}
+
+        </div>
+
+      )}
 
     </main>
+
   )
+
 }
+
 
 // ===========================================================
 // EXPORTAÇÃO
 // ===========================================================
-//
-// Permite que o componente Agenda seja utilizado
-// pelo restante da aplicação.
+
 export default Agenda

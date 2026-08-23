@@ -2,6 +2,14 @@
 // IMPORTAÇÕES
 // =====================================================
 
+// useEffect:
+// Executa uma ação quando o componente é carregado.
+//
+// useState:
+// Guarda informações que podem mudar durante o uso da página.
+import { useEffect, useState } from 'react'
+
+// Componente responsável pelos cards do Dashboard.
 import Card from './Card.jsx'
 
 
@@ -11,7 +19,263 @@ import Card from './Card.jsx'
 
 function Dashboard() {
 
+  // ===================================================
+  // ESTADO DOS EVENTOS
+  // ===================================================
+  //
+  // Aqui guardamos todos os eventos recebidos
+  // da nossa API Spring Boot.
+  const [eventos, setEventos] = useState([])
+
+
+  // ===================================================
+  // ESTADO DE CARREGAMENTO
+  // ===================================================
+  //
+  // Começa como true porque, assim que o Dashboard
+  // abrir, vamos buscar os eventos no back-end.
+  const [carregando, setCarregando] = useState(true)
+
+
+  // ===================================================
+  // ESTADO DE ERRO
+  // ===================================================
+  //
+  // Caso aconteça algum problema na comunicação
+  // com o back-end, guardamos uma mensagem aqui.
+  const [erro, setErro] = useState('')
+
+
+  // ===================================================
+  // BUSCAR EVENTOS NO BACK-END
+  // ===================================================
+  //
+  // Essa função é muito parecida com a que já usamos
+  // dentro da Agenda.
+  //
+  // Assim, tanto a Agenda quanto o Dashboard utilizam
+  // os dados reais cadastrados no banco.
+  const buscarEventos = async () => {
+
+    try {
+
+      // Informa que a busca começou.
+      setCarregando(true)
+
+      // Limpa possíveis erros anteriores.
+      setErro('')
+
+
+      // =================================================
+      // REQUISIÇÃO PARA A API
+      // =================================================
+
+      const resposta = await fetch(
+        'http://localhost:8080/api/eventos'
+      )
+
+
+      // =================================================
+      // VERIFICA SE A REQUISIÇÃO DEU CERTO
+      // =================================================
+
+      if (!resposta.ok) {
+        throw new Error('Erro ao buscar eventos')
+      }
+
+
+      // =================================================
+      // CONVERTE A RESPOSTA PARA JSON
+      // =================================================
+
+      const dados = await resposta.json()
+
+
+      // =================================================
+      // GUARDA OS EVENTOS NO ESTADO
+      // =================================================
+
+      setEventos(dados)
+
+    } catch (erroDaRequisicao) {
+
+      console.error(
+        'Erro ao carregar Dashboard:',
+        erroDaRequisicao
+      )
+
+      setErro(
+        'Não foi possível carregar os dados do Dashboard.'
+      )
+
+    } finally {
+
+      // A busca terminou, tendo dado certo ou errado.
+      setCarregando(false)
+
+    }
+
+  }
+
+
+  // ===================================================
+  // CARREGA OS EVENTOS QUANDO O DASHBOARD ABRE
+  // ===================================================
+
+  useEffect(() => {
+
+    buscarEventos()
+
+  }, [])
+
+
+  // ===================================================
+  // DATA DE HOJE
+  // ===================================================
+  //
+  // Criamos uma data representando o dia atual.
+  //
+  // Depois zeramos hora, minuto e segundo para que
+  // a comparação considere apenas a DATA.
+  const hoje = new Date()
+
+  hoje.setHours(0, 0, 0, 0)
+
+
+  // ===================================================
+  // FUNÇÃO PARA CONVERTER A DATA DO BANCO
+  // ===================================================
+  //
+  // O back-end envia algo parecido com:
+  //
+  // 2026-09-12
+  //
+  // Acrescentamos T00:00:00 para o JavaScript
+  // interpretar a data corretamente no horário local.
+  const converterData = (dataEvento) => {
+
+    return new Date(`${dataEvento}T00:00:00`)
+
+  }
+
+
+  // ===================================================
+  // QUANTIDADE TOTAL DE EVENTOS
+  // ===================================================
+  //
+  // eventos.length representa quantos eventos
+  // existem atualmente no banco.
+  const totalEventos = eventos.length
+
+
+  // ===================================================
+  // PRÓXIMOS EVENTOS
+  // ===================================================
+  //
+  // filter cria uma nova lista somente com eventos
+  // cuja data seja igual ou posterior ao dia de hoje.
+  const proximosEventos = eventos.filter((evento) => {
+
+    const dataDoEvento = converterData(evento.dataEvento)
+
+    return dataDoEvento >= hoje
+
+  })
+
+
+  // ===================================================
+  // EVENTOS DO MÊS ATUAL
+  // ===================================================
+  //
+  // Aqui verificamos se o mês E o ano do evento
+  // são iguais ao mês e ao ano atuais.
+  const eventosNesteMes = eventos.filter((evento) => {
+
+    const dataDoEvento = converterData(evento.dataEvento)
+
+    return (
+      dataDoEvento.getMonth() === hoje.getMonth() &&
+      dataDoEvento.getFullYear() === hoje.getFullYear()
+    )
+
+  })
+
+
+  // ===================================================
+  // DESCOBRIR O PRÓXIMO EVENTO
+  // ===================================================
+  //
+  // Primeiro copiamos a lista com [...proximosEventos].
+  //
+  // Fazemos isso porque sort altera o array original
+  // e não queremos modificar nossos dados.
+  //
+  // Depois ordenamos pela data, da menor para a maior.
+  const eventosOrdenados = [...proximosEventos].sort(
+    (eventoA, eventoB) => {
+
+      const dataA = converterData(eventoA.dataEvento)
+      const dataB = converterData(eventoB.dataEvento)
+
+      return dataA - dataB
+
+    }
+  )
+
+
+  // O primeiro evento da lista ordenada
+  // será o evento mais próximo.
+  const proximoEvento = eventosOrdenados[0]
+
+
+  // ===================================================
+  // FORMATAR DATA
+  // ===================================================
+  //
+  // Transforma:
+  //
+  // 2026-09-12
+  //
+  // em:
+  //
+  // 12/09/2026
+  const formatarData = (dataEvento) => {
+
+    if (!dataEvento) {
+      return 'Nenhum evento'
+    }
+
+    const data = converterData(dataEvento)
+
+    return data.toLocaleDateString('pt-BR')
+
+  }
+
+
+  // ===================================================
+  // DEFINIÇÃO DOS VALORES DOS CARDS
+  // ===================================================
+  //
+  // Enquanto os dados estão sendo carregados,
+  // mostramos "..." nos cards.
+  //
+  // Depois mostramos o número real.
+  const valorTotalEventos =
+    carregando ? '...' : totalEventos
+
+  const valorProximosEventos =
+    carregando ? '...' : proximosEventos.length
+
+  const valorEventosMes =
+    carregando ? '...' : eventosNesteMes.length
+
+
+  // ===================================================
+  // PARTE VISUAL
+  // ===================================================
+
   return (
+
     <main className="conteudo">
 
       {/* =================================================
@@ -21,67 +285,137 @@ function Dashboard() {
       <div className="cabecalho-pagina">
 
         <div>
+
           <span className="pagina-tag">
             VISÃO GERAL
           </span>
 
-          <h1>Dashboard</h1>
+          <h1>
+            Dashboard
+          </h1>
 
           <p>
             Acompanhe rapidamente as principais
             informações do setor.
           </p>
+
         </div>
 
       </div>
 
 
       {/* =================================================
-          CARDS
+          MENSAGEM DE ERRO
+          =================================================
+          
+          Caso o back-end esteja indisponível,
+          mostramos uma mensagem no Dashboard.
+      */}
+
+      {erro && (
+
+        <p className="mensagem-erro">
+
+          {erro}
+
+        </p>
+
+      )}
+
+
+      {/* =================================================
+          CARDS DO DASHBOARD
           ================================================= */}
 
       <div className="cards">
 
-        {/* Eventos atualmente ativos */}
+
+        {/* ===============================================
+            TOTAL DE EVENTOS
+
+            Agora esse número vem do banco de dados.
+        */}
+
         <Card
-          titulo="Eventos Ativos"
-          valor="4"
+
+          titulo="Eventos Cadastrados"
+
+          valor={valorTotalEventos}
+
           cor="#2563eb"
+
           icone="◆"
+
         />
 
 
-        {/* Eventos que acontecerão em breve */}
+        {/* ===============================================
+            PRÓXIMOS EVENTOS
+
+            Conta somente eventos de hoje para frente.
+        */}
+
         <Card
+
           titulo="Próximos Eventos"
-          valor="3"
+
+          valor={valorProximosEventos}
+
           cor="#7c3aed"
+
           icone="◷"
+
         />
 
 
-        {/* Pendências do setor */}
+        {/* ===============================================
+            EVENTOS DO MÊS
+
+            Calculado automaticamente pelo mês atual.
+        */}
+
         <Card
-          titulo="Pendências"
-          valor="2"
+
+          titulo="Eventos neste mês"
+
+          valor={valorEventosMes}
+
           cor="#ea580c"
-          icone="!"
+
+          icone="▣"
+
         />
 
 
-        {/* Quantidade de fornecedores */}
+        {/* ===============================================
+            PRÓXIMO EVENTO
+
+            Aqui mostramos a data do evento mais próximo.
+        */}
+
         <Card
-          titulo="Fornecedores"
-          valor="2"
+
+          titulo="Próximo Evento"
+
+          valor={
+            carregando
+              ? '...'
+              : proximoEvento
+                ? formatarData(proximoEvento.dataEvento)
+                : '-'
+          }
+
           cor="#16a34a"
-          icone="▣"
+
+          icone="◈"
+
         />
 
       </div>
 
 
       {/* =================================================
-          ÁREA INFORMATIVA
+          PAINEL INFORMATIVO
           ================================================= */}
 
       <div className="painel-informativo">
@@ -89,37 +423,96 @@ function Dashboard() {
         <div className="painel-titulo">
 
           <div>
+
             <span className="pagina-tag">
               ACOMPANHAMENTO
             </span>
 
-            <h2>Resumo do setor</h2>
+            <h2>
+              Resumo do setor
+            </h2>
+
           </div>
 
         </div>
 
 
-        {/* Pequenas informações de acompanhamento */}
+        {/* =================================================
+            RESUMO DOS EVENTOS
+            ================================================= */}
+
         <div className="resumo-grid">
 
+
+          {/* ===============================================
+              NOME DO PRÓXIMO EVENTO
+          */}
+
           <div className="resumo-item">
-            <span>Próxima montagem</span>
-            <strong>24/08/2026</strong>
+
+            <span>
+              Próximo evento
+            </span>
+
+            <strong>
+
+              {carregando
+                ? 'Carregando...'
+                : proximoEvento
+                  ? proximoEvento.nome
+                  : 'Nenhum evento agendado'
+              }
+
+            </strong>
+
           </div>
 
 
+          {/* ===============================================
+              DATA DO PRÓXIMO EVENTO
+          */}
+
           <div className="resumo-item">
-            <span>Eventos neste mês</span>
-            <strong>4 eventos</strong>
+
+            <span>
+              Data
+            </span>
+
+            <strong>
+
+              {carregando
+                ? 'Carregando...'
+                : proximoEvento
+                  ? formatarData(proximoEvento.dataEvento)
+                  : '-'
+              }
+
+            </strong>
+
           </div>
 
 
+          {/* ===============================================
+              LOCAL DO PRÓXIMO EVENTO
+          */}
+
           <div className="resumo-item">
-            <span>Situação geral</span>
+
+            <span>
+              Local
+            </span>
 
             <strong className="status-ok">
-              Tudo em andamento
+
+              {carregando
+                ? 'Carregando...'
+                : proximoEvento
+                  ? proximoEvento.local
+                  : 'Sem evento agendado'
+              }
+
             </strong>
+
           </div>
 
         </div>
@@ -127,9 +520,17 @@ function Dashboard() {
       </div>
 
     </main>
+
   )
+
 }
 
 
-// Exporta o Dashboard
+// =====================================================
+// EXPORTAÇÃO
+// =====================================================
+//
+// Permite utilizar o Dashboard em outras partes
+// da aplicação.
+
 export default Dashboard
