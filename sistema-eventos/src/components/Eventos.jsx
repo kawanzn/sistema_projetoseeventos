@@ -210,152 +210,166 @@ function Eventos() {
   // futuramente, editar um evento.
   async function salvarEvento() {
 
-    // -----------------------------------------------------
-    // VALIDAÇÃO
-    // -----------------------------------------------------
-    //
-    // Nome, local e data são obrigatórios.
-    if (
-      nomeEvento === '' ||
-      localEvento === '' ||
-      dataEvento === ''
-    ) {
+  // =====================================================
+  // VALIDAÇÃO
+  // =====================================================
 
-      alert(
-        'Preencha nome, local e data do evento.'
-      )
+  if (
+    nomeEvento === '' ||
+    localEvento === '' ||
+    dataEvento === ''
+  ) {
 
-      return
-    }
+    alert(
+      'Preencha nome, local e data do evento.'
+    )
 
-
-    // =====================================================
-    // OBJETO QUE SERÁ ENVIADO PARA O BACK-END
-    // =====================================================
-    const payload = {
-
-      nome: nomeEvento,
-
-      local: localEvento,
-
-      dataEvento: dataEvento,
-
-      // Caso esteja vazio, enviamos null.
-      dataMontagem: dataMontagem || null,
-
-      // Caso esteja vazio, enviamos null.
-      dataDesmontagem: dataDesmontagem || null,
-
-      // Todo novo evento começa como solicitado.
-      status: 'SOLICITADO',
-
-      responsavel: responsavel,
-
-      observacoes: observacoes
-    }
+    return
+  }
 
 
-    // =====================================================
-    // EDIÇÃO
-    // =====================================================
-    //
-    // Por enquanto sua edição continua apenas na tela,
-    // porque ainda vamos criar/conferir o PUT no back-end.
-    if (eventoEditandoId !== null) {
+  // =====================================================
+  // OBJETO QUE SERÁ ENVIADO PARA O BACK-END
+  // =====================================================
 
-      const eventosAtualizados = eventos.map((evento) => {
+  const payload = {
 
-        // Encontramos o evento que está sendo editado.
-        if (evento.id === eventoEditandoId) {
+    nome: nomeEvento,
 
-          // Mantemos os dados antigos e substituímos
-          // pelos dados atuais do formulário.
-          return {
-            ...evento,
-            ...payload
-          }
-        }
+    local: localEvento,
 
-        return evento
-      })
+    dataEvento: dataEvento,
 
+    dataMontagem: dataMontagem || null,
 
-      // Atualiza a lista na tela.
-      setEventos(eventosAtualizados)
+    dataDesmontagem: dataDesmontagem || null,
+
+    status: 'SOLICITADO',
+
+    responsavel: responsavel,
+
+    observacoes: observacoes
+  }
 
 
-      // Limpa o formulário.
-      limparCampos()
+  // =====================================================
+  // EDITAR EVENTO
+  // =====================================================
 
-      return
-    }
+  if (eventoEditandoId !== null) {
 
-
-    // =====================================================
-    // CADASTRO DE NOVO EVENTO
-    // =====================================================
-    //
-    // Se não estamos editando, fazemos um POST.
     try {
 
-      const resposta = await fetch('https://api-eventos-95z8.onrender.com/api/eventos', {
+      const resposta = await fetch(
+        `${API_URL}/${eventoEditandoId}`,
+        {
+          method: 'PUT',
 
-        // POST significa cadastrar/criar.
-        method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
 
-        headers: {
-
-          // Informamos que estamos enviando JSON.
-          'Content-Type': 'application/json'
-        },
-
-        // Converte o objeto JavaScript para JSON.
-        body: JSON.stringify(payload)
-      })
+          body: JSON.stringify(payload)
+        }
+      )
 
 
-      // Verifica se o cadastro deu certo.
+      // Verifica se o Spring Boot respondeu com sucesso.
       if (!resposta.ok) {
 
         throw new Error(
-          `Erro ao salvar evento. Status: ${resposta.status}`
+          `Erro ao atualizar evento. Status: ${resposta.status}`
         )
       }
 
 
-      // O back-end devolve o evento salvo,
-      // normalmente já com o ID criado pelo banco.
-      const dadoSalvoNoBanco = await resposta.json()
+      // Recebe o evento atualizado do Spring Boot.
+      const eventoAtualizado = await resposta.json()
 
 
-      // =====================================================
-      // ATUALIZA A TELA
-      // =====================================================
-      //
-      // Pegamos os eventos que já existiam e adicionamos
-      // o novo evento ao final da lista.
-      setEventos((eventosAtuais) => [
-        ...eventosAtuais,
-        dadoSalvoNoBanco
-      ])
+      // Atualiza o evento na tela.
+      setEventos((eventosAtuais) =>
+        eventosAtuais.map((evento) =>
+          evento.id === eventoEditandoId
+            ? eventoAtualizado
+            : evento
+        )
+      )
 
 
-      // Limpa e fecha o formulário.
+      // Limpa o formulário e sai do modo de edição.
       limparCampos()
 
-    } catch (erroAoSalvar) {
+
+    } catch (erroAoAtualizar) {
 
       console.error(
-        'Erro ao cadastrar evento:',
-        erroAoSalvar
+        'Erro ao atualizar evento:',
+        erroAoAtualizar
       )
-
 
       alert(
-        'Não foi possível cadastrar o evento.'
+        'Não foi possível atualizar o evento.'
       )
     }
+
+    return
   }
+
+
+  // =====================================================
+  // CADASTRAR NOVO EVENTO
+  // =====================================================
+
+  try {
+
+    const resposta = await fetch(API_URL, {
+
+      method: 'POST',
+
+      headers: {
+        'Content-Type': 'application/json'
+      },
+
+      body: JSON.stringify(payload)
+    })
+
+
+    if (!resposta.ok) {
+
+      throw new Error(
+        `Erro ao salvar evento. Status: ${resposta.status}`
+      )
+    }
+
+
+    // Evento criado pelo banco.
+    const dadoSalvoNoBanco = await resposta.json()
+
+
+    // Adiciona o novo evento na lista.
+    setEventos((eventosAtuais) => [
+      ...eventosAtuais,
+      dadoSalvoNoBanco
+    ])
+
+
+    // Limpa o formulário.
+    limparCampos()
+
+
+  } catch (erroAoSalvar) {
+
+    console.error(
+      'Erro ao cadastrar evento:',
+      erroAoSalvar
+    )
+
+    alert(
+      'Não foi possível cadastrar o evento.'
+    )
+  }
+}
 
 
   // =====================================================
@@ -388,19 +402,26 @@ function Eventos() {
   // =====================================================
   // EXCLUIR EVENTO
   // =====================================================
-  //
-  // IMPORTANTE:
-  // Por enquanto isso remove somente da tela.
-  //
-  // Depois vamos conectar com DELETE no Spring Boot
-  // para apagar também do banco.
-  function excluirEvento(id) {
 
-    const novaLista = eventos.filter(
-      (evento) => evento.id !== id
-    )
+  // Já conectado com o DELETE do Spring Boot
+  async function excluirEvento(id) {
+    try {
+      const resposta = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE'
+      })
 
-    setEventos(novaLista)
+      if (!resposta.ok) {
+        throw new Error(`Erro ao excluir. Status: ${resposta.status}`)
+      }
+
+      setEventos((eventosAtuais) =>
+        eventosAtuais.filter((evento) => evento.id !== id)
+      )
+
+    } catch (erro) {
+      console.error('Erro ao excluir evento:', erro)
+      alert('Não foi possível excluir o evento.')
+    }
   }
 
 
@@ -411,21 +432,16 @@ function Eventos() {
   // Coloca os dados do evento dentro do formulário
   // para que o usuário possa alterar.
   function editarEvento(evento) {
-
-    setNomeEvento(evento.nome || '')
-
-    setLocalEvento(evento.local || '')
-
-    setDataEvento(evento.dataEvento || '')
-
-    setDataMontagem(evento.dataMontagem || '')
-
-    setDataDesmontagem(evento.dataDesmontagem || '')
-
-    setEventoEditandoId(evento.id)
-
-    setMostrarFormulario(true)
-  }
+  setNomeEvento(evento.nome || '')
+  setLocalEvento(evento.local || '')
+  setDataEvento(evento.dataEvento || '')
+  setDataMontagem(evento.dataMontagem || '')
+  setDataDesmontagem(evento.dataDesmontagem || '')
+  setResponsavel(evento.responsavel || '')
+  setObservacoes(evento.observacoes || '')
+  setEventoEditandoId(evento.id)
+  setMostrarFormulario(true)
+}
 
 
   // =====================================================
