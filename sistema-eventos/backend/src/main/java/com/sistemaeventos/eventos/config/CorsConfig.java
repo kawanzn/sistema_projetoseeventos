@@ -70,7 +70,8 @@ public class CorsConfig {
                         .allowedOrigins(
                                 "http://localhost:3000",
                                 "http://localhost:5173",
-                                "https://sistema-eventos-six.vercel.app"
+                                "https://sistema-eventos-six.vercel.app",
+                                "https://api-eventos-95z8.onrender.com/api/eventos"
                         )
 
 

@@ -20,12 +20,32 @@ public class EventoController {
     }
 
     @PostMapping
-    public ResponseEntity<EventoResponseDTO> criar(@RequestBody EventoRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.criar(dto));
+    public ResponseEntity<EventoResponseDTO> criar(
+        @RequestBody EventoRequestDTO dto) {
+
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(service.criar(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<EventoResponseDTO>> listar() {
         return ResponseEntity.ok(service.listarTodos());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EventoResponseDTO> atualizar(
+        @PathVariable Long id,
+        @RequestBody EventoRequestDTO dto) {
+
+        return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(
+            @PathVariable Long id) {
+        
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -19,6 +19,7 @@ public class EventoService {
 
     public EventoResponseDTO criar(EventoRequestDTO dto) {
         Evento evento = new Evento();
+
         evento.setNome(dto.nome());
         evento.setLocal(dto.local());
         evento.setDataMontagem(dto.dataMontagem());
@@ -26,12 +27,13 @@ public class EventoService {
         evento.setDataDesmontagem(dto.dataDesmontagem());
         evento.setResponsavel(dto.responsavel());
         evento.setObservacoes(dto.observacoes());
-        
+
         if (dto.status() != null) {
             evento.setStatus(dto.status());
         }
 
         Evento salvo = repository.save(evento);
+
         return converterParaDto(salvo);
     }
 
@@ -41,12 +43,46 @@ public class EventoService {
                 .toList();
     }
 
+    public EventoResponseDTO atualizar(Long id, EventoRequestDTO dto) {
+        Evento evento = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
+
+        evento.setNome(dto.nome());
+        evento.setLocal(dto.local());
+        evento.setDataMontagem(dto.dataMontagem());
+        evento.setDataEvento(dto.dataEvento());
+        evento.setDataDesmontagem(dto.dataDesmontagem());
+        evento.setResponsavel(dto.responsavel());
+        evento.setObservacoes(dto.observacoes());
+
+        if (dto.status() != null) {
+            evento.setStatus(dto.status());
+        }
+
+        Evento atualizado = repository.save(evento);
+
+        return converterParaDto(atualizado);
+    }
+
+    public void excluir(Long id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Evento não encontrado");
+        }
+
+        repository.deleteById(id);
+    }
+
     private EventoResponseDTO converterParaDto(Evento evento) {
         return new EventoResponseDTO(
-                evento.getId(), evento.getNome(), evento.getLocal(),
-                evento.getDataMontagem(), evento.getDataEvento(),
-                evento.getDataDesmontagem(), evento.getResponsavel(),
-                evento.getObservacoes(), evento.getStatus()
+                evento.getId(),
+                evento.getNome(),
+                evento.getLocal(),
+                evento.getDataMontagem(),
+                evento.getDataEvento(),
+                evento.getDataDesmontagem(),
+                evento.getResponsavel(),
+                evento.getObservacoes(),
+                evento.getStatus()
         );
     }
 }
