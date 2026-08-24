@@ -3,8 +3,7 @@
    ========================================================== */
 
 /*
-  A classe agenda-page existe para que possamos estilizar
-  especificamente a Agenda sem interferir nas outras páginas.
+  Estilos exclusivos da página Agenda.
 */
 
 .agenda-page {
@@ -16,95 +15,237 @@
    CABEÇALHO
    ========================================================== */
 
-/*
-  Organiza o título da página e o pequeno resumo
-  que aparece no lado direito.
-*/
-
 .agenda-cabecalho {
   display: flex;
+  align-items: flex-end;
   justify-content: space-between;
-  align-items: flex-start;
+  gap: 32px;
 
-  gap: 30px;
-
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
 
-/* Título principal */
+/*
+  Área esquerda do cabeçalho.
+*/
+
+.agenda-titulo-area {
+  min-width: 0;
+}
+
+
+/*
+  Título principal.
+*/
 
 .agenda-cabecalho h1 {
-  margin: 8px 0 8px;
-
-  font-size: 32px;
-  font-weight: 700;
+  margin: 8px 0 7px;
 
   color: #172033;
+
+  font-size: 32px;
+  font-weight: 750;
+
+  letter-spacing: -0.8px;
 }
 
 
-/* Texto abaixo do título */
+/*
+  Texto abaixo do título.
+*/
 
 .agenda-cabecalho p {
   margin: 0;
 
   color: #64748b;
 
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
 
 /* ==========================================================
-   RESUMO NO CABEÇALHO
+   RESUMOS
    ========================================================== */
 
 /*
-  Pequeno bloco mostrando quantos eventos futuros existem.
+  Agrupa os pequenos indicadores que aparecem
+  no canto direito do cabeçalho.
+*/
+
+.agenda-resumos {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+
+
+/*
+  Cada bloco representa uma informação resumida.
 */
 
 .agenda-resumo {
-  min-width: 150px;
+  min-width: 105px;
+  min-height: 70px;
 
-  padding: 16px 20px;
-
-  background: #ffffff;
-
-  border: 1px solid #e7ebf0;
-  border-radius: 14px;
-
-  box-shadow:
-    0 4px 16px rgba(15, 23, 42, 0.05);
+  padding: 12px 16px;
 
   display: flex;
   flex-direction: column;
+  justify-content: center;
 
-  align-items: flex-start;
+  background: #ffffff;
+
+  border: 1px solid #e5eaf0;
+  border-radius: 13px;
+
+  box-shadow:
+    0 3px 12px rgba(15, 23, 42, 0.035);
 }
 
 
-/* Texto pequeno */
+/*
+  Primeiro bloco recebe um pouco mais de destaque.
+*/
+
+.agenda-resumo-destaque {
+  min-width: 145px;
+
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #f8fbff 100%
+    );
+
+  border-color: #dce8fb;
+}
+
+
+/*
+  Ícone do resumo.
+*/
+
+.agenda-resumo-icone {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #edf5ff;
+
+  border-radius: 10px;
+
+  color: #2563eb;
+}
+
+
+/*
+  SVG utilizado nos ícones.
+*/
+
+.agenda-resumo-icone svg {
+  width: 19px;
+  height: 19px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/*
+  Texto pequeno dos indicadores.
+*/
 
 .agenda-resumo span {
-  color: #64748b;
+  color: #8492a6;
 
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
 
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+
+  letter-spacing: 0.6px;
 }
 
 
-/* Número */
+/*
+  Número dos indicadores.
+*/
 
 .agenda-resumo strong {
-  margin-top: 4px;
+  margin-top: 2px;
 
   color: #172033;
 
-  font-size: 28px;
+  font-size: 22px;
+  font-weight: 750;
+
+  line-height: 1;
+}
+
+
+/* ==========================================================
+   CABEÇALHO DA LISTA
+   ========================================================== */
+
+.agenda-lista-cabecalho {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 14px;
+}
+
+
+/*
+  Título da listagem.
+*/
+
+.agenda-lista-cabecalho h2 {
+  margin: 0 0 3px;
+
+  color: #334155;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/*
+  Descrição da listagem.
+*/
+
+.agenda-lista-cabecalho p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+
+/*
+  Quantidade total de registros.
+*/
+
+.agenda-quantidade {
+  color: #94a3b8;
+
+  font-size: 11px;
+  font-weight: 600;
 }
 
 
@@ -113,10 +254,7 @@
    ========================================================== */
 
 /*
-  Os eventos agora são organizados em duas colunas.
-
-  Caso a tela diminua, o CSS responsivo que está
-  no final do arquivo colocará apenas uma coluna.
+  Dois cards por linha em telas grandes.
 */
 
 .agenda-grid {
@@ -125,7 +263,7 @@
   grid-template-columns:
     repeat(2, minmax(0, 1fr));
 
-  gap: 20px;
+  gap: 14px;
 }
 
 
@@ -136,30 +274,30 @@
 .evento-card {
   position: relative;
 
+  min-width: 0;
+
+  display: flex;
+  align-items: stretch;
+
   overflow: hidden;
 
   background: #ffffff;
 
   border: 1px solid #e6eaf0;
-  border-radius: 16px;
-
-  padding: 22px;
+  border-radius: 14px;
 
   box-shadow:
-    0 4px 20px rgba(15, 23, 42, 0.05);
+    0 3px 12px rgba(15, 23, 42, 0.035);
 
   transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 
 /*
-  Pequena faixa azul na parte superior do card.
-
-  É um detalhe simples, mas ajuda a criar
-  identidade visual.
+  Pequena linha vertical de identidade.
 */
 
 .evento-card::before {
@@ -170,103 +308,195 @@
   top: 0;
   left: 0;
 
-  width: 100%;
-  height: 3px;
+  width: 3px;
+  height: 100%;
 
-  background: #2563eb;
+  background: transparent;
 
-  opacity: 0;
-  transition: opacity 0.25s ease;
+  transition:
+    background 0.2s ease;
 }
 
 
 /* ==========================================================
-   HOVER DO CARD
+   CORES DE ACORDO COM O STATUS
    ========================================================== */
 
 /*
-  Quando o mouse passa pelo evento,
-  ele sobe levemente.
+  Próximo evento.
 */
 
-.evento-card:hover {
-  transform: translateY(-4px);
-
-  border-color: #d8e2f0;
-
-  box-shadow:
-    0 12px 30px rgba(15, 23, 42, 0.09);
+.status-proximo-card::before {
+  background: #3b82f6;
 }
 
 
-/* Mostra a linha azul */
+/*
+  Evento de hoje.
+*/
 
-.evento-card:hover::before {
-  opacity: 1;
+.status-hoje-card::before {
+  background: #22c55e;
+}
+
+
+/*
+  Evento finalizado.
+*/
+
+.status-finalizado-card::before {
+  background: #cbd5e1;
 }
 
 
 /* ==========================================================
-   PARTE SUPERIOR DO CARD
+   HOVER
    ========================================================== */
 
-.evento-card-topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.evento-card:hover {
+  transform: translateY(-2px);
 
-  margin-bottom: 24px;
+  border-color: #d7dfeb;
+
+  box-shadow:
+    0 8px 24px rgba(15, 23, 42, 0.07);
 }
 
 
 /* ==========================================================
-   DATA DESTACADA
+   BLOCO DA DATA
    ========================================================== */
 
 /*
-  Esse bloco deixa a data visualmente parecida
-  com um pequeno calendário.
+  Em vez da data ficar "solta" no topo,
+  ela agora vira uma coluna lateral.
 */
 
 .evento-data {
-  width: 64px;
-  height: 68px;
+  width: 82px;
+  min-height: 145px;
 
-  border-radius: 13px;
-
-  background: #eff6ff;
+  flex-shrink: 0;
 
   display: flex;
   flex-direction: column;
-
   align-items: center;
   justify-content: center;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f7faff 0%,
+      #f3f7fc 100%
+    );
+
+  border-right: 1px solid #edf1f5;
 }
 
 
-/* Número do dia */
+/*
+  Dia.
+*/
 
 .evento-dia {
   color: #1d4ed8;
 
-  font-size: 25px;
+  font-size: 27px;
   font-weight: 800;
 
   line-height: 1;
+
+  letter-spacing: -1px;
 }
 
 
-/* Mês */
+/*
+  Mês.
+*/
 
 .evento-mes {
-  margin-top: 5px;
+  margin-top: 6px;
 
-  color: #2563eb;
+  color: #3b82f6;
 
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: 1.2px;
+}
+
+
+/* ==========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================== */
+
+.evento-conteudo {
+  min-width: 0;
+
+  flex: 1;
+
+  padding: 18px 20px;
+}
+
+
+/* ==========================================================
+   TOPO DO CARD
+   ========================================================== */
+
+.evento-card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+
+/*
+  Área do nome.
+*/
+
+.evento-titulo {
+  min-width: 0;
+}
+
+
+/*
+  Dia da semana.
+*/
+
+.evento-dia-semana {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+  font-weight: 750;
 
   letter-spacing: 1px;
+}
+
+
+/*
+  Nome do evento.
+*/
+
+.evento-titulo h3 {
+  margin: 0;
+
+  overflow: hidden;
+
+  color: #1e293b;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  line-height: 1.35;
+
+  text-overflow: ellipsis;
 }
 
 
@@ -275,19 +505,42 @@
    ========================================================== */
 
 .evento-status {
-  padding: 7px 11px;
+  flex-shrink: 0;
+
+  padding: 6px 9px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 
   border-radius: 999px;
 
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 9px;
+  font-weight: 750;
 
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+
+  letter-spacing: 0.45px;
 }
 
 
-/* Evento futuro */
+/*
+  Bolinha ao lado do status.
+*/
+
+.evento-status-ponto {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+
+/*
+  Próximo.
+*/
 
 .status-proximo {
   background: #eff6ff;
@@ -296,7 +549,9 @@
 }
 
 
-/* Evento acontecendo hoje */
+/*
+  Hoje.
+*/
 
 .status-hoje {
   background: #ecfdf5;
@@ -305,7 +560,9 @@
 }
 
 
-/* Evento que já passou */
+/*
+  Finalizado.
+*/
 
 .status-finalizado {
   background: #f1f5f9;
@@ -315,70 +572,49 @@
 
 
 /* ==========================================================
-   CONTEÚDO
-   ========================================================== */
-
-.evento-conteudo {
-  width: 100%;
-}
-
-
-/* Pequeno texto acima do nome */
-
-.evento-label {
-  color: #94a3b8;
-
-  font-size: 10px;
-  font-weight: 700;
-
-  letter-spacing: 1.2px;
-}
-
-
-/* Nome do evento */
-
-.evento-conteudo h3 {
-  margin: 6px 0 22px;
-
-  color: #172033;
-
-  font-size: 21px;
-  font-weight: 700;
-
-  line-height: 1.3;
-}
-
-
-/* ==========================================================
    INFORMAÇÕES
    ========================================================== */
 
-.evento-informacoes {
-  display: flex;
-  flex-direction: column;
+/*
+  Data e local agora aparecem lado a lado.
+  Isso elimina bastante espaço vazio.
+*/
 
-  gap: 14px;
+.evento-informacoes {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  padding-top: 14px;
+
+  border-top: 1px solid #f0f2f5;
 }
 
 
 /*
-  Cada informação contém:
-  ícone + título + valor.
+  Cada bloco contém ícone + informação.
 */
 
 .evento-info {
+  min-width: 0;
+
+  flex: 1;
+
   display: flex;
   align-items: center;
 
-  gap: 12px;
+  gap: 10px;
 }
 
 
-/* Ícone */
+/*
+  Ícone.
+*/
 
 .evento-info-icone {
-  width: 36px;
-  height: 36px;
+  width: 31px;
+  height: 31px;
 
   flex-shrink: 0;
 
@@ -389,17 +625,36 @@
   background: #f8fafc;
 
   border: 1px solid #edf0f4;
-  border-radius: 10px;
+  border-radius: 9px;
 
-  color: #64748b;
-
-  font-size: 15px;
+  color: #7c8da4;
 }
 
 
-/* Container do texto */
+/*
+  SVG dos ícones.
+*/
+
+.evento-info-icone svg {
+  width: 15px;
+  height: 15px;
+
+  fill: none;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/*
+  Container do texto.
+*/
 
 .evento-info > div:last-child {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
 
@@ -407,39 +662,65 @@
 }
 
 
-/* Título pequeno */
+/*
+  Pequeno título.
+*/
 
 .evento-info span {
   color: #94a3b8;
 
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 9px;
+  font-weight: 700;
 
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+
+  letter-spacing: 0.5px;
 }
 
 
-/* Informação principal */
+/*
+  Valor.
+*/
 
 .evento-info strong {
-  color: #334155;
+  overflow: hidden;
 
-  font-size: 13px;
+  color: #475569;
+
+  font-size: 11px;
   font-weight: 600;
 
   line-height: 1.4;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/*
+  Linha que separa data e local.
+*/
+
+.evento-info-divisor {
+  width: 1px;
+  height: 31px;
+
+  flex-shrink: 0;
+
+  margin: 0 16px;
+
+  background: #edf0f4;
 }
 
 
 /* ==========================================================
-   ESTADO DE CARREGAMENTO / ERRO
+   CARREGAMENTO / ERRO
    ========================================================== */
 
 .agenda-mensagem {
-  min-height: 140px;
+  min-height: 120px;
 
-  padding: 25px;
+  padding: 24px;
 
   display: flex;
   align-items: center;
@@ -449,54 +730,58 @@
   background: #ffffff;
 
   border: 1px solid #e5eaf0;
-  border-radius: 16px;
+  border-radius: 14px;
 
   box-shadow:
-    0 4px 20px rgba(15, 23, 42, 0.04);
+    0 4px 16px rgba(15, 23, 42, 0.04);
 }
 
 
-/* Título */
+/*
+  Título da mensagem.
+*/
 
 .agenda-mensagem strong {
   color: #172033;
 
-  font-size: 15px;
+  font-size: 14px;
 }
 
 
-/* Descrição */
+/*
+  Descrição.
+*/
 
 .agenda-mensagem p {
-  margin: 5px 0 0;
+  margin: 4px 0 0;
 
   color: #64748b;
 
-  font-size: 13px;
+  font-size: 12px;
 }
 
 
 /* ==========================================================
-   ANIMAÇÃO DE LOADING
+   LOADING
    ========================================================== */
 
 .agenda-loading {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
 
   flex-shrink: 0;
 
   border: 3px solid #e2e8f0;
   border-top-color: #2563eb;
-
   border-radius: 50%;
 
-  animation: agenda-girar 0.8s linear infinite;
+  animation:
+    agenda-girar 0.8s linear infinite;
 }
 
 
 /*
-  Animação responsável por girar o círculo.
+  Animação do círculo.
 */
 
 @keyframes agenda-girar {
@@ -517,11 +802,15 @@
    ========================================================== */
 
 .agenda-erro {
-  border-color: #fee2e2;
-
   background: #fffafa;
+
+  border-color: #fee2e2;
 }
 
+
+/*
+  Ícone de erro.
+*/
 
 .agenda-mensagem-icone {
   width: 36px;
@@ -533,9 +822,9 @@
   align-items: center;
   justify-content: center;
 
-  border-radius: 50%;
-
   background: #fee2e2;
+
+  border-radius: 50%;
 
   color: #dc2626;
 
@@ -548,15 +837,14 @@
    ========================================================== */
 
 .agenda-vazia {
-  min-height: 300px;
+  min-height: 280px;
 
-  padding: 50px 30px;
+  padding: 45px 30px;
 
   display: flex;
   flex-direction: column;
-
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   text-align: center;
 
@@ -567,50 +855,70 @@
 }
 
 
-/* Ícone */
+/*
+  Ícone.
+*/
 
 .agenda-vazia-icone {
-  width: 58px;
-  height: 58px;
+  width: 54px;
+  height: 54px;
+
+  margin-bottom: 16px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  margin-bottom: 18px;
-
-  border-radius: 16px;
-
   background: #eff6ff;
 
-  color: #2563eb;
+  border-radius: 14px;
 
-  font-size: 27px;
+  color: #2563eb;
 }
 
 
-/* Título */
+/*
+  SVG.
+*/
+
+.agenda-vazia-icone svg {
+  width: 25px;
+  height: 25px;
+
+  fill: none;
+
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/*
+  Título.
+*/
 
 .agenda-vazia h2 {
   margin: 0;
 
   color: #172033;
 
-  font-size: 19px;
+  font-size: 18px;
 }
 
 
-/* Texto */
+/*
+  Descrição.
+*/
 
 .agenda-vazia p {
   max-width: 360px;
 
-  margin: 8px 0 0;
+  margin: 7px 0 0;
 
   color: #64748b;
 
-  font-size: 14px;
-
+  font-size: 13px;
   line-height: 1.6;
 }
 
@@ -620,8 +928,33 @@
    ========================================================== */
 
 /*
-  Em telas menores que 900px,
-  mostramos somente um evento por linha.
+  Em telas médias, os resumos podem ocupar
+  uma nova linha.
+*/
+
+@media (max-width: 1100px) {
+
+  .agenda-cabecalho {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .agenda-resumos {
+    width: 100%;
+  }
+
+
+  .agenda-resumo {
+    flex: 1;
+  }
+
+}
+
+
+/*
+  Em tablets, apenas um evento por linha.
 */
 
 @media (max-width: 900px) {
@@ -645,22 +978,87 @@
 
 
   .agenda-cabecalho {
-    flex-direction: column;
-  }
-
-
-  .agenda-resumo {
-    width: 100%;
-  }
-
-
-  .evento-card {
-    padding: 18px;
+    margin-bottom: 24px;
   }
 
 
   .agenda-cabecalho h1 {
     font-size: 27px;
+  }
+
+
+  /*
+    Resumos em grid para não apertar os números.
+  */
+
+  .agenda-resumos {
+    display: grid;
+
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+
+  .agenda-resumo-destaque {
+    grid-column: 1 / -1;
+  }
+
+
+  /*
+    Card vira uma estrutura mais apropriada
+    para telas pequenas.
+  */
+
+  .evento-card {
+    align-items: flex-start;
+  }
+
+
+  .evento-data {
+    width: 67px;
+    min-height: 155px;
+  }
+
+
+  .evento-conteudo {
+    padding: 16px;
+  }
+
+
+  .evento-card-topo {
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-bottom: 14px;
+  }
+
+
+  .evento-informacoes {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+
+  .evento-info-divisor {
+    display: none;
+  }
+
+
+  .evento-info strong {
+    white-space: normal;
+  }
+
+
+  .agenda-lista-cabecalho {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 5px;
   }
 
 }

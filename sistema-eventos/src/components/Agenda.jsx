@@ -6,7 +6,7 @@
 // Guarda informações que podem mudar durante o uso da página.
 //
 // useEffect:
-// Permite executar uma ação quando o componente é carregado.
+// Executa uma ação quando o componente é carregado.
 
 import { useEffect, useState } from 'react'
 
@@ -29,8 +29,7 @@ function Agenda() {
   // LISTA DE EVENTOS
   // =========================================================
   //
-  // Aqui armazenamos todos os eventos recebidos
-  // do back-end.
+  // Guarda os eventos recebidos do back-end.
 
   const [eventos, setEventos] = useState([])
 
@@ -38,9 +37,6 @@ function Agenda() {
   // =========================================================
   // CARREGAMENTO
   // =========================================================
-  //
-  // Enquanto estivermos buscando os dados no back-end,
-  // carregando ficará como true.
 
   const [carregando, setCarregando] = useState(true)
 
@@ -48,34 +44,28 @@ function Agenda() {
   // =========================================================
   // ERRO
   // =========================================================
-  //
-  // Caso aconteça algum erro na comunicação com a API,
-  // guardamos a mensagem aqui.
 
   const [erro, setErro] = useState('')
 
 
   // =========================================================
-  // FUNÇÃO PARA BUSCAR OS EVENTOS
+  // BUSCAR EVENTOS
   // =========================================================
 
   const buscarEventos = async () => {
 
     try {
 
-      // Começamos uma nova busca.
+      // Inicia o carregamento.
       setCarregando(true)
 
-      // Limpamos possíveis erros anteriores.
+      // Limpa possíveis erros anteriores.
       setErro('')
 
 
       // =====================================================
       // REQUISIÇÃO PARA O BACK-END
       // =====================================================
-      //
-      // Fazemos uma requisição GET para nossa API
-      // feita com Spring Boot.
 
       const resposta = await fetch(
         'https://api-eventos-95z8.onrender.com/api/eventos'
@@ -100,17 +90,10 @@ function Agenda() {
       const dados = await resposta.json()
 
 
-      // =====================================================
-      // SALVA OS EVENTOS
-      // =====================================================
-
+      // Salva os eventos recebidos.
       setEventos(dados)
 
     } catch (erroDaRequisicao) {
-
-
-      // Mostra o erro no console para facilitar
-      // durante o desenvolvimento.
 
       console.error(
         'Erro ao buscar eventos:',
@@ -118,18 +101,14 @@ function Agenda() {
       )
 
 
-      // Mensagem que aparecerá para o usuário.
-
+      // Mensagem mostrada para o usuário.
       setErro(
         'Não foi possível carregar os eventos.'
       )
 
     } finally {
 
-
-      // A busca terminou, independentemente
-      // de ter dado certo ou errado.
-
+      // Finaliza o carregamento.
       setCarregando(false)
 
     }
@@ -140,9 +119,6 @@ function Agenda() {
   // =========================================================
   // CARREGAMENTO INICIAL
   // =========================================================
-  //
-  // Quando a página Agenda for aberta,
-  // buscamos automaticamente os eventos.
 
   useEffect(() => {
 
@@ -155,11 +131,11 @@ function Agenda() {
   // CONVERTER DATA
   // =========================================================
   //
-  // O banco normalmente envia:
+  // Exemplo:
   //
   // 2026-09-12
   //
-  // Transformamos isso em um objeto Date do JavaScript.
+  // vira um objeto Date do JavaScript.
 
   const converterData = (dataEvento) => {
 
@@ -197,16 +173,8 @@ function Agenda() {
 
 
   // =========================================================
-  // PEGAR APENAS O DIA
+  // PEGAR DIA
   // =========================================================
-  //
-  // Exemplo:
-  //
-  // 12/09/2026
-  //
-  // retorna:
-  //
-  // 12
 
   const pegarDia = (dataEvento) => {
 
@@ -218,14 +186,8 @@ function Agenda() {
 
 
   // =========================================================
-  // PEGAR O MÊS
+  // PEGAR MÊS
   // =========================================================
-  //
-  // Retorna o mês abreviado.
-  //
-  // Exemplo:
-  //
-  // setembro -> SET
 
   const pegarMes = (dataEvento) => {
 
@@ -245,11 +207,34 @@ function Agenda() {
 
 
   // =========================================================
-  // DATA DE HOJE
+  // PEGAR DIA DA SEMANA
   // =========================================================
   //
-  // Zeramos horas, minutos e segundos porque queremos
-  // comparar somente os dias.
+  // Essa informação aparece como detalhe no card.
+  //
+  // Exemplo:
+  //
+  // SEGUNDA-FEIRA
+
+  const pegarDiaSemana = (dataEvento) => {
+
+    const data = converterData(dataEvento)
+
+    return data
+      .toLocaleDateString(
+        'pt-BR',
+        {
+          weekday: 'long'
+        }
+      )
+      .toUpperCase()
+
+  }
+
+
+  // =========================================================
+  // DATA DE HOJE
+  // =========================================================
 
   const hoje = new Date()
 
@@ -259,12 +244,6 @@ function Agenda() {
   // =========================================================
   // DESCOBRIR SITUAÇÃO DO EVENTO
   // =========================================================
-  //
-  // Essa função informa se o evento:
-  //
-  // - acontece hoje;
-  // - ainda vai acontecer;
-  // - já aconteceu.
 
   const descobrirSituacao = (dataEvento) => {
 
@@ -309,10 +288,8 @@ function Agenda() {
   // ORDENAR EVENTOS
   // =========================================================
   //
-  // Criamos uma cópia da lista usando [...]
-  // para não modificar diretamente o estado do React.
-  //
-  // Os eventos mais próximos aparecem primeiro.
+  // Mantemos a mesma lógica:
+  // os eventos são ordenados pela data.
 
   const eventosOrdenados = [...eventos].sort(
     (eventoA, eventoB) => {
@@ -321,7 +298,6 @@ function Agenda() {
 
       const dataB = converterData(eventoB.dataEvento)
 
-
       return dataA - dataB
 
     }
@@ -329,7 +305,7 @@ function Agenda() {
 
 
   // =========================================================
-  // CONTAR PRÓXIMOS EVENTOS
+  // PRÓXIMOS EVENTOS
   // =========================================================
 
   const proximosEventos = eventos.filter((evento) => {
@@ -337,6 +313,22 @@ function Agenda() {
     const data = converterData(evento.dataEvento)
 
     return data >= hoje
+
+  })
+
+
+  // =========================================================
+  // EVENTOS FINALIZADOS
+  // =========================================================
+  //
+  // Criamos este contador apenas para enriquecer
+  // visualmente o resumo da agenda.
+
+  const eventosFinalizados = eventos.filter((evento) => {
+
+    const data = converterData(evento.dataEvento)
+
+    return data < hoje
 
   })
 
@@ -354,9 +346,9 @@ function Agenda() {
           CABEÇALHO
           =================================================== */}
 
-      <div className="agenda-cabecalho">
+      <section className="agenda-cabecalho">
 
-        <div>
+        <div className="agenda-titulo-area">
 
           <span className="pagina-tag">
             CALENDÁRIO
@@ -367,7 +359,7 @@ function Agenda() {
           </h1>
 
           <p>
-            Acompanhe os próximos eventos cadastrados
+            Visualize e acompanhe os eventos cadastrados
             no sistema.
           </p>
 
@@ -375,26 +367,115 @@ function Agenda() {
 
 
         {/* =================================================
-            CONTADOR DE EVENTOS
+            RESUMO DA AGENDA
             ================================================= */}
 
         {!carregando && !erro && (
 
-          <div className="agenda-resumo">
+          <div className="agenda-resumos">
 
-            <span>
-              Próximos eventos
-            </span>
 
-            <strong>
-              {proximosEventos.length}
-            </strong>
+            {/* Próximos eventos */}
+
+            <div className="agenda-resumo agenda-resumo-destaque">
+
+              <div className="agenda-resumo-icone">
+
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M8 2v3M16 2v3M3.5 9h17M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+                  />
+                </svg>
+
+              </div>
+
+              <div>
+
+                <span>
+                  Próximos
+                </span>
+
+                <strong>
+                  {proximosEventos.length}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            {/* Total de eventos */}
+
+            <div className="agenda-resumo">
+
+              <span>
+                Total
+              </span>
+
+              <strong>
+                {eventos.length}
+              </strong>
+
+            </div>
+
+
+            {/* Eventos finalizados */}
+
+            <div className="agenda-resumo">
+
+              <span>
+                Finalizados
+              </span>
+
+              <strong>
+                {eventosFinalizados.length}
+              </strong>
+
+            </div>
 
           </div>
 
         )}
 
-      </div>
+      </section>
+
+
+      {/* ===================================================
+          CABEÇALHO DA LISTA
+          =================================================== */}
+
+      {!carregando && !erro && eventos.length > 0 && (
+
+        <div className="agenda-lista-cabecalho">
+
+          <div>
+
+            <h2>
+              Eventos cadastrados
+            </h2>
+
+            <p>
+              Todos os compromissos organizados por data.
+            </p>
+
+          </div>
+
+          <span className="agenda-quantidade">
+
+            {eventos.length}
+
+            {eventos.length === 1
+              ? ' evento'
+              : ' eventos'}
+
+          </span>
+
+        </div>
+
+      )}
 
 
       {/* ===================================================
@@ -462,7 +543,16 @@ function Agenda() {
         <div className="agenda-vazia">
 
           <div className="agenda-vazia-icone">
-            ◷
+
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                d="M8 2v3M16 2v3M3.5 9h17M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+              />
+            </svg>
+
           </div>
 
           <h2>
@@ -480,7 +570,7 @@ function Agenda() {
 
 
       {/* ===================================================
-          LISTA DE EVENTOS
+          LISTA DOS EVENTOS
           =================================================== */}
 
       {!carregando && !erro && eventos.length > 0 && (
@@ -490,7 +580,8 @@ function Agenda() {
           {eventosOrdenados.map((evento) => {
 
 
-            // Descobrimos a situação deste evento.
+            // Descobre a situação atual do evento.
+
             const situacao = descobrirSituacao(
               evento.dataEvento
             )
@@ -500,66 +591,72 @@ function Agenda() {
 
               <article
                 key={evento.id}
-                className="evento-card"
+                className={`evento-card ${situacao.classe}-card`}
               >
 
 
                 {/* =========================================
-                    PARTE SUPERIOR DO CARD
+                    DATA DO EVENTO
                     ========================================= */}
 
-                <div className="evento-card-topo">
+                <div className="evento-data">
 
+                  <span className="evento-dia">
+                    {pegarDia(evento.dataEvento)}
+                  </span>
 
-                  {/* =======================================
-                      BLOCO COM DIA E MÊS
-                      ======================================= */}
-
-                  <div className="evento-data">
-
-                    <span className="evento-dia">
-                      {pegarDia(evento.dataEvento)}
-                    </span>
-
-                    <span className="evento-mes">
-                      {pegarMes(evento.dataEvento)}
-                    </span>
-
-                  </div>
-
-
-                  {/* =======================================
-                      STATUS
-                      ======================================= */}
-
-                  <span
-                    className={`evento-status ${situacao.classe}`}
-                  >
-
-                    {situacao.texto}
-
+                  <span className="evento-mes">
+                    {pegarMes(evento.dataEvento)}
                   </span>
 
                 </div>
 
 
                 {/* =========================================
-                    NOME DO EVENTO
+                    CONTEÚDO PRINCIPAL
                     ========================================= */}
 
                 <div className="evento-conteudo">
 
-                  <span className="evento-label">
-                    EVENTO
-                  </span>
 
-                  <h3>
-                    {evento.nome}
-                  </h3>
+                  {/* Parte superior */}
+
+                  <div className="evento-card-topo">
+
+                    <div className="evento-titulo">
+
+                      <span className="evento-dia-semana">
+
+                        {pegarDiaSemana(
+                          evento.dataEvento
+                        )}
+
+                      </span>
+
+                      <h3>
+                        {evento.nome}
+                      </h3>
+
+                    </div>
+
+
+                    {/* Status */}
+
+                    <span
+                      className={`evento-status ${situacao.classe}`}
+                    >
+
+                      <span className="evento-status-ponto" />
+
+                      {situacao.texto}
+
+                    </span>
+
+                  </div>
 
 
                   {/* =======================================
-                      INFORMAÇÕES
+                      INFORMAÇÕES DO EVENTO
                       ======================================= */}
 
                   <div className="evento-informacoes">
@@ -570,7 +667,22 @@ function Agenda() {
                     <div className="evento-info">
 
                       <div className="evento-info-icone">
-                        ◷
+
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="8"
+                          />
+
+                          <path
+                            d="M12 7v5l3 2"
+                          />
+                        </svg>
+
                       </div>
 
                       <div>
@@ -580,9 +692,11 @@ function Agenda() {
                         </span>
 
                         <strong>
+
                           {formatarDataCompleta(
                             evento.dataEvento
                           )}
+
                         </strong>
 
                       </div>
@@ -590,12 +704,32 @@ function Agenda() {
                     </div>
 
 
+                    {/* DIVISOR */}
+
+                    <div className="evento-info-divisor" />
+
+
                     {/* LOCAL */}
 
                     <div className="evento-info">
 
                       <div className="evento-info-icone">
-                        ◇
+
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                          />
+
+                          <circle
+                            cx="12"
+                            cy="10"
+                            r="2.5"
+                          />
+                        </svg>
+
                       </div>
 
                       <div>
