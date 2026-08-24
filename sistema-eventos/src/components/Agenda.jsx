@@ -78,7 +78,7 @@ function Agenda() {
       // feita com Spring Boot.
 
       const resposta = await fetch(
-        'http://localhost:8080/api/eventos'
+        'https://api-eventos-95z8.onrender.com/api/eventos'
       )
 
 
