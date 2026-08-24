@@ -1,19 +1,8 @@
 // ===========================================================
-// IMPORTAÇÕES DO REACT
+// IMPORTAÇÕES
 // ===========================================================
-//
-// useState:
-// Guarda informações que podem mudar durante o uso da página.
-//
-// useEffect:
-// Executa uma ação quando o componente é carregado.
 
 import { useEffect, useState } from 'react'
-
-
-// ===========================================================
-// CSS DA PÁGINA
-// ===========================================================
 
 import './Agenda.css'
 
@@ -26,24 +15,12 @@ function Agenda() {
 
 
   // =========================================================
-  // LISTA DE EVENTOS
+  // ESTADOS
   // =========================================================
-  //
-  // Guarda os eventos recebidos do back-end.
 
   const [eventos, setEventos] = useState([])
 
-
-  // =========================================================
-  // CARREGAMENTO
-  // =========================================================
-
   const [carregando, setCarregando] = useState(true)
-
-
-  // =========================================================
-  // ERRO
-  // =========================================================
 
   const [erro, setErro] = useState('')
 
@@ -56,25 +33,15 @@ function Agenda() {
 
     try {
 
-      // Inicia o carregamento.
       setCarregando(true)
 
-      // Limpa possíveis erros anteriores.
       setErro('')
 
-
-      // =====================================================
-      // REQUISIÇÃO PARA O BACK-END
-      // =====================================================
 
       const resposta = await fetch(
         'https://api-eventos-95z8.onrender.com/api/eventos'
       )
 
-
-      // =====================================================
-      // VERIFICAÇÃO DA RESPOSTA
-      // =====================================================
 
       if (!resposta.ok) {
 
@@ -83,14 +50,9 @@ function Agenda() {
       }
 
 
-      // =====================================================
-      // CONVERSÃO PARA JSON
-      // =====================================================
-
       const dados = await resposta.json()
 
 
-      // Salva os eventos recebidos.
       setEventos(dados)
 
     } catch (erroDaRequisicao) {
@@ -101,14 +63,12 @@ function Agenda() {
       )
 
 
-      // Mensagem mostrada para o usuário.
       setErro(
         'Não foi possível carregar os eventos.'
       )
 
     } finally {
 
-      // Finaliza o carregamento.
       setCarregando(false)
 
     }
@@ -130,12 +90,6 @@ function Agenda() {
   // =========================================================
   // CONVERTER DATA
   // =========================================================
-  //
-  // Exemplo:
-  //
-  // 2026-09-12
-  //
-  // vira um objeto Date do JavaScript.
 
   const converterData = (dataEvento) => {
 
@@ -147,18 +101,11 @@ function Agenda() {
   // =========================================================
   // FORMATAR DATA COMPLETA
   // =========================================================
-  //
-  // Exemplo:
-  //
-  // 2026-09-12
-  //
-  // vira:
-  //
-  // 12 de setembro de 2026
 
   const formatarDataCompleta = (dataEvento) => {
 
     const data = converterData(dataEvento)
+
 
     return data.toLocaleDateString(
       'pt-BR',
@@ -180,7 +127,10 @@ function Agenda() {
 
     const data = converterData(dataEvento)
 
-    return String(data.getDate()).padStart(2, '0')
+
+    return String(
+      data.getDate()
+    ).padStart(2, '0')
 
   }
 
@@ -192,6 +142,7 @@ function Agenda() {
   const pegarMes = (dataEvento) => {
 
     const data = converterData(dataEvento)
+
 
     return data
       .toLocaleDateString(
@@ -209,25 +160,18 @@ function Agenda() {
   // =========================================================
   // PEGAR DIA DA SEMANA
   // =========================================================
-  //
-  // Essa informação aparece como detalhe no card.
-  //
-  // Exemplo:
-  //
-  // SEGUNDA-FEIRA
 
   const pegarDiaSemana = (dataEvento) => {
 
     const data = converterData(dataEvento)
 
-    return data
-      .toLocaleDateString(
-        'pt-BR',
-        {
-          weekday: 'long'
-        }
-      )
-      .toUpperCase()
+
+    return data.toLocaleDateString(
+      'pt-BR',
+      {
+        weekday: 'long'
+      }
+    )
 
   }
 
@@ -238,11 +182,17 @@ function Agenda() {
 
   const hoje = new Date()
 
-  hoje.setHours(0, 0, 0, 0)
+
+  hoje.setHours(
+    0,
+    0,
+    0,
+    0
+  )
 
 
   // =========================================================
-  // DESCOBRIR SITUAÇÃO DO EVENTO
+  // STATUS DO EVENTO
   // =========================================================
 
   const descobrirSituacao = (dataEvento) => {
@@ -287,16 +237,19 @@ function Agenda() {
   // =========================================================
   // ORDENAR EVENTOS
   // =========================================================
-  //
-  // Mantemos a mesma lógica:
-  // os eventos são ordenados pela data.
 
   const eventosOrdenados = [...eventos].sort(
     (eventoA, eventoB) => {
 
-      const dataA = converterData(eventoA.dataEvento)
+      const dataA = converterData(
+        eventoA.dataEvento
+      )
 
-      const dataB = converterData(eventoB.dataEvento)
+
+      const dataB = converterData(
+        eventoB.dataEvento
+      )
+
 
       return dataA - dataB
 
@@ -305,32 +258,35 @@ function Agenda() {
 
 
   // =========================================================
-  // PRÓXIMOS EVENTOS
+  // CONTADORES
   // =========================================================
 
-  const proximosEventos = eventos.filter((evento) => {
+  const proximosEventos = eventos.filter(
+    (evento) => {
 
-    const data = converterData(evento.dataEvento)
-
-    return data >= hoje
-
-  })
+      const data = converterData(
+        evento.dataEvento
+      )
 
 
-  // =========================================================
-  // EVENTOS FINALIZADOS
-  // =========================================================
-  //
-  // Criamos este contador apenas para enriquecer
-  // visualmente o resumo da agenda.
+      return data >= hoje
 
-  const eventosFinalizados = eventos.filter((evento) => {
+    }
+  )
 
-    const data = converterData(evento.dataEvento)
 
-    return data < hoje
+  const eventosFinalizados = eventos.filter(
+    (evento) => {
 
-  })
+      const data = converterData(
+        evento.dataEvento
+      )
+
+
+      return data < hoje
+
+    }
+  )
 
 
   // =========================================================
@@ -343,12 +299,12 @@ function Agenda() {
 
 
       {/* ===================================================
-          CABEÇALHO
+          CABEÇALHO PRINCIPAL
           =================================================== */}
 
-      <section className="agenda-cabecalho">
+      <header className="agenda-header">
 
-        <div className="agenda-titulo-area">
+        <div className="agenda-header-texto">
 
           <span className="pagina-tag">
             CALENDÁRIO
@@ -359,57 +315,38 @@ function Agenda() {
           </h1>
 
           <p>
-            Visualize e acompanhe os eventos cadastrados
-            no sistema.
+            Acompanhe todos os eventos cadastrados
+            e mantenha seus compromissos organizados.
           </p>
 
         </div>
 
 
         {/* =================================================
-            RESUMO DA AGENDA
+            RESUMO
             ================================================= */}
 
         {!carregando && !erro && (
 
-          <div className="agenda-resumos">
+          <div className="agenda-resumo">
 
+            <div className="agenda-resumo-item">
 
-            {/* Próximos eventos */}
+              <span>
+                Próximos
+              </span>
 
-            <div className="agenda-resumo agenda-resumo-destaque">
-
-              <div className="agenda-resumo-icone">
-
-                <svg
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M8 2v3M16 2v3M3.5 9h17M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
-                  />
-                </svg>
-
-              </div>
-
-              <div>
-
-                <span>
-                  Próximos
-                </span>
-
-                <strong>
-                  {proximosEventos.length}
-                </strong>
-
-              </div>
+              <strong>
+                {proximosEventos.length}
+              </strong>
 
             </div>
 
 
-            {/* Total de eventos */}
+            <div className="agenda-resumo-divisor" />
 
-            <div className="agenda-resumo">
+
+            <div className="agenda-resumo-item">
 
               <span>
                 Total
@@ -422,9 +359,10 @@ function Agenda() {
             </div>
 
 
-            {/* Eventos finalizados */}
+            <div className="agenda-resumo-divisor" />
 
-            <div className="agenda-resumo">
+
+            <div className="agenda-resumo-item">
 
               <span>
                 Finalizados
@@ -440,42 +378,7 @@ function Agenda() {
 
         )}
 
-      </section>
-
-
-      {/* ===================================================
-          CABEÇALHO DA LISTA
-          =================================================== */}
-
-      {!carregando && !erro && eventos.length > 0 && (
-
-        <div className="agenda-lista-cabecalho">
-
-          <div>
-
-            <h2>
-              Eventos cadastrados
-            </h2>
-
-            <p>
-              Todos os compromissos organizados por data.
-            </p>
-
-          </div>
-
-          <span className="agenda-quantidade">
-
-            {eventos.length}
-
-            {eventos.length === 1
-              ? ' evento'
-              : ' eventos'}
-
-          </span>
-
-        </div>
-
-      )}
+      </header>
 
 
       {/* ===================================================
@@ -484,7 +387,7 @@ function Agenda() {
 
       {carregando && (
 
-        <div className="agenda-mensagem">
+        <section className="agenda-feedback">
 
           <div className="agenda-loading" />
 
@@ -500,7 +403,7 @@ function Agenda() {
 
           </div>
 
-        </div>
+        </section>
 
       )}
 
@@ -511,9 +414,9 @@ function Agenda() {
 
       {!carregando && erro && (
 
-        <div className="agenda-mensagem agenda-erro">
+        <section className="agenda-feedback agenda-feedback-erro">
 
-          <div className="agenda-mensagem-icone">
+          <div className="agenda-erro-icone">
             !
           </div>
 
@@ -529,236 +432,300 @@ function Agenda() {
 
           </div>
 
-        </div>
+        </section>
 
       )}
 
 
       {/* ===================================================
-          NENHUM EVENTO
+          AGENDA VAZIA
           =================================================== */}
 
-      {!carregando && !erro && eventos.length === 0 && (
+      {!carregando &&
+        !erro &&
+        eventos.length === 0 && (
 
-        <div className="agenda-vazia">
+          <section className="agenda-vazia">
 
-          <div className="agenda-vazia-icone">
+            <div className="agenda-vazia-icone">
 
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                d="M8 2v3M16 2v3M3.5 9h17M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
-              />
-            </svg>
-
-          </div>
-
-          <h2>
-            Nenhum evento por aqui
-          </h2>
-
-          <p>
-            Quando um evento for cadastrado,
-            ele aparecerá automaticamente na agenda.
-          </p>
-
-        </div>
-
-      )}
-
-
-      {/* ===================================================
-          LISTA DOS EVENTOS
-          =================================================== */}
-
-      {!carregando && !erro && eventos.length > 0 && (
-
-        <div className="agenda-grid">
-
-          {eventosOrdenados.map((evento) => {
-
-
-            // Descobre a situação atual do evento.
-
-            const situacao = descobrirSituacao(
-              evento.dataEvento
-            )
-
-
-            return (
-
-              <article
-                key={evento.id}
-                className={`evento-card ${situacao.classe}-card`}
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
               >
+                <path
+                  d="M8 2v3M16 2v3M3.5 9h17M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+                />
+              </svg>
+
+            </div>
 
 
-                {/* =========================================
-                    DATA DO EVENTO
-                    ========================================= */}
+            <h2>
+              Nenhum evento cadastrado
+            </h2>
 
-                <div className="evento-data">
+            <p>
+              Quando novos eventos forem cadastrados,
+              eles aparecerão aqui automaticamente.
+            </p>
 
-                  <span className="evento-dia">
-                    {pegarDia(evento.dataEvento)}
-                  </span>
+          </section>
 
-                  <span className="evento-mes">
-                    {pegarMes(evento.dataEvento)}
-                  </span>
-
-                </div>
+        )}
 
 
-                {/* =========================================
-                    CONTEÚDO PRINCIPAL
-                    ========================================= */}
+      {/* ===================================================
+          CONTEÚDO DA AGENDA
+          =================================================== */}
 
-                <div className="evento-conteudo">
+      {!carregando &&
+        !erro &&
+        eventos.length > 0 && (
 
-
-                  {/* Parte superior */}
-
-                  <div className="evento-card-topo">
-
-                    <div className="evento-titulo">
-
-                      <span className="evento-dia-semana">
-
-                        {pegarDiaSemana(
-                          evento.dataEvento
-                        )}
-
-                      </span>
-
-                      <h3>
-                        {evento.nome}
-                      </h3>
-
-                    </div>
+          <section className="agenda-container">
 
 
-                    {/* Status */}
+            {/* =================================================
+                CABEÇALHO DA LISTA
+                ================================================= */}
 
-                    <span
-                      className={`evento-status ${situacao.classe}`}
+            <div className="agenda-lista-header">
+
+              <div>
+
+                <h2>
+                  Eventos
+                </h2>
+
+                <p>
+                  Organizados em ordem cronológica
+                </p>
+
+              </div>
+
+
+              <span className="agenda-total-eventos">
+
+                {eventos.length}
+
+                {eventos.length === 1
+                  ? ' evento'
+                  : ' eventos'}
+
+              </span>
+
+            </div>
+
+
+            {/* =================================================
+                LISTA
+                ================================================= */}
+
+            <div className="agenda-lista">
+
+              {eventosOrdenados.map(
+                (evento) => {
+
+
+                  const situacao =
+                    descobrirSituacao(
+                      evento.dataEvento
+                    )
+
+
+                  return (
+
+                    <article
+                      key={evento.id}
+                      className="agenda-evento"
                     >
 
-                      <span className="evento-status-ponto" />
 
-                      {situacao.texto}
+                      {/* =======================================
+                          DATA
+                          ======================================= */}
 
-                    </span>
+                      <div className="agenda-evento-data">
 
-                  </div>
-
-
-                  {/* =======================================
-                      INFORMAÇÕES DO EVENTO
-                      ======================================= */}
-
-                  <div className="evento-informacoes">
-
-
-                    {/* DATA */}
-
-                    <div className="evento-info">
-
-                      <div className="evento-info-icone">
-
-                        <svg
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="8"
-                          />
-
-                          <path
-                            d="M12 7v5l3 2"
-                          />
-                        </svg>
-
-                      </div>
-
-                      <div>
-
-                        <span>
-                          Data
-                        </span>
-
-                        <strong>
-
-                          {formatarDataCompleta(
+                        <span className="agenda-evento-dia">
+                          {pegarDia(
                             evento.dataEvento
                           )}
-
-                        </strong>
-
-                      </div>
-
-                    </div>
-
-
-                    {/* DIVISOR */}
-
-                    <div className="evento-info-divisor" />
-
-
-                    {/* LOCAL */}
-
-                    <div className="evento-info">
-
-                      <div className="evento-info-icone">
-
-                        <svg
-                          viewBox="0 0 24 24"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
-                          />
-
-                          <circle
-                            cx="12"
-                            cy="10"
-                            r="2.5"
-                          />
-                        </svg>
-
-                      </div>
-
-                      <div>
-
-                        <span>
-                          Local
                         </span>
 
-                        <strong>
-                          {evento.local}
-                        </strong>
+                        <span className="agenda-evento-mes">
+                          {pegarMes(
+                            evento.dataEvento
+                          )}
+                        </span>
 
                       </div>
 
-                    </div>
 
-                  </div>
+                      {/* =======================================
+                          LINHA DA TIMELINE
+                          ======================================= */}
 
-                </div>
+                      <div className="agenda-timeline">
 
-              </article>
+                        <span
+                          className={
+                            `agenda-timeline-ponto ${situacao.classe}`
+                          }
+                        />
 
-            )
+                      </div>
 
-          })}
 
-        </div>
+                      {/* =======================================
+                          CONTEÚDO
+                          ======================================= */}
 
-      )}
+                      <div className="agenda-evento-conteudo">
+
+
+                        {/* Título */}
+
+                        <div className="agenda-evento-principal">
+
+                          <div>
+
+                            <span className="agenda-evento-semana">
+
+                              {pegarDiaSemana(
+                                evento.dataEvento
+                              )}
+
+                            </span>
+
+
+                            <h3>
+                              {evento.nome}
+                            </h3>
+
+                          </div>
+
+
+                          <span
+                            className={
+                              `agenda-status ${situacao.classe}`
+                            }
+                          >
+
+                            <span
+                              className="agenda-status-ponto"
+                            />
+
+                            {situacao.texto}
+
+                          </span>
+
+                        </div>
+
+
+                        {/* =====================================
+                            INFORMAÇÕES
+                            ===================================== */}
+
+                        <div className="agenda-evento-detalhes">
+
+
+                          {/* DATA */}
+
+                          <div className="agenda-detalhe">
+
+                            <div className="agenda-detalhe-icone">
+
+                              <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
+
+                                <path
+                                  d="M8 2v3M16 2v3M3.5 9h17M5 4h14a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"
+                                />
+
+                              </svg>
+
+                            </div>
+
+
+                            <div>
+
+                              <span>
+                                Data
+                              </span>
+
+                              <strong>
+
+                                {formatarDataCompleta(
+                                  evento.dataEvento
+                                )}
+
+                              </strong>
+
+                            </div>
+
+                          </div>
+
+
+                          {/* LOCAL */}
+
+                          <div className="agenda-detalhe">
+
+                            <div className="agenda-detalhe-icone">
+
+                              <svg
+                                viewBox="0 0 24 24"
+                                aria-hidden="true"
+                              >
+
+                                <path
+                                  d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
+                                />
+
+                                <circle
+                                  cx="12"
+                                  cy="10"
+                                  r="2.5"
+                                />
+
+                              </svg>
+
+                            </div>
+
+
+                            <div>
+
+                              <span>
+                                Local
+                              </span>
+
+                              <strong>
+                                {evento.local}
+                              </strong>
+
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </article>
+
+                  )
+
+                }
+              )}
+
+            </div>
+
+          </section>
+
+        )}
 
     </main>
 
