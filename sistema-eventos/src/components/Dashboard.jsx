@@ -71,7 +71,7 @@ function Dashboard() {
       // =================================================
 
       const resposta = await fetch(
-        'http://localhost:8080/api/eventos'
+        'https://api-eventos-95z8.onrender.com/api/eventos'
       )
 
 
