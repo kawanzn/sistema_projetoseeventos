@@ -1,37 +1,27 @@
 // =====================================================
 // IMPORTAÇÕES
 // =====================================================
-//
-// useState:
-// Guarda informações que podem mudar na tela.
-//
-// useEffect:
-// Executa uma ação quando o componente é carregado.
+
 import { useState, useEffect } from 'react'
 
 
 // =====================================================
 // ENDEREÇO DA API
 // =====================================================
-//
-// Colocamos a URL em uma constante para não precisar
-// repetir o endereço várias vezes no código.
-//
-// IMPORTANTE:
-// A rota correta dos eventos é /api/eventos.
+
 const API_URL = 'https://api-eventos-95z8.onrender.com/api/eventos'
 
 
 // =====================================================
 // COMPONENTE EVENTOS
 // =====================================================
+
 function Eventos() {
 
   // =====================================================
   // CONTROLE DO FORMULÁRIO
   // =====================================================
 
-  // Controla se o formulário será exibido ou escondido.
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
 
 
@@ -48,112 +38,81 @@ function Eventos() {
   // Data principal do evento.
   const [dataEvento, setDataEvento] = useState('')
 
+  // NOVO:
+  // Horário principal do evento.
+  const [horaEvento, setHoraEvento] = useState('')
+
   // Data de montagem.
   const [dataMontagem, setDataMontagem] = useState('')
 
   // Data de desmontagem.
   const [dataDesmontagem, setDataDesmontagem] = useState('')
 
+  // Responsável pelo evento.
   const [responsavel, setResponsavel] = useState('')
 
+  // Observações adicionais.
   const [observacoes, setObservacoes] = useState('')
 
 
   // =====================================================
   // LISTA DE EVENTOS
   // =====================================================
-  //
-  // Guarda todos os eventos recebidos do back-end.
-  //
-  // Começa como [] porque inicialmente não temos eventos.
+
   const [eventos, setEventos] = useState([])
 
 
   // =====================================================
   // EVENTO EM EDIÇÃO
   // =====================================================
-  //
-  // Quando for null, significa que estamos cadastrando
-  // um evento novo.
-  //
-  // Quando tiver um ID, significa que estamos editando.
+
+  // null = novo evento.
+  // ID preenchido = edição.
   const [eventoEditandoId, setEventoEditandoId] = useState(null)
 
 
   // =====================================================
   // CARREGAMENTO
   // =====================================================
-  //
-  // Serve para mostrar que estamos esperando a API.
+
   const [carregando, setCarregando] = useState(true)
 
 
   // =====================================================
   // ERRO
   // =====================================================
-  //
-  // Guarda uma mensagem caso aconteça algum problema
-  // na comunicação com o back-end.
+
   const [erro, setErro] = useState('')
 
 
   // =====================================================
   // BUSCAR EVENTOS
   // =====================================================
-  //
-  // Essa função busca todos os eventos cadastrados
-  // no banco de dados.
+
   async function buscarEventos() {
 
     try {
 
-      // Inicia o carregamento.
       setCarregando(true)
-
-      // Limpa erros anteriores.
       setErro('')
 
-
-      // Faz uma requisição GET para:
-      //
-      // https://api-eventos-95z8.onrender.com/api/eventos
       const resposta = await fetch(API_URL)
 
-
-      // Verifica se a API respondeu corretamente.
-      //
-      // Se receber 404, 500 etc.,
-      // interrompemos a função.
       if (!resposta.ok) {
         throw new Error(
           `Erro ao buscar eventos. Status: ${resposta.status}`
         )
       }
 
-
-      // Converte a resposta da API para JSON.
       const dados = await resposta.json()
 
-
-      // =====================================================
-      // PROTEÇÃO IMPORTANTE
-      // =====================================================
-      //
-      // O .map() só funciona em arrays.
-      //
-      // Por isso verificamos se "dados" realmente é uma lista.
-      //
-      // Isso evita novamente o erro:
-      //
-      // eventos.map is not a function
+      // Proteção para garantir que a API retornou uma lista.
       if (Array.isArray(dados)) {
 
         setEventos(dados)
 
       } else {
 
-        // Se a API devolver um objeto em vez de uma lista,
-        // mostramos no console para facilitar o diagnóstico.
         console.error(
           'A API não retornou uma lista de eventos:',
           dados
@@ -168,21 +127,17 @@ function Eventos() {
 
     } catch (erroDaRequisicao) {
 
-      // Mostra o erro completo no console.
       console.error(
         'Erro ao buscar eventos da API:',
         erroDaRequisicao
       )
 
-
-      // Mostra uma mensagem para o usuário.
       setErro(
         'Não foi possível carregar os eventos.'
       )
 
     } finally {
 
-      // A busca terminou, tendo dado certo ou errado.
       setCarregando(false)
     }
   }
@@ -191,10 +146,7 @@ function Eventos() {
   // =====================================================
   // BUSCA INICIAL
   // =====================================================
-  //
-  // Quando a página Eventos abrir, buscamos os eventos.
-  //
-  // O [] faz o useEffect executar apenas uma vez.
+
   useEffect(() => {
 
     buscarEventos()
@@ -205,178 +157,179 @@ function Eventos() {
   // =====================================================
   // SALVAR EVENTO
   // =====================================================
-  //
-  // Essa função serve tanto para cadastrar quanto,
-  // futuramente, editar um evento.
+
+  // Utilizada tanto para cadastrar quanto para editar.
   async function salvarEvento() {
 
-  // =====================================================
-  // VALIDAÇÃO
-  // =====================================================
+    // =====================================================
+    // VALIDAÇÃO
+    // =====================================================
 
-  if (
-    nomeEvento === '' ||
-    localEvento === '' ||
-    dataEvento === ''
-  ) {
+    if (
+      nomeEvento === '' ||
+      localEvento === '' ||
+      dataEvento === ''
+    ) {
 
-    alert(
-      'Preencha nome, local e data do evento.'
-    )
+      alert(
+        'Preencha nome, local e data do evento.'
+      )
 
-    return
-  }
-
-
-  // =====================================================
-  // OBJETO QUE SERÁ ENVIADO PARA O BACK-END
-  // =====================================================
-
-  const payload = {
-
-    nome: nomeEvento,
-
-    local: localEvento,
-
-    dataEvento: dataEvento,
-
-    dataMontagem: dataMontagem || null,
-
-    dataDesmontagem: dataDesmontagem || null,
-
-    status: 'SOLICITADO',
-
-    responsavel: responsavel,
-
-    observacoes: observacoes
-  }
+      return
+    }
 
 
-  // =====================================================
-  // EDITAR EVENTO
-  // =====================================================
+    // =====================================================
+    // OBJETO ENVIADO PARA O BACK-END
+    // =====================================================
 
-  if (eventoEditandoId !== null) {
+    const payload = {
+
+      nome: nomeEvento,
+
+      local: localEvento,
+
+      dataEvento: dataEvento,
+
+      // NOVO:
+      // Envia o horário para o campo LocalTime
+      // que criamos na entidade Evento.java.
+      //
+      // Caso nenhum horário seja informado,
+      // enviamos null.
+      horaEvento: horaEvento || null,
+
+      dataMontagem: dataMontagem || null,
+
+      dataDesmontagem: dataDesmontagem || null,
+
+      status: 'SOLICITADO',
+
+      responsavel: responsavel,
+
+      observacoes: observacoes
+    }
+
+
+    // =====================================================
+    // EDITAR EVENTO
+    // =====================================================
+
+    if (eventoEditandoId !== null) {
+
+      try {
+
+        const resposta = await fetch(
+          `${API_URL}/${eventoEditandoId}`,
+          {
+            method: 'PUT',
+
+            headers: {
+              'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(payload)
+          }
+        )
+
+
+        if (!resposta.ok) {
+
+          throw new Error(
+            `Erro ao atualizar evento. Status: ${resposta.status}`
+          )
+        }
+
+
+        const eventoAtualizado = await resposta.json()
+
+
+        // Substitui o evento antigo pelo atualizado na tela.
+        setEventos((eventosAtuais) =>
+          eventosAtuais.map((evento) =>
+            evento.id === eventoEditandoId
+              ? eventoAtualizado
+              : evento
+          )
+        )
+
+
+        limparCampos()
+
+
+      } catch (erroAoAtualizar) {
+
+        console.error(
+          'Erro ao atualizar evento:',
+          erroAoAtualizar
+        )
+
+        alert(
+          'Não foi possível atualizar o evento.'
+        )
+      }
+
+      return
+    }
+
+
+    // =====================================================
+    // CADASTRAR NOVO EVENTO
+    // =====================================================
 
     try {
 
-      const resposta = await fetch(
-        `${API_URL}/${eventoEditandoId}`,
-        {
-          method: 'PUT',
+      const resposta = await fetch(API_URL, {
 
-          headers: {
-            'Content-Type': 'application/json'
-          },
+        method: 'POST',
 
-          body: JSON.stringify(payload)
-        }
-      )
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(payload)
+      })
 
 
-      // Verifica se o Spring Boot respondeu com sucesso.
       if (!resposta.ok) {
 
         throw new Error(
-          `Erro ao atualizar evento. Status: ${resposta.status}`
+          `Erro ao salvar evento. Status: ${resposta.status}`
         )
       }
 
 
-      // Recebe o evento atualizado do Spring Boot.
-      const eventoAtualizado = await resposta.json()
+      const dadoSalvoNoBanco = await resposta.json()
 
 
-      // Atualiza o evento na tela.
-      setEventos((eventosAtuais) =>
-        eventosAtuais.map((evento) =>
-          evento.id === eventoEditandoId
-            ? eventoAtualizado
-            : evento
-        )
-      )
+      // Adiciona o novo evento na lista.
+      setEventos((eventosAtuais) => [
+        ...eventosAtuais,
+        dadoSalvoNoBanco
+      ])
 
 
-      // Limpa o formulário e sai do modo de edição.
       limparCampos()
 
 
-    } catch (erroAoAtualizar) {
+    } catch (erroAoSalvar) {
 
       console.error(
-        'Erro ao atualizar evento:',
-        erroAoAtualizar
+        'Erro ao cadastrar evento:',
+        erroAoSalvar
       )
 
       alert(
-        'Não foi possível atualizar o evento.'
+        'Não foi possível cadastrar o evento.'
       )
     }
-
-    return
   }
-
-
-  // =====================================================
-  // CADASTRAR NOVO EVENTO
-  // =====================================================
-
-  try {
-
-    const resposta = await fetch(API_URL, {
-
-      method: 'POST',
-
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify(payload)
-    })
-
-
-    if (!resposta.ok) {
-
-      throw new Error(
-        `Erro ao salvar evento. Status: ${resposta.status}`
-      )
-    }
-
-
-    // Evento criado pelo banco.
-    const dadoSalvoNoBanco = await resposta.json()
-
-
-    // Adiciona o novo evento na lista.
-    setEventos((eventosAtuais) => [
-      ...eventosAtuais,
-      dadoSalvoNoBanco
-    ])
-
-
-    // Limpa o formulário.
-    limparCampos()
-
-
-  } catch (erroAoSalvar) {
-
-    console.error(
-      'Erro ao cadastrar evento:',
-      erroAoSalvar
-    )
-
-    alert(
-      'Não foi possível cadastrar o evento.'
-    )
-  }
-}
 
 
   // =====================================================
   // LIMPAR CAMPOS
   // =====================================================
-  //
-  // Volta o formulário para o estado inicial.
+
   function limparCampos() {
 
     setNomeEvento('')
@@ -384,6 +337,10 @@ function Eventos() {
     setLocalEvento('')
 
     setDataEvento('')
+
+    // NOVO:
+    // Limpa também o horário.
+    setHoraEvento('')
 
     setDataMontagem('')
 
@@ -403,24 +360,37 @@ function Eventos() {
   // EXCLUIR EVENTO
   // =====================================================
 
-  // Já conectado com o DELETE do Spring Boot
   async function excluirEvento(id) {
+
     try {
+
       const resposta = await fetch(`${API_URL}/${id}`, {
         method: 'DELETE'
       })
 
       if (!resposta.ok) {
-        throw new Error(`Erro ao excluir. Status: ${resposta.status}`)
+
+        throw new Error(
+          `Erro ao excluir. Status: ${resposta.status}`
+        )
       }
 
       setEventos((eventosAtuais) =>
-        eventosAtuais.filter((evento) => evento.id !== id)
+        eventosAtuais.filter(
+          (evento) => evento.id !== id
+        )
       )
 
     } catch (erro) {
-      console.error('Erro ao excluir evento:', erro)
-      alert('Não foi possível excluir o evento.')
+
+      console.error(
+        'Erro ao excluir evento:',
+        erro
+      )
+
+      alert(
+        'Não foi possível excluir o evento.'
+      )
     }
   }
 
@@ -428,25 +398,42 @@ function Eventos() {
   // =====================================================
   // EDITAR EVENTO
   // =====================================================
-  //
-  // Coloca os dados do evento dentro do formulário
-  // para que o usuário possa alterar.
+
   function editarEvento(evento) {
-  setNomeEvento(evento.nome || '')
-  setLocalEvento(evento.local || '')
-  setDataEvento(evento.dataEvento || '')
-  setDataMontagem(evento.dataMontagem || '')
-  setDataDesmontagem(evento.dataDesmontagem || '')
-  setResponsavel(evento.responsavel || '')
-  setObservacoes(evento.observacoes || '')
-  setEventoEditandoId(evento.id)
-  setMostrarFormulario(true)
-}
+
+    setNomeEvento(evento.nome || '')
+
+    setLocalEvento(evento.local || '')
+
+    setDataEvento(evento.dataEvento || '')
+
+    // NOVO:
+    // Quando o usuário editar um evento,
+    // o horário salvo também aparecerá no formulário.
+    setHoraEvento(
+      evento.horaEvento
+        ? evento.horaEvento.substring(0, 5)
+        : ''
+    )
+
+    setDataMontagem(evento.dataMontagem || '')
+
+    setDataDesmontagem(evento.dataDesmontagem || '')
+
+    setResponsavel(evento.responsavel || '')
+
+    setObservacoes(evento.observacoes || '')
+
+    setEventoEditandoId(evento.id)
+
+    setMostrarFormulario(true)
+  }
 
 
   // =====================================================
   // INTERFACE
   // =====================================================
+
   return (
 
     <main className="conteudo">
@@ -466,15 +453,15 @@ function Eventos() {
       {/* =================================================
           BOTÃO NOVO EVENTO
           ================================================= */}
+
       <button
         className="botao-novo-evento"
         onClick={() => {
 
-          // Primeiro limpamos os dados de uma possível
-          // edição anterior.
+          // Limpa qualquer edição anterior.
           limparCampos()
 
-          // Depois mostramos o formulário.
+          // Abre o formulário.
           setMostrarFormulario(true)
         }}
       >
@@ -485,6 +472,7 @@ function Eventos() {
       {/* =================================================
           FORMULÁRIO
           ================================================= */}
+
       {mostrarFormulario && (
 
         <div className="formulario-evento">
@@ -543,6 +531,24 @@ function Eventos() {
           />
 
 
+          {/* =================================================
+              HORÁRIO DO EVENTO - NOVO
+              ================================================= */}
+
+          <label htmlFor="horaEvento">
+            Horário do evento
+          </label>
+
+          <input
+            type="time"
+            id="horaEvento"
+            value={horaEvento}
+            onChange={(e) =>
+              setHoraEvento(e.target.value)
+            }
+          />
+
+
           {/* DATA DE MONTAGEM */}
           <label htmlFor="dataMontagem">
             Data de montagem
@@ -572,7 +578,8 @@ function Eventos() {
             }
           />
 
-          {/* RESPONSÁVEL PELO EVENTO (DUDU OU VIP) */}
+
+          {/* RESPONSÁVEL */}
           <label htmlFor="responsavel">
             Responsável
           </label>
@@ -585,6 +592,7 @@ function Eventos() {
               setResponsavel(e.target.value)
             }
           />
+
 
           {/* OBSERVAÇÕES */}
           <label htmlFor="observacoes">
@@ -599,6 +607,7 @@ function Eventos() {
               setObservacoes(e.target.value)
             }
           />
+
 
           {/* BOTÃO CADASTRAR / SALVAR */}
           <button
@@ -619,6 +628,7 @@ function Eventos() {
       {/* =================================================
           LISTA DE EVENTOS
           ================================================= */}
+
       <div className="lista-eventos">
 
         <h2>
@@ -626,7 +636,7 @@ function Eventos() {
         </h2>
 
 
-        {/* Mostra enquanto a API responde */}
+        {/* Carregamento */}
         {carregando && (
 
           <p>
@@ -636,7 +646,7 @@ function Eventos() {
         )}
 
 
-        {/* Mostra caso aconteça algum erro */}
+        {/* Erro */}
         {!carregando && erro && (
 
           <p>
@@ -646,8 +656,7 @@ function Eventos() {
         )}
 
 
-        {/* Só mostra "nenhum evento" depois
-            que a busca terminar e não houver erro. */}
+        {/* Nenhum evento */}
         {!carregando &&
           !erro &&
           eventos.length === 0 && (
@@ -656,18 +665,13 @@ function Eventos() {
               Nenhum evento cadastrado.
             </p>
 
-        )}
+          )}
 
 
         {/* =================================================
             CARDS DOS EVENTOS
-            =================================================
+            ================================================= */}
 
-            Array.isArray(eventos) é uma segurança extra.
-
-            Assim o React nunca tentará executar .map()
-            em algo que não seja uma lista.
-        */}
         {!carregando &&
           !erro &&
           Array.isArray(eventos) &&
@@ -698,6 +702,19 @@ function Eventos() {
               </p>
 
 
+              {/* =================================================
+                  HORÁRIO - NOVO
+                  ================================================= */}
+
+              <p>
+                <strong>Horário:</strong>{' '}
+
+                {evento.horaEvento
+                  ? evento.horaEvento.substring(0, 5)
+                  : 'Não informado'}
+              </p>
+
+
               {/* Montagem */}
               <p>
                 <strong>Montagem:</strong>{' '}
@@ -719,6 +736,7 @@ function Eventos() {
               {/* =================================================
                   BOTÕES DE AÇÃO
                   ================================================= */}
+
               <div className="acoes-evento">
 
                 <button
@@ -756,7 +774,5 @@ function Eventos() {
 // =====================================================
 // EXPORTAÇÃO
 // =====================================================
-//
-// Permite utilizar o componente Eventos
-// nas rotas da aplicação.
+
 export default Eventos

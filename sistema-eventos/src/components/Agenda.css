@@ -36,31 +36,31 @@
 */
 
 .agenda-header h1 {
-  margin: 8px 0 7px;
+  margin: 8px 0 8px;
 
   color: #172033;
 
-  font-size: 31px;
+  font-size: 34px;
   font-weight: 700;
 
   line-height: 1.15;
 
-  letter-spacing: -0.7px;
+  letter-spacing: -0.6px;
 }
 
 
 /*
-  Descrição.
+  Descrição da página.
 */
 
 .agenda-header p {
-  max-width: 540px;
+  max-width: 600px;
 
   margin: 0;
 
-  color: #718096;
+  color: #64748b;
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
 
   line-height: 1.6;
@@ -74,16 +74,14 @@
    ========================================================== */
 
 /*
-  Em vez de três cards separados,
-  usamos apenas um único bloco.
-
-  Isso deixa o topo mais limpo.
+  Um único bloco com:
+  próximos / total / finalizados.
 */
 
 .agenda-resumo {
-  min-width: 360px;
+  min-width: 370px;
 
-  padding: 17px 22px;
+  padding: 18px 24px;
 
   display: flex;
   align-items: center;
@@ -100,11 +98,11 @@
 
 
 /*
-  Cada número.
+  Cada indicador.
 */
 
 .agenda-resumo-item {
-  min-width: 80px;
+  min-width: 86px;
 
   display: flex;
   flex-direction: column;
@@ -113,20 +111,21 @@
 
 
 /*
-  Texto.
+  Texto pequeno:
+  PRÓXIMOS / TOTAL / FINALIZADOS.
 */
 
 .agenda-resumo-item span {
   color: #94a3b8;
 
-  font-size: 9px;
-  font-weight: 650;
+  font-size: 11px;
+  font-weight: 700;
 
   line-height: 1;
 
   text-transform: uppercase;
 
-  letter-spacing: 0.9px;
+  letter-spacing: 0.7px;
 }
 
 
@@ -135,28 +134,28 @@
 */
 
 .agenda-resumo-item strong {
-  margin-top: 7px;
+  margin-top: 8px;
 
   color: #1e293b;
 
-  font-size: 22px;
+  font-size: 25px;
   font-weight: 700;
 
   line-height: 1;
 
-  letter-spacing: -0.5px;
+  letter-spacing: -0.4px;
 }
 
 
 /*
-  Separadores.
+  Divisor vertical.
 */
 
 .agenda-resumo-divisor {
   width: 1px;
-  height: 30px;
+  height: 32px;
 
-  margin: 0 17px;
+  margin: 0 18px;
 
   background: #edf1f5;
 }
@@ -184,9 +183,9 @@
    ========================================================== */
 
 .agenda-lista-header {
-  min-height: 72px;
+  min-height: 76px;
 
-  padding: 18px 24px;
+  padding: 20px 24px;
 
   display: flex;
   align-items: center;
@@ -199,16 +198,16 @@
 
 
 /*
-  Título.
+  Título "Eventos".
 */
 
 .agenda-lista-header h2 {
-  margin: 0 0 4px;
+  margin: 0 0 5px;
 
   color: #273449;
 
-  font-size: 14px;
-  font-weight: 650;
+  font-size: 16px;
+  font-weight: 700;
 
   line-height: 1.2;
 
@@ -225,32 +224,34 @@
 
   color: #94a3b8;
 
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 400;
+
+  line-height: 1.4;
 }
 
 
 /*
-  Contador.
+  Contador de eventos.
 */
 
 .agenda-total-eventos {
-  padding: 6px 10px;
+  padding: 7px 11px;
 
   background: #f8fafc;
 
   border: 1px solid #edf1f5;
-  border-radius: 7px;
+  border-radius: 8px;
 
   color: #64748b;
 
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 
 /* ==========================================================
-   LISTA DOS EVENTOS
+   LISTA DE EVENTOS
    ========================================================== */
 
 .agenda-lista {
@@ -262,23 +263,18 @@
    EVENTO
    ========================================================== */
 
-/*
-  Cada evento agora funciona como uma linha
-  de uma agenda profissional.
-*/
-
 .agenda-evento {
   position: relative;
 
-  min-height: 132px;
+  min-height: 148px;
 
-  padding: 0 24px;
+  padding: 0 26px;
 
   display: grid;
 
   grid-template-columns:
-    70px
-    34px
+    78px
+    36px
     minmax(0, 1fr);
 
   align-items: stretch;
@@ -291,7 +287,7 @@
 
 
 /*
-  Linha divisória entre eventos.
+  Linha entre os eventos.
 */
 
 .agenda-evento:not(:last-child) {
@@ -300,7 +296,7 @@
 
 
 /*
-  Hover muito sutil.
+  Hover.
 */
 
 .agenda-evento:hover {
@@ -309,7 +305,7 @@
 
 
 /* ==========================================================
-   DATA
+   DATA DO EVENTO
    ========================================================== */
 
 .agenda-evento-data {
@@ -327,7 +323,7 @@
 .agenda-evento-dia {
   color: #1e293b;
 
-  font-size: 24px;
+  font-size: 30px;
   font-weight: 700;
 
   line-height: 1;
@@ -341,11 +337,11 @@
 */
 
 .agenda-evento-mes {
-  margin-top: 6px;
+  margin-top: 7px;
 
-  color: #7c8da4;
+  color: #64748b;
 
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
 
   line-height: 1;
@@ -367,7 +363,7 @@
 
 
 /*
-  Linha vertical.
+  Linha vertical da timeline.
 */
 
 .agenda-timeline::before {
@@ -385,7 +381,8 @@
 
 
 /*
-  Primeiro evento não precisa de linha acima.
+  Primeiro evento:
+  não mostra linha acima do ponto.
 */
 
 .agenda-evento:first-child
@@ -395,7 +392,8 @@
 
 
 /*
-  Último evento não precisa de linha abaixo.
+  Último evento:
+  não mostra linha abaixo do ponto.
 */
 
 .agenda-evento:last-child
@@ -413,10 +411,10 @@
 
   z-index: 2;
 
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
 
-  margin-top: 61px;
+  margin-top: 68px;
 
   background: #ffffff;
 
@@ -440,7 +438,7 @@
 
 
 /*
-  Evento acontecendo hoje.
+  Evento de hoje.
 */
 
 .agenda-timeline-ponto.status-hoje {
@@ -468,7 +466,7 @@
 .agenda-evento-conteudo {
   min-width: 0;
 
-  padding: 22px 0 20px 18px;
+  padding: 25px 0 23px 20px;
 
   display: flex;
   flex-direction: column;
@@ -496,18 +494,18 @@
 .agenda-evento-semana {
   display: block;
 
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 
-  color: #9aa7b8;
+  color: #94a3b8;
 
-  font-size: 9px;
-  font-weight: 650;
+  font-size: 11px;
+  font-weight: 600;
 
   line-height: 1;
 
   text-transform: capitalize;
 
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
 }
 
 
@@ -520,8 +518,8 @@
 
   color: #1e293b;
 
-  font-size: 16px;
-  font-weight: 650;
+  font-size: 18px;
+  font-weight: 700;
 
   line-height: 1.35;
 
@@ -538,7 +536,7 @@
 
   margin-top: 3px;
 
-  padding: 6px 9px;
+  padding: 7px 11px;
 
   display: inline-flex;
   align-items: center;
@@ -547,19 +545,19 @@
 
   border-radius: 999px;
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
 
   line-height: 1;
 
   text-transform: uppercase;
 
-  letter-spacing: 0.55px;
+  letter-spacing: 0.45px;
 }
 
 
 /*
-  Bolinha.
+  Bolinha do status.
 */
 
 .agenda-status-ponto {
@@ -610,26 +608,27 @@
    ========================================================== */
 
 .agenda-evento-detalhes {
-  margin-top: 17px;
+  margin-top: 19px;
 
   display: flex;
   align-items: center;
 
-  gap: 44px;
+  gap: 55px;
 }
 
 
 /*
-  Cada informação.
+  Cada detalhe:
+  ícone + texto.
 */
 
 .agenda-detalhe {
-  min-width: 180px;
+  min-width: 190px;
 
   display: flex;
   align-items: center;
 
-  gap: 10px;
+  gap: 11px;
 }
 
 
@@ -638,8 +637,8 @@
 */
 
 .agenda-detalhe-icone {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
 
   flex-shrink: 0;
 
@@ -650,7 +649,7 @@
   background: #f8fafc;
 
   border: 1px solid #edf1f5;
-  border-radius: 8px;
+  border-radius: 9px;
 
   color: #7c8da4;
 }
@@ -661,8 +660,8 @@
 */
 
 .agenda-detalhe-icone svg {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 
   fill: none;
 
@@ -681,36 +680,36 @@
 .agenda-detalhe span {
   display: block;
 
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 
-  color: #a0aec0;
+  color: #94a3b8;
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
 
   line-height: 1;
 
   text-transform: uppercase;
 
-  letter-spacing: 0.7px;
+  letter-spacing: 0.55px;
 }
 
 
 /*
-  Valor.
+  Valor da data ou local.
 */
 
 .agenda-detalhe strong {
   display: block;
 
-  max-width: 270px;
+  max-width: 300px;
 
   overflow: hidden;
 
-  color: #566579;
+  color: #475569;
 
-  font-size: 10px;
-  font-weight: 550;
+  font-size: 13px;
+  font-weight: 600;
 
   line-height: 1.4;
 
@@ -741,20 +740,28 @@
 }
 
 
+/*
+  Título.
+*/
+
 .agenda-feedback strong {
   color: #273449;
 
-  font-size: 13px;
-  font-weight: 650;
+  font-size: 15px;
+  font-weight: 700;
 }
 
+
+/*
+  Texto.
+*/
 
 .agenda-feedback p {
   margin: 5px 0 0;
 
   color: #94a3b8;
 
-  font-size: 11px;
+  font-size: 13px;
 }
 
 
@@ -885,8 +892,8 @@
 
   color: #273449;
 
-  font-size: 17px;
-  font-weight: 650;
+  font-size: 19px;
+  font-weight: 700;
 }
 
 
@@ -897,7 +904,7 @@
 
   color: #94a3b8;
 
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
@@ -938,8 +945,8 @@
 
   .agenda-evento {
     grid-template-columns:
-      60px
-      25px
+      64px
+      28px
       minmax(0, 1fr);
 
     padding: 0 16px;
@@ -947,7 +954,7 @@
 
 
   .agenda-evento-conteudo {
-    padding-left: 12px;
+    padding-left: 14px;
   }
 
 
@@ -956,7 +963,7 @@
 
     flex-direction: column;
 
-    gap: 12px;
+    gap: 14px;
   }
 
 
@@ -979,16 +986,21 @@
 
 
   .agenda-header h1 {
-    font-size: 27px;
+    font-size: 29px;
+  }
+
+
+  .agenda-header p {
+    font-size: 14px;
   }
 
 
   /*
-    Resumo superior.
+    Resumo.
   */
 
   .agenda-resumo {
-    padding: 15px 10px;
+    padding: 16px 10px;
   }
 
 
@@ -1004,14 +1016,24 @@
   }
 
 
+  .agenda-resumo-item span {
+    font-size: 9px;
+  }
+
+
+  .agenda-resumo-item strong {
+    font-size: 22px;
+  }
+
+
   /*
     Evento.
   */
 
   .agenda-evento {
     grid-template-columns:
-      50px
-      20px
+      54px
+      22px
       minmax(0, 1fr);
 
     padding: 0 10px;
@@ -1019,7 +1041,12 @@
 
 
   .agenda-evento-dia {
-    font-size: 21px;
+    font-size: 24px;
+  }
+
+
+  .agenda-evento-mes {
+    font-size: 9px;
   }
 
 
@@ -1037,15 +1064,15 @@
 
   .agenda-evento-conteudo {
     padding:
-      20px
+      22px
       0
-      20px
-      10px;
+      22px
+      12px;
   }
 
 
   .agenda-evento-detalhes {
-    margin-top: 15px;
+    margin-top: 17px;
   }
 
 
