@@ -3,6 +3,7 @@
 // =====================================================
 
 import { useState, useEffect } from 'react'
+import { jsPDF } from 'jspdf'
 
 
 // =====================================================
@@ -83,6 +84,18 @@ function Eventos() {
   // =====================================================
 
   const [erro, setErro] = useState('')
+
+
+  // =====================================================
+  // RELATÓRIO EM PDF
+  // =====================================================
+
+  // Controla a exibição dos campos de período do relatório.
+  const [mostrarRelatorio, setMostrarRelatorio] = useState(false)
+
+  // Data inicial e final escolhidas pelo usuário.
+  const [dataInicialRelatorio, setDataInicialRelatorio] = useState('')
+  const [dataFinalRelatorio, setDataFinalRelatorio] = useState('')
 
 
   // =====================================================
@@ -431,6 +444,144 @@ function Eventos() {
 
 
   // =====================================================
+  // GERAR RELATÓRIO EM PDF
+  // =====================================================
+
+  function gerarRelatorioPDF() {
+
+    // Exige as duas datas antes de gerar o relatório.
+    if (!dataInicialRelatorio || !dataFinalRelatorio) {
+      alert('Informe a data inicial e a data final do relatório.')
+      return
+    }
+
+    // Impede um período invertido.
+    if (dataInicialRelatorio > dataFinalRelatorio) {
+      alert('A data inicial não pode ser maior que a data final.')
+      return
+    }
+
+    // Filtra somente os eventos dentro do período informado.
+    const eventosDoPeriodo = eventos
+      .filter((evento) =>
+        evento.dataEvento >= dataInicialRelatorio &&
+        evento.dataEvento <= dataFinalRelatorio
+      )
+      .sort((eventoA, eventoB) =>
+        eventoA.dataEvento.localeCompare(eventoB.dataEvento)
+      )
+
+    if (eventosDoPeriodo.length === 0) {
+      alert('Nenhum evento encontrado no período informado.')
+      return
+    }
+
+    // Converte AAAA-MM-DD para DD/MM/AAAA sem alterar o fuso horário.
+    function formatarDataRelatorio(data) {
+      if (!data) return 'Não informada'
+      const [ano, mes, dia] = data.split('-')
+      return `${dia}/${mes}/${ano}`
+    }
+
+    // Cria o documento PDF em tamanho A4.
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    })
+
+    const margemEsquerda = 15
+    const margemDireita = 15
+    const larguraUtil = 210 - margemEsquerda - margemDireita
+    const limiteInferior = 280
+    let y = 20
+
+    // Cria uma nova página quando o conteúdo chega ao final da atual.
+    function verificarNovaPagina(alturaNecessaria = 10) {
+      if (y + alturaNecessaria > limiteInferior) {
+        pdf.addPage()
+        y = 20
+      }
+    }
+
+    // Cabeçalho do relatório.
+    pdf.setFont('helvetica', 'bold')
+    pdf.setFontSize(18)
+    pdf.text('RELATÓRIO DE EVENTOS', margemEsquerda, y)
+
+    y += 9
+    pdf.setFont('helvetica', 'normal')
+    pdf.setFontSize(11)
+    pdf.text(
+      `Período: ${formatarDataRelatorio(dataInicialRelatorio)} a ${formatarDataRelatorio(dataFinalRelatorio)}`,
+      margemEsquerda,
+      y
+    )
+
+    y += 6
+    pdf.text(
+      `Total de eventos: ${eventosDoPeriodo.length}`,
+      margemEsquerda,
+      y
+    )
+
+    y += 10
+
+    // Adiciona cada evento ao PDF.
+    eventosDoPeriodo.forEach((evento, indice) => {
+      verificarNovaPagina(45)
+
+      pdf.setFont('helvetica', 'bold')
+      pdf.setFontSize(13)
+      pdf.text(`${indice + 1}. ${evento.nome || 'Evento sem nome'}`, margemEsquerda, y)
+      y += 7
+
+      pdf.setFont('helvetica', 'normal')
+      pdf.setFontSize(10)
+
+      const horario = evento.horaEvento
+        ? evento.horaEvento.substring(0, 5)
+        : 'Não informado'
+
+      const linhas = [
+        `Data: ${formatarDataRelatorio(evento.dataEvento)}`,
+        `Horário: ${horario}`,
+        `Local: ${evento.local || 'Não informado'}`,
+        `Responsável: ${evento.responsavel || 'Não informado'}`,
+        `Status: ${evento.status || 'Não informado'}`
+      ]
+
+      linhas.forEach((linha) => {
+        verificarNovaPagina(6)
+        pdf.text(linha, margemEsquerda, y)
+        y += 5
+      })
+
+      // Observações podem ser grandes, então quebramos o texto em várias linhas.
+      const observacoes = evento.observacoes || 'Sem observações'
+      const textoObservacoes = pdf.splitTextToSize(
+        `Observações: ${observacoes}`,
+        larguraUtil
+      )
+
+      verificarNovaPagina(textoObservacoes.length * 5 + 4)
+      pdf.text(textoObservacoes, margemEsquerda, y)
+      y += textoObservacoes.length * 5 + 4
+
+      // Linha divisória entre os eventos.
+      pdf.line(margemEsquerda, y, 195, y)
+      y += 7
+    })
+
+    // Nome do arquivo com o próprio período selecionado.
+    const inicioArquivo = formatarDataRelatorio(dataInicialRelatorio).replaceAll('/', '-')
+    const fimArquivo = formatarDataRelatorio(dataFinalRelatorio).replaceAll('/', '-')
+
+    pdf.save(`relatorio-eventos-${inicioArquivo}-a-${fimArquivo}.pdf`)
+  }
+
+
+  // =====================================================
   // INTERFACE
   // =====================================================
 
@@ -467,6 +618,74 @@ function Eventos() {
       >
         + Novo Evento
       </button>
+
+
+      {/* =================================================
+          RELATÓRIO DE EVENTOS
+          ================================================= */}
+
+      <button
+        className="botao-novo-evento"
+        onClick={() =>
+          setMostrarRelatorio((valorAtual) => !valorAtual)
+        }
+      >
+        📄 Criar Relatório
+      </button>
+
+
+      {mostrarRelatorio && (
+
+        <div className="formulario-evento">
+
+          <h2>
+            Relatório de Eventos
+          </h2>
+
+          <p>
+            Selecione o período que deseja incluir no PDF.
+          </p>
+
+          {/* DATA INICIAL DO RELATÓRIO */}
+          <label htmlFor="dataInicialRelatorio">
+            Data inicial
+          </label>
+
+          <input
+            type="date"
+            id="dataInicialRelatorio"
+            value={dataInicialRelatorio}
+            onChange={(e) =>
+              setDataInicialRelatorio(e.target.value)
+            }
+          />
+
+
+          {/* DATA FINAL DO RELATÓRIO */}
+          <label htmlFor="dataFinalRelatorio">
+            Data final
+          </label>
+
+          <input
+            type="date"
+            id="dataFinalRelatorio"
+            value={dataFinalRelatorio}
+            onChange={(e) =>
+              setDataFinalRelatorio(e.target.value)
+            }
+          />
+
+
+          {/* GERA E BAIXA O PDF */}
+          <button
+            className="botao-cadastrar-evento"
+            onClick={gerarRelatorioPDF}
+          >
+            Gerar PDF
+          </button>
+
+        </div>
+      )}
 
 
       {/* =================================================
