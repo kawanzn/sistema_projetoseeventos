@@ -27,6 +27,7 @@ public class EventoService {
         evento.setDataDesmontagem(dto.dataDesmontagem());
         evento.setResponsavel(dto.responsavel());
         evento.setObservacoes(dto.observacoes());
+        evento.setHoraEvento(dto.horaEvento());
 
         if (dto.status() != null) {
             evento.setStatus(dto.status());
@@ -51,9 +52,11 @@ public class EventoService {
         evento.setLocal(dto.local());
         evento.setDataMontagem(dto.dataMontagem());
         evento.setDataEvento(dto.dataEvento());
+        evento.setHoraEvento(dto.horaEvento());
         evento.setDataDesmontagem(dto.dataDesmontagem());
         evento.setResponsavel(dto.responsavel());
         evento.setObservacoes(dto.observacoes());
+        
 
         if (dto.status() != null) {
             evento.setStatus(dto.status());
@@ -79,6 +82,7 @@ public class EventoService {
                 evento.getLocal(),
                 evento.getDataMontagem(),
                 evento.getDataEvento(),
+                evento.getHoraEvento(),
                 evento.getDataDesmontagem(),
                 evento.getResponsavel(),
                 evento.getObservacoes(),

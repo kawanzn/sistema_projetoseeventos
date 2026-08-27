@@ -2,6 +2,7 @@ package com.sistemaeventos.eventos.dto;
 
 import com.sistemaeventos.eventos.model.enums.StatusEvento;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record EventoResponseDTO(
         Long id,
@@ -9,6 +10,7 @@ public record EventoResponseDTO(
         String local,
         LocalDate dataMontagem,
         LocalDate dataEvento,
+        LocalTime horaEvento,
         LocalDate dataDesmontagem,
         String responsavel,
         String observacoes,
