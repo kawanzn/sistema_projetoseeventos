@@ -6,6 +6,7 @@ import java.time.LocalTime;
 
 public record EventoResponseDTO(
         Long id,
+        String oficio,
         String nome,
         String local,
         LocalDate dataMontagem,

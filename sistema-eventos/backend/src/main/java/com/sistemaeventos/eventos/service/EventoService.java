@@ -48,6 +48,7 @@ public class EventoService {
         Evento evento = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
 
+        evento.setOficio(dto.oficio());
         evento.setNome(dto.nome());
         evento.setLocal(dto.local());
         evento.setDataMontagem(dto.dataMontagem());
@@ -78,6 +79,7 @@ public class EventoService {
     private EventoResponseDTO converterParaDto(Evento evento) {
         return new EventoResponseDTO(
                 evento.getId(),
+                evento.getOficio(),
                 evento.getNome(),
                 evento.getLocal(),
                 evento.getDataMontagem(),

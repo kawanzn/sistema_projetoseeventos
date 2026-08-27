@@ -29,6 +29,9 @@ function Eventos() {
   // =====================================================
   // CAMPOS DO FORMULÁRIO
   // =====================================================
+ 
+  // Número de Ofício do evento.
+  const [oficioEvento, setOficioEvento] = useState('')
 
   // Nome do evento.
   const [nomeEvento, setNomeEvento] = useState('')
@@ -179,6 +182,7 @@ function Eventos() {
     // =====================================================
 
     if (
+      oficioEvento === '' ||
       nomeEvento === '' ||
       localEvento === '' ||
       dataEvento === ''
@@ -198,18 +202,14 @@ function Eventos() {
 
     const payload = {
 
+      oficio: oficioEvento,
+
       nome: nomeEvento,
 
       local: localEvento,
 
       dataEvento: dataEvento,
 
-      // NOVO:
-      // Envia o horário para o campo LocalTime
-      // que criamos na entidade Evento.java.
-      //
-      // Caso nenhum horário seja informado,
-      // enviamos null.
       horaEvento: horaEvento || null,
 
       dataMontagem: dataMontagem || null,
@@ -345,14 +345,14 @@ function Eventos() {
 
   function limparCampos() {
 
+    setOficioEvento('')
+
     setNomeEvento('')
 
     setLocalEvento('')
 
     setDataEvento('')
 
-    // NOVO:
-    // Limpa também o horário.
     setHoraEvento('')
 
     setDataMontagem('')
@@ -414,15 +414,14 @@ function Eventos() {
 
   function editarEvento(evento) {
 
+    setOficioEvento(evento.oficio || '')
+
     setNomeEvento(evento.nome || '')
 
     setLocalEvento(evento.local || '')
 
     setDataEvento(evento.dataEvento || '')
 
-    // NOVO:
-    // Quando o usuário editar um evento,
-    // o horário salvo também aparecerá no formulário.
     setHoraEvento(
       evento.horaEvento
         ? evento.horaEvento.substring(0, 5)
@@ -702,6 +701,20 @@ function Eventos() {
               : 'Novo Evento'}
           </h2>
 
+          {/* Número do Ofício */}
+          <label htmlFor="oficioEvento">
+            Número de Ofício
+          </label>
+
+          <input
+            type="text"
+            id="oficioEvento"
+            value={oficioEvento}
+            onChange={(e) =>
+              setOficioEvento(e.target.value)
+            }
+            placeholder="Ex: 123/2026"
+          />
 
           {/* NOME */}
           <label htmlFor="nomeEvento">
@@ -750,9 +763,7 @@ function Eventos() {
           />
 
 
-          {/* =================================================
-              HORÁRIO DO EVENTO - NOVO
-              ================================================= */}
+          {/* HORÁRIO DO EVENTO */}
 
           <label htmlFor="horaEvento">
             Horário do evento
@@ -900,11 +911,15 @@ function Eventos() {
               className="evento-item"
               key={evento.id}
             >
+              {/* Ofício */}
+              <h3>
+                {evento.oficio}
+              </h3>
 
               {/* Nome */}
-              <h3>
+              <h2>
                 {evento.nome}
-              </h3>
+              </h2>
 
 
               {/* Local */}
@@ -988,7 +1003,6 @@ function Eventos() {
     </main>
   )
 }
-
 
 // =====================================================
 // EXPORTAÇÃO

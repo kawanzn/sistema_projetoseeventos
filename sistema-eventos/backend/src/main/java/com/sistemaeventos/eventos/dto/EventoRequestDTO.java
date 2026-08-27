@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record EventoRequestDTO(
+        String oficio,
         String nome,
         String local,
         LocalDate dataMontagem,

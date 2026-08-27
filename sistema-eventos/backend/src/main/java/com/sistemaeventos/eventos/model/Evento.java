@@ -60,6 +60,10 @@ public class Evento {
     // INFORMAÇÕES PRINCIPAIS
     // =====================================================
 
+    // Ofício
+    @Column(nullable = false, length = 100)
+    private String oficio;
+
     // Nome do evento.
     // É obrigatório e aceita até 100 caracteres.
     @Column(nullable = false, length = 100)
