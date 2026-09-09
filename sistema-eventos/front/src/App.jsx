@@ -8,6 +8,8 @@ import './App.css'
 // useState:
 // guarda informações que podem mudar durante o uso.
 import { useState } from 'react'
+import Login from './components/Login.jsx'
+import { getToken, logout } from './auth'
 
 // Componentes principais do sistema.
 import Sidebar from './components/Sidebar.jsx'
@@ -31,6 +33,7 @@ function App() {
   //
   // O sistema começa pelo Dashboard.
   const [pagina, setPagina] = useState('dashboard')
+  const [autenticado, setAutenticado] = useState(Boolean(getToken()))
 
 
   // ===================================================
@@ -100,6 +103,13 @@ function App() {
 
   }
 
+  const onLoginSuccess = () => setAutenticado(true)
+
+  const handleLogout = () => {
+    logout()
+    setAutenticado(false)
+  }
+
 
   // ===================================================
   // PARTE VISUAL
@@ -108,6 +118,12 @@ function App() {
   return (
 
     <div className="app">
+
+      {!autenticado && (
+        <Login onSuccess={onLoginSuccess} />
+      )}
+
+      {autenticado && (
 
       {/* =================================================
           SIDEBAR
@@ -300,6 +316,8 @@ function App() {
         )}
 
       </div>
+
+      )}
 
     </div>
 
