@@ -114,16 +114,17 @@ function App() {
   // ===================================================
   // PARTE VISUAL
   // ===================================================
+  if (!autenticado) {
+    return (
+      <div className="app">
+        <Login onSuccess={onLoginSuccess} />
+      </div>
+    )
+  }
 
   return (
 
     <div className="app">
-
-      {!autenticado && (
-        <Login onSuccess={onLoginSuccess} />
-      )}
-
-      {autenticado && (
 
       {/* =================================================
           SIDEBAR
@@ -316,9 +317,6 @@ function App() {
         )}
 
       </div>
-
-      )}
-
     </div>
 
   )
